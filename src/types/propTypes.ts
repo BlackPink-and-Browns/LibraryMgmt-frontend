@@ -11,5 +11,5 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 export interface HeaderProps {
     heading : string
     description? : string
-    children : React.ReactNode
+    children ?: React.ReactNode
 }
