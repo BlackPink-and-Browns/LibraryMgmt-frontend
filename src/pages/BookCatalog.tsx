@@ -6,5 +6,6 @@ export default function BookCatalog (){
         <Button type="button" variant ={{ color : "primary", size : 'lg'}}>
             Back to Home
         </Button>
+        Heading tag incoming.
     </>)
 }
