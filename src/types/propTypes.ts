@@ -10,7 +10,6 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 
 export interface HeaderProps {
     heading : string
-    description? : string
     children : React.ReactNode
 }
 
@@ -18,4 +17,7 @@ export interface SearchBarProps{
     searchValue : string
     setSearchValue : React.Dispatch<React.SetStateAction<string>>
     setFilterValue : React.Dispatch<React.SetStateAction<string>>
+
+    children ?: React.ReactNode
+
 }
