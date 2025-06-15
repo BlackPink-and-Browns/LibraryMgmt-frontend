@@ -5,6 +5,9 @@ import './App.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Login from './pages/login/Login'
 import NotFound from './pages/notFound/NotFound'
+import ExploreLayout from './pages/explore/ExploreLayout'
+import BookCatalog from './pages/explore/CatalogBook'
+import BookCard from './pages/explore/CardBook'
 
 function App() {
     const router=createBrowserRouter([
@@ -12,18 +15,14 @@ function App() {
     path:"/",
     element:<Login/>
   },
-  // {
-  //   path:"/employee",
-  //   element:<Layout/>,  
-
-  //   children:[
-
-  //     {path:"",element:<EmployeeList></EmployeeList>},
-  //     {path:"create" ,element:<CreateFormSection editEmpId={0}></CreateFormSection>},
-  //     {path:"edit/:id",element:<CreateFormSection editEmpId={4}/>},
-  //     {path:":id",element:<Details></Details>},
-  //   ]
-  // },
+  {
+    path:":id/explore",
+    element:<ExploreLayout />,  
+    children:[
+      {path:"",element:<BookCatalog />},
+      {path:":bookId/details" ,element:<BookCard />},
+    ]
+  },
   {
     path:"*", 
     element:<NotFound></NotFound>
