@@ -13,3 +13,9 @@ export interface HeaderProps {
     description? : string
     children : React.ReactNode
 }
+
+export interface SearchBarProps{
+    searchValue : string
+    setSearchValue : React.Dispatch<React.SetStateAction<string>>
+    setFilterValue : React.Dispatch<React.SetStateAction<string>>
+}

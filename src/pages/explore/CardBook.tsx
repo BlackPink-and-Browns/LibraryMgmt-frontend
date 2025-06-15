@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import Button from "../../components/button/Button";
-import Header from "../../components/Header";
+import { Button, Header } from "../../components";
+
 
 export default function BookCard (){
     const navigate = useNavigate()

@@ -1,4 +1,4 @@
-import { type ButtonProps } from '../../types/propTypes'
+import { type ButtonProps } from '../types/propTypes'
 
 function Button ({
     children, 
