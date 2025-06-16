@@ -1,5 +1,7 @@
-import Button from '../../components/button/Button'
-import Header from '../../components/Header'
+
+
+import { Button, Header } from "../../components";
+
 import { Outlet, useNavigate } from 'react-router-dom'
 import "./AdminLayout.css"
 
