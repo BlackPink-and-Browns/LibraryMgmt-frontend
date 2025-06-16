@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { Badge, Button, Header, RatingStar } from "../../components";
 import { BookOpen, Eye } from "lucide-react";
-import TitleAuthor from "../../components/TitleAuthor";
+import Title from "../../components/Title";
 import type { BookCardProps } from "../../types/propTypes";
 
 
@@ -23,7 +23,7 @@ export default function BookCard ({bookCard}  : BookCardProps){
                 <RatingStar averageRating={4.9} totalRatings={87} />
             </div>
 
-            <TitleAuthor title={bookCard.title} author={bookCard.author} variant='sm' />
+            <Title title={bookCard.title} author={bookCard.author} variant='sm' />
 
             <div className="flex flex-row justify-between mx-7">
                 <div className="pb-15 mr-3 w-3/4">
