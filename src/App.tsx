@@ -30,7 +30,6 @@ function App() {
     children:[
       {path:"",element:<BookCatalog />},
      {path:":bookId/details" ,element:<BookDetails/>},
-      // {path:":bookId/details" ,element:<BookDetails />},
     ]
   },
   {
@@ -39,7 +38,8 @@ function App() {
     children:[
     { path:"",element:<EmployeeDashboard/> },
     {path:"returnbook/:bookId",element:<ReturnBook />},
-    // {path:"details/:bookId",element:<BookDetails />}
+    {path:"details/:bookId",element:<BookDetails />}
+
     ]
   },
   {
