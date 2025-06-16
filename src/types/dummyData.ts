@@ -90,3 +90,30 @@ export const dummyBookCards: Book[] = [
         ratingValues: { averageRating: 4.4, totalRatings: 1350 }
     }
 ];
+
+export const mockReviews = [
+    {
+      id: 1,
+      userName: "Sarah Johnson",
+      rating: 5,
+      comment: "Excellent book! Really helped me understand clean coding principles. The examples are clear and practical.",
+      date: "2024-01-15",
+      avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=40&h=40&fit=crop&crop=face"
+    },
+    {
+      id: 2,
+      userName: "Mike Chen",
+      rating: 4,
+      comment: "Great resource for any developer. Some concepts took time to sink in, but overall very valuable.",
+      date: "2024-01-10",
+      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face"
+    },
+    {
+      id: 3,
+      userName: "Emily Davis",
+      rating: 5,
+      comment: "A must-read for anyone serious about programming. Changed how I write code completely!",
+      date: "2024-01-08",
+      avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=40&h=40&fit=crop&crop=face"
+    }
+  ];

@@ -1,13 +1,7 @@
 import React from "react";
+import type { StatCardProps } from "../types/propTypes";
 
-interface StatCardProps {
-  title: string;
-  value: string | number;
-  change?: string;
-  icon: React.ElementType;
-  onClick?: () => void;
-  variant?: "default" | "danger";
-}
+
 
 const StatCard: React.FC<StatCardProps> = ({ title, value, change, icon: Icon, onClick,variant = "default", }) => {
 
@@ -15,7 +9,7 @@ const StatCard: React.FC<StatCardProps> = ({ title, value, change, icon: Icon, o
   return (
     <div
       onClick={onClick}
-      className={`rounded-xl p-6 shadow-lg transition-all duration-300 cursor-pointer hover:scale-[1.02] ${
+      className={`rounded-xl min-w-60  p-6 shadow-lg transition-all duration-300 cursor-pointer hover:scale-[1.02] ${
         isDanger
           ? "bg-red-50 text-red-800 hover:shadow-red-200"
           : "bg-white/80 backdrop-blur-sm text-gray-900 hover:shadow-xl"

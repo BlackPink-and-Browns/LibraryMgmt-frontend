@@ -57,3 +57,57 @@ export interface Book {
     bookStatus : "Not Available" | "Available"
     ratingValues : RatingProps
 }
+
+export type HistoryItem = {
+  id: number;
+  title: string;
+  author: string;
+  cover: string;
+  borrowed: string;
+  returned: string;
+  status: "Returned" | "Overdue";
+  review?: string;
+  rating?: number;
+  borrowShelf?: string;
+  returnShelf?: string;
+  transactionId?: string; // optional, for matching review route
+};
+
+
+export interface BorrowHistoryProps {
+  history: HistoryItem[];
+}
+
+export type BorrowedBook = {
+  id: number;
+  title: string;
+  author: string;
+  shelf: string;
+  due: string;
+  daysLeft: number;
+};
+
+export interface BorrowedBooksProps {
+  books: BorrowedBook[];
+}
+
+export type Recommendation = {
+  id: number;
+  title: string;
+  author: string;
+  rating: number;
+  available: boolean;
+};
+
+export interface RecommendationsProps {
+  books: Recommendation[];
+}
+
+export interface StatCardProps {
+  title: string;
+  value: string | number;
+  change?: string;
+  icon: React.ElementType;
+  onClick?: () => void;
+  variant?: "default" | "danger";
+}

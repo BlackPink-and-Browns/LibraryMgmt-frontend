@@ -11,7 +11,8 @@ const AdminSideBar = () => {
             <SidebarNavButton label="Dashboard" to="/admin" Icon={Home} />
             <SidebarNavButton label="Books" to="/admin/books" Icon={Book} />
             <SidebarNavButton label="Shelf" to="/admin/shelf" Icon={Warehouse} />
-            <SidebarNavButton label="Users" to="/admin/books" Icon={User} />
+            <SidebarNavButton label="Users" to="/admin/users" Icon={User} />
+            <SidebarNavButton label="Explore Books" to="/12/explore" Icon={User} />
         </div>
     </div>
    
