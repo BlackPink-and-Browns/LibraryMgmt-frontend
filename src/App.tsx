@@ -2,7 +2,7 @@ import './App.css'
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
-import { Login, BookCard, BookCatalog, ExploreLayout, NotFound } from './pages'
+import { Login, BookCard, BookCatalog, ExploreLayout, NotFound, BookDetails } from './pages'
 import AdminLayout from './pages/adminlayout/AdminLayout'
 import AdminDashboard from './pages/admindashboard/AdminDashboard'
 import Addbook from './pages/admindashboard/books/Addbook.tsx'
@@ -14,6 +14,8 @@ import UserList from './pages/admindashboard/userlist/UserList'
 import BookList from './pages/admindashboard/books/BookList.tsx'
 import AddBookCopy from './pages/admindashboard/books/AddBookCopy.tsx'
 import BookDetail from './pages/admindashboard/books/BookDetail.tsx'
+import EmployeeDashboard from './pages/employeedashboard/EmployeeDashboard.tsx'
+import ReturnBook from './pages/employeedashboard/returnbook/ReturnBook.tsx'
 
 
 function App() {
@@ -28,6 +30,16 @@ function App() {
     children:[
       {path:"",element:<BookCatalog />},
       // {path:":bookId/details" ,element:<BookCard />},
+      // {path:":bookId/details" ,element:<BookDetails />},
+    ]
+  },
+  {
+    path:":id/dashboard",
+    element:<ExploreLayout />,
+    children:[
+    { path:"",element:<EmployeeDashboard/> },
+    {path:"returnbook/:bookId",element:<ReturnBook />},
+    // {path:"details/:bookId",element:<BookDetails />}
     ]
   },
   {
