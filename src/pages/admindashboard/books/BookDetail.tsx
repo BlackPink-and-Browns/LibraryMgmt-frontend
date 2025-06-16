@@ -1,9 +1,10 @@
 import React from 'react'
+import AdminBookDetailCard from './AdminBookDetailCard'
 
 const BookDetail = () => {
   return (
     <div>
-      <h1>Book Details</h1>
+      <AdminBookDetailCard/>
     </div>
   )
 }
