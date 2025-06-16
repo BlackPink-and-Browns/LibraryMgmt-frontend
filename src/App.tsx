@@ -9,6 +9,8 @@ import Addbook from './pages/admindashboard/addbook/Addbook'
 import BulkUpload from './pages/admindashboard/bulkupload/BulkUpload'
 import Books from './pages/admindashboard/books/Books'
 import ScanIsbn from './pages/admindashboard/scanisbn/ScanIsbn'
+import EmployeeDashboard from './pages/employeedashboard/EmployeeDashboard'
+import ReturnBook from './pages/employeedashboard/returnbook/ReturnBook'
 
 
 function App() {
@@ -26,9 +28,19 @@ function App() {
     ]
   },
   {
+    path:":id/dashboard",
+    element:<ExploreLayout />,
+    children:[
+    { path:"",element:<EmployeeDashboard/> },
+    {path:"return/:bookId",element:<ReturnBook />},
+    {path:"borrow-history/:bookId",element:<BookDetails />}
+    ]
+  },
+  {
     path:"*", 
     element:<NotFound></NotFound>
-  },{
+  },
+  {
     path:"admin",
     element:<AdminLayout/>,
     children:[
