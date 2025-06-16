@@ -1,25 +1,28 @@
-
 import Button from '../../components/button/Button'
 import Header from '../../components/Header'
 import { Outlet, useNavigate } from 'react-router-dom'
+import "./AdminLayout.css"
 
 const AdminLayout = () => {
-    const navigate=useNavigate()
+  const navigate = useNavigate()
+
   return (
-    <div>
-      <div>
-            <Header heading='Admin Dashboard' description='Welcome' >
-                <Button
-                type="button" 
-                variant ={{ color : "primary", size : 'md'}}
-                onClick={()=> navigate('/')}
-            >
-                Back to Home
-            </Button>
-            </Header>
-      </div>
-      <div>
-            <Outlet></Outlet>
+    <div className='min-h-screen flex flex-col bg-gradient-to-br from-blue-100 via-white to-purple-50 '>
+      {/* Sticky Header */}
+    
+      <Header heading='Admin Dashboard' description='Welcome'>
+        <Button
+          type="button"
+          variant={{ color: "primary", size: 'md' }}
+          onClick={() => navigate('/admin')}
+        >
+          Back to Dashboard
+        </Button>
+      </Header>
+
+      {/* Scrollable Content */}
+      <div className='flex-1 overflow-y-auto px-50 py-6'>
+        <Outlet />
       </div>
     </div>
   )
