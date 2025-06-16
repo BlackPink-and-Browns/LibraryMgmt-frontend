@@ -19,7 +19,7 @@ export default function EmployeeDashboard() {
 
   const borrowedBooks = [
     {
-      id: "book1",
+      id: 1,
       title: "Clean Code",
       author: "Robert C. Martin",
       shelf: "A1-05",
@@ -27,7 +27,7 @@ export default function EmployeeDashboard() {
       daysLeft: 3,
     },
     {
-      id: "book2",
+      id: 2,
       title: "The Pragmatic Programmer",
       author: "Andrew Hunt",
       shelf: "B2-12",
@@ -38,21 +38,21 @@ export default function EmployeeDashboard() {
 
   const recommendedBooks = [
     {
-      id: "book3",    
+      id: 3,    
       title: "Design Patterns",
       author: "Gang of Four",
       rating: 4.8,
       available: true,
     },
     {
-        id: "book4",
+        id: 4,
       title: "JavaScript: The Good Parts",
       author: "Douglas Crockford",
       rating: 4.6,
       available: true,
     },
     {
-        id: "book5",
+        id: 5,
       title: "Refactoring",
       author: "Martin Fowler",
       rating: 4.7,
@@ -60,35 +60,51 @@ export default function EmployeeDashboard() {
     },
   ];
 
-  const recentActivity = [
-    { action: "Borrowed", book: "Clean Code", date: "2023-12-18" },
-    { action: "Returned", book: "You Don't Know JS", date: "2023-12-15" },
-    {action: "Requested",book: "System Design Interview",date: "2023-12-10"},
-  ];
-
-  const borrowHistory = [
+  
+const borrowHistory = [
     {
-        id:"book1",
-      title: "Clean Code",
-      borrowed: "2023-11-10",
-      returned: "2023-12-01",
-      status: "Returned" as "Returned",
+        id: 1,
+        title: "Clean Code",
+        author: "Robert C. Martin",
+        cover: "https://covers.openlibrary.org/b/id/123456-L.jpg",
+        borrowed: "2023-11-10",
+        returned: "2023-12-01",
+        status: "Returned" as "Returned",
+        review: "Excellent book for software engineers.",
+        rating: 5,
+        borrowShelf: "A1-05",
+        returnShelf: "A1-05",
+        transactionId: "TXN1001",
     },
     {
-        id:"book6",
-      title: "JavaScript: The Good Parts",
-      borrowed: "2023-10-15",
-      returned: "2023-11-01",
-      status: "Returned" as "Returned",
+        id: 6,
+        title: "JavaScript: The Good Parts",
+        author: "Douglas Crockford",
+        cover: "https://covers.openlibrary.org/b/id/234567-L.jpg",
+        borrowed: "2023-10-15",
+        returned: "2023-11-01",
+        status: "Returned" as "Returned",
+        review: "Concise and insightful.",
+        rating: 4,
+        borrowShelf: "B2-12",
+        returnShelf: "B2-12",
+        transactionId: "TXN1002",
     },
     {
-        id:"book7",
-      title: "System Design Interview",
-      borrowed: "2023-09-12",
-      returned: "2023-10-01",
-      status: "Overdue" as "Overdue",
+        id: 7,
+        title: "System Design Interview",
+        author: "Alex Xu",
+        cover: "https://covers.openlibrary.org/b/id/345678-L.jpg",
+        borrowed: "2023-09-12",
+        returned: "2023-10-01",
+        status: "Overdue" as "Overdue",
+        review: "Helpful for interview prep.",
+        rating: 3,
+        borrowShelf: "C3-07",
+        returnShelf: "C3-07",
+        transactionId: "TXN1003",
     },
-  ];
+];
 
   const stats: StatCardProps[] = [
     {

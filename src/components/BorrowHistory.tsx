@@ -18,8 +18,8 @@ export default function BorrowHistory({ history }: BorrowHistoryProps) {
         </div> Borrow History</h2>
       <p className="text-sm text-gray-500 mb-4">Your previously borrowed books</p>
       <ul className="space-y-3">
-        {history.map((book, index) => (
-          <li key={index} className="flex items-center justify-between" onClick={() => navigate(`details/${book.id}`)}>
+        {history.map((book,index) => (
+          <li key={index} className="flex items-center justify-between" onClick={() => navigate(`borrowHistory/${book.transactionId}`, { state: book })}>
             <div>
               <p className="font-medium">{book.title}</p>
               <p className="text-sm text-gray-500">

@@ -59,19 +59,27 @@ export interface Book {
 }
 
 export type HistoryItem = {
-  id: any;
+  id: number;
   title: string;
+  author: string;
+  cover: string;
   borrowed: string;
   returned: string;
   status: "Returned" | "Overdue";
+  review?: string;
+  rating?: number;
+  borrowShelf?: string;
+  returnShelf?: string;
+  transactionId?: string; // optional, for matching review route
 };
+
 
 export interface BorrowHistoryProps {
   history: HistoryItem[];
 }
 
 export type BorrowedBook = {
-  id: string;
+  id: number;
   title: string;
   author: string;
   shelf: string;
@@ -84,7 +92,7 @@ export interface BorrowedBooksProps {
 }
 
 export type Recommendation = {
-  id: string;
+  id: number;
   title: string;
   author: string;
   rating: number;
