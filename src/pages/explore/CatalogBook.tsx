@@ -6,7 +6,6 @@ import SearchBar from "./SearchBar";
 import BookCard from "./CardBook";
 import {dummyBookCards} from '../../types/dummyData'
 
-
 export default function BookCatalog (){
     const navigate = useNavigate()
     const [searchValue, setSearchValue] = useState<string>("")
