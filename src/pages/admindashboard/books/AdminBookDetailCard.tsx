@@ -5,7 +5,7 @@ import {
   MapPin,
 } from "lucide-react";
 import clsx from "clsx";
-import bookDb from "../../../data";
+import {bookDb} from "../../../data";
 import { useParams } from "react-router-dom";
 
 const AddCopyModal = ({
