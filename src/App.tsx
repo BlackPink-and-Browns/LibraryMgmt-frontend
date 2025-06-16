@@ -45,10 +45,14 @@ function App() {
     element:<AdminLayout/>,
     children:[
       {path:"",element:<AdminDashboard></AdminDashboard>},
-      {path:"books",element:<Books></Books>},
-      {path:"add-book",element:<Addbook></Addbook>},
-      {path:"bulk-upload",element:<BulkUpload></BulkUpload>},
-      {path:"scan-isbn",element:<ScanIsbn></ScanIsbn>}
+      {path:"books",element:<Books/>,
+
+        children:[
+            {path:"add-book",element:<Addbook></Addbook>},
+            {path:"bulk-upload",element:<BulkUpload></BulkUpload>},
+            {path:"scan-isbn",element:<ScanIsbn></ScanIsbn>}
+        ]
+      },
     ]
   }])
   return (

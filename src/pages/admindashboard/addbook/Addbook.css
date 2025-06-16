@@ -1,0 +1,10 @@
+.inputfield {
+  border: 1px solid #D1D5DB;          
+  border-radius: 0.375rem;             
+  padding: 0.5rem 0.75rem;             
+  outline: none;                     
+}
+
+.inputfield:focus {
+  box-shadow: 0 0 0 2px rgba(192, 132, 252, 0.5); 
+}
