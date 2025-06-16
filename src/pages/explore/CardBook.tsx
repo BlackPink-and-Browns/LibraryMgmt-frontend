@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Badge, Button, Header, RatingStar } from "../../components";
-import { BookOpen, RatIcon } from "lucide-react";
+import { BookOpen, Eye } from "lucide-react";
 import TitleAuthor from "../../components/TitleAuthor";
 import type { BookCardProps } from "../../types/propTypes";
 
@@ -8,10 +8,10 @@ import type { BookCardProps } from "../../types/propTypes";
 export default function BookCard ({bookCard}  : BookCardProps){
 
     const status = bookCard.bookStatus
+    const navigate = useNavigate()
 
     return (<>
-        <div className="bg-white w-1/4 rounded-lg shadow-lg mr-8">
-            
+        <div className="bg-white  rounded-lg shadow-lg mr-8 hover:scale-110">           
             <div className="p-8 rounded-lg">
                 <img 
                     src={bookCard.imageCover.href} alt={bookCard.title} 
@@ -25,28 +25,43 @@ export default function BookCard ({bookCard}  : BookCardProps){
 
             <TitleAuthor title={bookCard.title} author={bookCard.author} variant='sm' />
 
-            <div className="mx-7 pb-15">
-                {status === 'Available' ? 
+            <div className="flex flex-row justify-between mx-7">
+                <div className="pb-15 mr-3 w-3/4">
+                    {status === 'Available' ? 
+                        <Button 
+                            variant={{color : 'primary', size : 'large'}}
+                            type="button"
+                            onClick={()=>{}}
+                        >
+                            <div className="flex flex-row">
+                                <BookOpen className="mx-4"/>
+                                <p >Borrow</p>
+                            </div>                       
+                        </Button> 
+                        :
+                        <Button 
+                            variant={{color : 'secondary', size : 'large'}}
+                            type="button"
+                            onClick={()=>{}}
+                        >                         
+                            <p>Request Book </p>                        
+                        </Button>              
+                    }
+                </div>
+
+                <div className="">
                     <Button 
-                        variant={{color : 'primary', size : 'lg'}}
                         type="button"
-                        onClick={()=>{}}
-                    >
-                        <div className="flex flex-row">
-                            <BookOpen className="mx-4"/>
-                            <p >Borrow</p>
-                        </div>                       
-                    </Button> 
-                    :
-                    <Button 
-                        variant={{color : 'secondary', size : 'lg'}}
-                        type="button"
-                        onClick={()=>{}}
-                    >                         
-                        <p>Request Book </p>                        
-                    </Button>              
-                }
+                        onClick={()=> navigate(`${bookCard.book_id}/details`)} 
+                        variant={{color:'ternary', size : 'small'}} >
+                        <div className="flex flex-row items-center justify-center text-blue-500">
+                            <Eye className="mx-3"/>
+                            <p> Details </p>
+                        </div>
+                    </Button>
+                </div>
             </div>
+            
 
             
         </div>

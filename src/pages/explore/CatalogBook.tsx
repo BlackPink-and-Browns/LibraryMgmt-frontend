@@ -5,6 +5,7 @@ import { useState } from "react";
 import SearchBar from "./SearchBar";
 import BookCard from "./CardBook";
 import {dummyBookCards} from '../../types/dummyData'
+import "keen-slider/keen-slider.min.css";
 
 export default function BookCatalog (){
     const navigate = useNavigate()
@@ -15,7 +16,7 @@ export default function BookCatalog (){
         <Header heading="Book Catalog" description="Discover and borrow book from our collection">
             <Button 
                 type="button" 
-                variant ={{ color : "primary", size : 'md'}}
+                variant ={{ color : "primary", size : 'medium'}}
                 onClick={()=> navigate('/')}
             >
                 Back to Home
@@ -24,15 +25,40 @@ export default function BookCatalog (){
 
         <SearchBar searchValue={searchValue} setSearchValue={setSearchValue} setFilterValue={setFilterValue}/> 
 
-        <div className="flex flex-row flex-1 ml-50">
-            <TrendingUp className="bg-gradient-to-r from-orange-400 to-pink-400 rounded-lg p-2 h-10 w-10 text-white "/>              
-            <p className="font-bold text-3xl ml-4">Trending Books</p>
-        </div>    
+        <div className="">
+            <div className="flex flex-row flex-1 ml-50">
+                <TrendingUp className="bg-gradient-to-r from-orange-400 to-pink-400 rounded-lg p-2 h-10 w-10 text-white "/>              
+                <p className="font-bold text-3xl ml-4">Trending Books</p>
+            </div>    
+            
+            <div className="flex flex-row flex-wrap mx-4 md:mx-10 lg:mx-50 my-10">
+                {dummyBookCards.map((book) => (
+                    <div
+                    className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/3 my-5 px-2"
+                    key={book.book_id}
+                    >
+                    <BookCard bookCard={book} />
+                    </div>
+                ))}
+            </div>
+        </div>
         
         <div className="">
-            {dummyBookCards.map((book) => (
-                <BookCard bookCard={book} key={book.book_id}  />
-            ))}        
+            <div className="flex flex-row flex-1 ml-50">
+                <p className="font-bold text-3xl ml-4">Suggested for you</p>
+            </div>    
+            
+            <div className="flex flex-row flex-wrap mx-4 md:mx-10 lg:mx-50 my-10">
+                {dummyBookCards.map((book) => (
+                    <div
+                    className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/3 my-5 px-2"
+                    key={book.book_id}
+                    >
+                    <BookCard bookCard={book} />
+                    </div>
+                ))}
+            </div>
         </div>
+        
     </>)
 }
