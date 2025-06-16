@@ -3,6 +3,7 @@ import { Button, Header } from "../../components";
 import { BookOpen, Star, MapPin, TrendingUp, Eye } from "lucide-react";
 import { useState } from "react";
 import SearchBar from "./SearchBar";
+import BookCard from "./CardBook";
 
 export default function BookCatalog (){
     const navigate = useNavigate()
@@ -27,5 +28,8 @@ export default function BookCatalog (){
             <p className="font-bold text-3xl ml-4">Trending Books</p>
         </div>    
         
+        <div className="">
+            <BookCard />
+        </div>
     </>)
 }

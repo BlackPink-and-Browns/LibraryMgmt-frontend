@@ -2,7 +2,7 @@ import './App.css'
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
-import { Login, BookCard, BookCatalog, ExploreLayout, NotFound } from './pages'
+import { Login, BookCard, BookDetails, BookCatalog, ExploreLayout, NotFound } from './pages'
 import AdminLayout from './pages/adminlayout/AdminLayout'
 import AdminDashboard from './pages/admindashboard/AdminDashboard'
 import Addbook from './pages/admindashboard/addbook/Addbook'
@@ -22,7 +22,7 @@ function App() {
     element:<ExploreLayout />,  
     children:[
       {path:"",element:<BookCatalog />},
-      {path:":bookId/details" ,element:<BookCard />},
+      {path:":bookId/details" ,element:<BookDetails />},
     ]
   },
   {
