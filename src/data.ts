@@ -1,4 +1,4 @@
-    const bookDb = [
+const bookDb = [
   {
     id: 1,
     isbn: "978-0-13-235088-4",
@@ -125,4 +125,47 @@
   }
 ];
 
-export default bookDb;
+
+
+
+
+const userDb=[{
+    id: 1,
+    username: "adithya_sailesh",
+    status: "Active",
+  },
+  {
+    id: 2,
+    username: "neha_kapoor",
+    status: "Inactive",
+  },
+  {
+    id: 3,
+    username: "mohit_verma",
+    status: "Active",
+  },
+  {
+    id: 4,
+    username: "alisha_fernandez",
+    status: "Inactive",
+  },
+  {
+    id: 5,
+    username: "vishal_rao",
+    status: "Active",
+  },
+  {
+    id: 6,
+    username: "kriti_mehta",
+    status: "Active",
+  },
+  {
+    id: 7,
+    username: "naveen_joshi",
+    status: "Inactive",
+  }]
+
+
+
+  export  {bookDb , userDb};
+ 

@@ -5,7 +5,7 @@ import { useState } from "react";
 import SearchBar from "./SearchBar";
 import BookCard from "./CardBook";
 import {dummyBookCards} from '../../types/dummyData'
-import "keen-slider/keen-slider.min.css";
+
 
 export default function BookCatalog (){
     const navigate = useNavigate()

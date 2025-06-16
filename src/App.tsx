@@ -16,6 +16,9 @@ import AddBookCopy from './pages/admindashboard/books/AddBookCopy.tsx'
 import BookDetail from './pages/admindashboard/books/BookDetail.tsx'
 import EmployeeDashboard from './pages/employeedashboard/EmployeeDashboard.tsx'
 import ReturnBook from './pages/employeedashboard/returnbook/ReturnBook.tsx'
+import AddShelf from './pages/admindashboard/shelf/AddShelf.tsx'
+import ListShelf from './pages/admindashboard/shelf/ListShelf.tsx'
+import UserDetail from './pages/admindashboard/userlist/UserDetail.tsx'
 
 
 function App() {
@@ -61,8 +64,14 @@ function App() {
             {path:"book-list/:isbnId",element:<BookDetail></BookDetail>}
         ]
       },
-      {path:"shelf",element:<Shelf></Shelf>},
-      {path:"users",element:<UserList></UserList>}
+      {path:"shelf",element:<Shelf></Shelf>,
+        children:[
+          {path:"add-shelf",element:<AddShelf></AddShelf>},
+          {path:"list-shelf",element:<ListShelf></ListShelf>}
+        ]
+      },
+      {path:"users",element:<UserList></UserList>},
+      {path:"users/:id",element:<UserDetail>  </UserDetail>}
     ]
   }])
   return (
