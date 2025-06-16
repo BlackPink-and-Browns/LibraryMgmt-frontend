@@ -1,0 +1,13 @@
+
+.Main-Side-Bar{
+
+    min-height: 100vh;
+    height: 100%;
+    min-width: 15vw;
+}
+
+
+.mainbox{
+    /* display: flex;
+    justify-content: space-between; */
+}

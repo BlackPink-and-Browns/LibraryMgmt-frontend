@@ -1,33 +1,38 @@
-
-
 import { Button, Header } from "../../components";
-
-import { Outlet, useNavigate } from 'react-router-dom'
-import "./AdminLayout.css"
+import { Outlet, useNavigate } from 'react-router-dom';
+import AdminSideBar from "../../components/adminsidebar/AdminSideBar";
 
 const AdminLayout = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   return (
-    <div className='min-h-screen flex flex-col bg-gradient-to-br from-blue-100 via-white to-purple-50 '>
-      {/* Sticky Header */}
-    
-      <Header heading='Admin Dashboard' description='Welcome'>
+    <div className="h-screen flex flex-col bg-gradient-to-br from-blue-100 via-white to-purple-50">
+
+      <Header heading="Admin Dashboard" description="Welcome">
         <Button
           type="button"
-          variant={{ color: "primary", size: 'md' }}
-          onClick={() => navigate('/admin')}
+          variant={{ color: "primary", size: "md" }}
+          onClick={() => navigate("/admin")}
         >
           Back to Dashboard
         </Button>
       </Header>
 
-      {/* Scrollable Content */}
-      <div className='flex-1 overflow-y-auto px-50 py-6'>
-        <Outlet />
+
+      <div className="flex flex-1 overflow-hidden">
+
+        <div className="h-full w-64 h-full overflow-hidden">
+          <AdminSideBar />
+        </div>
+
+
+        <div className="flex-1 overflow-y-auto px-5 py-6">
+          <Outlet />
+        </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default AdminLayout
+export default AdminLayout;
+

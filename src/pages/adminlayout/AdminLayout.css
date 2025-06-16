@@ -4,3 +4,8 @@
     overflow-y: auto;
 
 }
+
+.SidebarLayout{
+    display: flex;
+    flex-direction: row;
+}
