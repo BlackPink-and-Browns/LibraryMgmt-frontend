@@ -23,6 +23,7 @@ export interface SearchBarProps{
 
 export interface BadgeProps{
     status : "Not Available" | "Available"
+    variant? : 'sm'
 }
 
 export interface RatingProps {
@@ -31,14 +32,18 @@ export interface RatingProps {
 }
 
 
-export interface TitleAuthorProps {
+export interface TitleProps {
     title : string
-    author : string
+    author? : string
     variant : 'lg' | 'sm'
 }
 
 export interface BookCardProps{
     bookCard : Book
+}
+
+export interface BookDetailProps {
+    children : React.ReactNode
 }
 
 export interface Book {
