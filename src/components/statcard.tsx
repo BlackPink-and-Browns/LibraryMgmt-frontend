@@ -1,13 +1,7 @@
 import React from "react";
+import type { StatCardProps } from "../types/propTypes";
 
-interface StatCardProps {
-  title: string;
-  value: string | number;
-  change?: string;
-  icon: React.ElementType;
-  onClick?: () => void;
-  variant?: "default" | "danger";
-}
+
 
 const StatCard: React.FC<StatCardProps> = ({ title, value, change, icon: Icon, onClick,variant = "default", }) => {
 
