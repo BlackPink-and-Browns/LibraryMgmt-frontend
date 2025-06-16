@@ -9,7 +9,7 @@ import Review from "../../components/ReviewAndRating"
 import type React from "react"
 import ReviewAndRating from "../../components/ReviewAndRating"
 
-export default function BookDetails({children} : BookDetailProps){
+export default function BookDetails(){
     const navigate = useNavigate()
     const {bookId} = (useParams())
     const shelf = ["SHELF A1-05", "SHELF A2-07"]
@@ -117,7 +117,7 @@ export default function BookDetails({children} : BookDetailProps){
                                                 <p>Request Book </p>                        
                                             </Button>              
                                         }
-                                        {children}
+                                       
                                     </div>
                                 </div>
                             </div>
