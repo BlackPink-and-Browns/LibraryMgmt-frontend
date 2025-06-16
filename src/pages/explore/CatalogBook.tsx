@@ -1,9 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { Button, Header } from "../../components";
-import { BookOpen, Star, MapPin, TrendingUp, Eye } from "lucide-react";
+import { MapPin, TrendingUp, Eye } from "lucide-react";
 import { useState } from "react";
 import SearchBar from "./SearchBar";
 import BookCard from "./CardBook";
+import {dummyBookCards} from '../../types/dummyData'
 
 export default function BookCatalog (){
     const navigate = useNavigate()
@@ -29,7 +30,9 @@ export default function BookCatalog (){
         </div>    
         
         <div className="">
-            <BookCard />
+            {dummyBookCards.map((book) => (
+                <BookCard bookCard={book} key={book.book_id}  />
+            ))}        
         </div>
     </>)
 }
