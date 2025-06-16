@@ -29,7 +29,7 @@ function App() {
     element:<ExploreLayout />,  
     children:[
       {path:"",element:<BookCatalog />},
-      // {path:":bookId/details" ,element:<BookCard />},
+     {path:":bookId/details" ,element:<BookDetails/>},
       // {path:":bookId/details" ,element:<BookDetails />},
     ]
   },
