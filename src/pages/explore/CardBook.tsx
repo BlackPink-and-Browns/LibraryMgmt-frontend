@@ -11,11 +11,15 @@ export default function BookCard ({bookCard}  : BookCardProps){
     const navigate = useNavigate()
 
     return (<>
+<<<<<<< Updated upstream
         <div className="bg-white  rounded-lg shadow-lg mr-8 hover:scale-105 min-w-fit">           
+=======
+        <div className="bg-white  rounded-lg shadow-lg mr-8 hover:scale-105 duration-700">           
+>>>>>>> Stashed changes
             <div className="p-8 rounded-lg">
                 <img 
                     src={bookCard.imageCover.href} alt={bookCard.title} 
-                    className="rounded-lg w-full h-98 transition-transform duration-300 hover:scale-110"/>
+                    className="rounded-lg w-full h-75 "/>
             </div>
 
             <div className="flex flex-row justify-between mx-7" >
