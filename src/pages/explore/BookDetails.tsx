@@ -8,11 +8,21 @@ import Title from "../../components/Title"
 import Review from "../../components/ReviewAndRating"
 import type React from "react"
 import ReviewAndRating from "../../components/ReviewAndRating"
+import { useState } from "react"
+import BorrowModal from "./BorrowModal"
+
+type Combo = {
+  id: number;
+  office: string;
+  shelf: string;
+};
 
 export default function BookDetails(){
     const navigate = useNavigate()
     const {bookId} = (useParams())
     const shelf = ["SHELF A1-05", "SHELF A2-07"]
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [borrowedCombos, setBorrowedCombos] = useState<Combo[]>([]);
 
     const book: Book | undefined = dummyBookCards.find(
         (bookCard: Book) => bookCard.book_id === Number(bookId)
@@ -23,7 +33,7 @@ export default function BookDetails(){
             <Button 
                 type="button" 
                 variant ={{ color : "primary", size : 'large'}}
-                onClick={() => navigate('/explore')}
+                onClick={() => navigate(-1)}
             >
                 Back to Catalog
             </Button>
@@ -32,7 +42,13 @@ export default function BookDetails(){
         {
             book ? 
             <>
+                <BorrowModal
+                                            isOpen={isModalOpen}
+                                            onClose={() => setIsModalOpen(false)}
+                                            setBorrowed={setBorrowedCombos}
+                                        />
                 <div className="flex flex-row">
+                    
                     <div className="flex flex-col">
                         <section className="m-5">
                             <div className="lg:flex flex-row md:col-span-2 lg:w-256 lg:ml-70 bg-white rounded-lg shadow-xl">
@@ -66,42 +82,21 @@ export default function BookDetails(){
                                                 </div>
                                             </div>
 
-                                            <div className="flex flex-row mx-7">
+                                            <div className="flex flex-row mx-10">
                                                 <Barcode />
                                                 <p className="mx-2">ISBN : </p>
                                                 <p className="text-gray-800"> {book.isbn}</p>
                                             </div>
-                                        </div>
-                                        
-                                        <div className="flex flex-row my-3">
-                                            <div className="flex flex-row">
-                                                <MapPin/>
-                                                <p className="mx-2">Location : </p>
-                                                <div className="flex flex-col text-gray-800">
-                                                    {
-                                                        shelf.map((position) => 
-                                                        <p className="bg-blue-50 text-blue-800 p-1 rounded-lg my-1">
-                                                            {position}
-                                                        </p>)
-                                                    }
-                                                </div>
-                                            </div>
-
-                                            <div className="flex flex-row mx-7.5">
-                                                <NotepadText />
-                                                <p className="mx-2">Pages : </p>
-                                                <p className="text-gray-800"> 200</p>
-                                            </div>
-                                        </div>
-                                        
+                                        </div>                                                                             
                                     </div>
 
-                                    <div className="pb-15 mx-5 my-5  w-3/4">
+                                    <div className="pb-15 mx-5 my-5 w-1/3">
                                         {book.bookStatus === 'Available' ? 
                                             <Button 
                                                 variant={{color : 'primary', size : 'medium'}}
                                                 type="button"
-                                                onClick={()=>{}}
+                                                onClick={()=>{setIsModalOpen(true) 
+                                                    console.log(isModalOpen)}}
                                             >
                                                 <div className="flex flex-row">
                                                     <BookOpen className="mx-4"/>
@@ -116,8 +111,8 @@ export default function BookDetails(){
                                             >                         
                                                 <p>Request Book </p>                        
                                             </Button>              
-                                        }
-                                       
+                                        }  
+                                                                             
                                     </div>
                                 </div>
                             </div>
@@ -129,6 +124,26 @@ export default function BookDetails(){
                                 <p className="px-7">
                                         {book.description}
                                 </p>
+                            </div>                   
+                        </section>
+
+                        <section className="m-5">
+                            <div className="lg:w-256 lg:ml-70 bg-white p-2 rounded-lg shadow-xl">
+                                <Title title="Borrow Status" variant="lg"/>
+                                    <div className="mt-6">
+                                        <h3 className="text-lg font-semibold mb-2">Borrowed Items:</h3>
+                                        {borrowedCombos.length === 0 ? (
+                                        <p className="text-gray-500">Nothing borrowed yet.</p>
+                                        ) : (
+                                        <ul className="list-disc list-inside">
+                                            {borrowedCombos.map(({ id, office, shelf }) => (
+                                            <li key={id}>
+                                                {office} - {shelf}
+                                            </li>
+                                            ))}
+                                        </ul>
+                                        )}
+                                    </div>
                             </div>                   
                         </section> 
                     </div>
