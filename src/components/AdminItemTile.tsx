@@ -15,7 +15,7 @@ type User = {
 };
 
 type ItemTileProps = {
-  item: Book | User;
+  item: Book | User ;
   type: "book" | "user";
   onClick: () => void;
   subtype?: "normal" | "issued"; // new
