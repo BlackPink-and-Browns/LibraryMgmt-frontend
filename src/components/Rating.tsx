@@ -1,23 +1,30 @@
 import { Star } from "lucide-react";
-import { useState } from "react";
 
-export default function Rating () {
-    const [newRating, setNewRating] = useState(0);
+interface RatingProps {
+  value: number;
+  onChange?: (value: number) => void;
+  readOnly?: boolean;
+}
 
-    return (
-        <div className="flex flex-row my-2">
-            <p>Rating : </p>
-            <div className="flex mx-1">
-                    {[1, 2, 3, 4, 5].map((star) => (
-                    <button
-                        key={star}
-                        onClick={() => setNewRating(star)}
-                        className={`h-5 w-5 m-0.5 ${star <= newRating ? 'text-amber-400 fill-current' : 'text-gray-300'}`}
-                    >
-                        <Star className="h-full w-full" />
-                    </button>
-                    ))}
-            </div>
-        </div>
-    )
+export default function Rating({ value, onChange, readOnly = false }: RatingProps) {
+  return (
+    <div className="flex flex-row items-center my-2">
+      <p className="mr-2">Rating:</p>
+      <div className="flex">
+        {[1, 2, 3, 4, 5].map((star) => (
+          <button
+            key={star}
+            type="button"
+            onClick={() => onChange && onChange(star)}
+            disabled={readOnly}
+            className={`h-5 w-5 m-0.5 transition-colors ${
+              star <= value ? "text-yellow-500 fill-yellow-300" : "text-gray-300"
+            }`}
+          >
+            <Star className="h-full w-full" />
+          </button>
+        ))}
+      </div>
+    </div>
+  );
 }
