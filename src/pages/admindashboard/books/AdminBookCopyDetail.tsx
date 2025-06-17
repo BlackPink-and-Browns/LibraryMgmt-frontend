@@ -68,6 +68,7 @@ const AdminBookCopyDetail = () => {
                   Copy ID: <span className="text-purple-600">{copy.id}</span>
                 </p>
                 <p className="text-sm text-gray-500">Shelf: {copy.shelf}</p>
+                <p className="text-sm text-gray-500">Status : Available</p>
               </div>
               <div className="flex gap-3">
                 <button
@@ -88,7 +89,6 @@ const AdminBookCopyDetail = () => {
         </div>
       )}
 
-      {/* Relocate Modal */}
       <RelocateModal
         isOpen={isModalOpen}
         onClose={() => setModalOpen(false)}
