@@ -28,9 +28,20 @@ import EmployeeDashboard from "./pages/employeedashboard/EmployeeDashboard.tsx";
 import ReturnBook from "./pages/employeedashboard/returnbook/ReturnBook.tsx";
 import BorrowedBookRecords from "./pages/employeedashboard/borrowedBookRecord.tsx";
 import Issuedbook from "./pages/admindashboard/books/Issuedbook.tsx";
+<<<<<<< HEAD
 import AuthorDetails from "./pages/explore/Author.tsx";
 import OverdueBooks from "./components/OverdueBooksModal.tsx";
 
+=======
+
+import AuthorDetails from "./pages/explore/Author.tsx";
+
+import ShelfBooks from "./pages/admindashboard/shelf/ShelfBooks.tsx";
+
+import OverdueBooks from "./components/OverdueBooksModal.tsx";
+
+
+>>>>>>> main
 
 const router = createBrowserRouter([
   {
@@ -82,6 +93,7 @@ const router = createBrowserRouter([
         children: [
           { path: "add-shelf", element: <AddShelf /> },
           { path: "shelf-list", element: <ListShelf /> },
+          { path: "shelf-list/:id", element: <ShelfBooks/>},
         ],
       },
       { path: "users", element: <UserList /> },
