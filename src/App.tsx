@@ -28,6 +28,7 @@ import EmployeeDashboard from "./pages/employeedashboard/EmployeeDashboard.tsx";
 import ReturnBook from "./pages/employeedashboard/returnbook/ReturnBook.tsx";
 import BorrowedBookRecords from "./pages/employeedashboard/borrowedBookRecord.tsx";
 import Issuedbook from "./pages/admindashboard/books/Issuedbook.tsx";
+import AuthorDetails from "./pages/explore/Author.tsx";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +41,7 @@ const router = createBrowserRouter([
     children: [
       { path: "", element: <BookCatalog /> },
       { path: ":bookId/details", element: <BookDetails /> },
+      { path: ":author", element: <AuthorDetails /> }
     ],
   },
   {

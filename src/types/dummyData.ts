@@ -1,3 +1,4 @@
+import type { AuthorWithBooks } from "./dataTypes";
 import type { Book} from "./propTypes";
 
 export const dummyBookCards: Book[] = [
@@ -117,3 +118,144 @@ export const mockReviews = [
       avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=40&h=40&fit=crop&crop=face"
     }
   ];
+
+export const authorDetails: AuthorWithBooks[] = [
+  {
+    id: 1,
+    name: "J.K. Rowling",
+    books: [
+      {
+        id: 1,
+        isbn: "9780439139601",
+        title: "Harry Potter and the Goblet of Fire",
+        description: "Harry competes in the Triwizard Tournament in his fourth year at Hogwarts.",
+        cover_image: "https://covers.openlibrary.org/b/isbn/9780439139601-L.jpg",
+        authors : [{ id: 1, name: "J.K Rowling" }],
+        genres: [
+          { id: 1, name: "Fantasy" },
+          { id: 2, name: "Adventure" }
+        ],
+        reviews: [
+          {
+            id: 1,
+            rating: 5,
+            content: "Absolutely magical and thrilling!",
+            employee: { id: 1, name: "Alice Johnson" }
+          },
+          {
+            id: 2,
+            rating: 4,
+            content: "Great pace and character development.",
+            employee: { id: 2, name: "Bob Smith" }
+          }
+        ],
+        copies: [
+          { id: 1, shelf: "A1", status: true },
+          { id: 2, shelf: "B3", status: false }
+        ]
+      },
+      {
+        id: 2,
+        isbn: "9780439358071",
+        title: "Harry Potter and the Order of the Phoenix",
+        description: "Harry faces new threats and joins a secret resistance group.",
+        cover_image: "https://covers.openlibrary.org/b/isbn/9780439358071-L.jpg",
+        authors : [{ id: 1, name: "J.K Rowling" }],
+        genres: [
+          { id: 1, name: "Fantasy" },
+          { id: 3, name: "Drama" }
+        ],
+        reviews: [
+          {
+            id: 3,
+            rating: 4,
+            content: "Dark and intense. Loved the new characters.",
+            employee: { id: 3, name: "Charlie Davis" }
+          },
+          {
+            id: 4,
+            rating: 5,
+            content: "Excellent continuation of the series.",
+            employee: { id: 4, name: "Dana White" }
+          }
+        ],
+        copies: [
+          { id: 3, shelf: "C2", status: true },
+          { id: 4, shelf: "D1", status: true }
+        ]
+      }
+    ]
+  },
+  {
+    id: 2,
+    name: "George R. R. Martin",
+    books: [
+      {
+        id: 3,
+        isbn: "9780553573404",
+        title: "A Game of Thrones",
+        description: "Noble families vie for control of the Iron Throne in a land of betrayal and magic.",
+        cover_image: "https://covers.openlibrary.org/b/isbn/9780553573404-L.jpg",
+        authors : [{ id: 1, name: "George R. R. Martin" }],
+        genres: [
+          { id: 1, name: "Fantasy" },
+          { id: 4, name: "Political" }
+        ],
+        reviews: [
+          {
+            id: 5,
+            rating: 5,
+            content: "Complex, brutal, and brilliant.",
+            employee: { id: 5, name: "Eva Brown" }
+          },
+          {
+            id: 6,
+            rating: 5,
+            content: "A masterpiece of fantasy politics.",
+            employee: { id: 6, name: "Frank Green" }
+          }
+        ],
+        copies: [
+          { id: 5, shelf: "E4", status: false },
+          { id: 6, shelf: "E5", status: true }
+        ]
+      }
+    ]
+  },
+  {
+    id: 3,
+    name: "Suzanne Collins",
+    books: [
+      {
+        id: 4,
+        isbn: "9780439023528",
+        title: "The Hunger Games",
+        description: "Katniss Everdeen volunteers to take her sister's place in a brutal televised death match.",
+        cover_image: "https://covers.openlibrary.org/b/isbn/9780439023528-L.jpg",
+        authors : [{ id: 1, name: "Suzanne Collins" }],
+        genres: [
+          { id: 5, name: "Dystopian" },
+          { id: 2, name: "Adventure" }
+        ],
+        reviews: [
+          {
+            id: 7,
+            rating: 5,
+            content: "Gripping and emotional.",
+            employee: { id: 7, name: "Grace Hall" }
+          },
+          {
+            id: 8,
+            rating: 4,
+            content: "Fast-paced and thought-provoking.",
+            employee: { id: 8, name: "Henry Lee" }
+          }
+        ],
+        copies: [
+          { id: 7, shelf: "F1", status: true },
+          { id: 8, shelf: "F2", status: true }
+        ]
+      }
+    ]
+  }
+];

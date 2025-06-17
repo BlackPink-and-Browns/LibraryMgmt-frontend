@@ -43,10 +43,10 @@ export default function BookDetails(){
             book ? 
             <>
                 <BorrowModal
-                                            isOpen={isModalOpen}
-                                            onClose={() => setIsModalOpen(false)}
-                                            setBorrowed={setBorrowedCombos}
-                                        />
+                    isOpen={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    setBorrowed={setBorrowedCombos}
+                />
                 <div className="flex flex-row">
                     
                     <div className="flex flex-col">
@@ -130,7 +130,7 @@ export default function BookDetails(){
                         <section className="m-5">
                             <div className="lg:w-256 lg:ml-70 bg-white p-2 rounded-lg shadow-xl">
                                 <Title title="Borrow Status" variant="lg"/>
-                                    <div className="mt-6">
+                                    <div className="ml-7 mt-6">
                                         <h3 className="text-lg font-semibold mb-2">Borrowed Items:</h3>
                                         {borrowedCombos.length === 0 ? (
                                         <p className="text-gray-500">Nothing borrowed yet.</p>
