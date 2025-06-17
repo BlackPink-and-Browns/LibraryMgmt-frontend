@@ -28,11 +28,9 @@ import EmployeeDashboard from "./pages/employeedashboard/EmployeeDashboard.tsx";
 import ReturnBook from "./pages/employeedashboard/returnbook/ReturnBook.tsx";
 import BorrowedBookRecords from "./pages/employeedashboard/borrowedBookRecord.tsx";
 import Issuedbook from "./pages/admindashboard/books/Issuedbook.tsx";
-<<<<<<< Updated upstream
 import AuthorDetails from "./pages/explore/Author.tsx";
-=======
 import OverdueBooks from "./components/OverdueBooksModal.tsx";
->>>>>>> Stashed changes
+
 
 const router = createBrowserRouter([
   {
