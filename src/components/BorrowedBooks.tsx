@@ -41,7 +41,7 @@ export default function BorrowedBooks({ books }: BorrowedBooksProps) {
                 className="text-sm px-3 py-1 border text-blue-500 bg-white rounded-md hover:bg-blue-50"
                 onClick={(e) => {
                   e.stopPropagation();
-                  navigate(`returnbook/${book.id}`, { replace: true });
+                  navigate(`returnbook/${book.id}`, { state:book });
                 }}
               >
                 Return Book
