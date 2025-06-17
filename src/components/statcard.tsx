@@ -22,6 +22,7 @@ const StatCard: React.FC<StatCardProps> = ({ title, value, change, icon: Icon, o
           <p className={`text-3xl font-bold ${isDanger ? "text-red-800" : "text-gray-900"}`}>
             {value}
           </p>
+          {isDanger && (<p>You have books overdue . Please return them to avoid late fees.</p>)}
           {change && (
             <p
               className={`text-sm px-2 py-1 rounded-full w-fit mt-1 ${

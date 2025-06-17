@@ -1,8 +1,8 @@
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
-import { Star } from "lucide-react";
 import Rating from "../../../components/Rating";
 import ReviewInput from "../../../components/ReviewInput";
+import { X } from "lucide-react";
 
 const offices = [
   { name: "Head Office", id: "head" },
@@ -45,6 +45,11 @@ const book = location.state;
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center px-4">
       <div className="bg-white shadow-md rounded-xl w-full max-w-md p-6 ">
+        <div className="relative">
+        <button className="absolute top-2 right-2 text-gray-500" onClick={() => navigate(-1)}>
+          <X className="h-5 w-5" />
+        </button>
+        </div>
         <h2 className="text-xl font-semibold">
           {admin ? ("Relocate Book"):("Return Book")}
           <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded ml-2">
