@@ -11,11 +11,11 @@ export default function BookCard ({bookCard}  : BookCardProps){
     const navigate = useNavigate()
 
     return (<>
-        <div className="bg-white  rounded-lg shadow-lg mr-8 hover:scale-110">           
+        <div className="bg-white  rounded-lg shadow-lg mr-8 hover:scale-105">           
             <div className="p-8 rounded-lg">
                 <img 
                     src={bookCard.imageCover.href} alt={bookCard.title} 
-                    className="rounded-lg w-full  transition-transform duration-300 hover:scale-110"/>
+                    className="rounded-lg w-full h-98 transition-transform duration-300 hover:scale-110"/>
             </div>
 
             <div className="flex flex-row justify-between mx-7" >
@@ -60,10 +60,7 @@ export default function BookCard ({bookCard}  : BookCardProps){
                         </div>
                     </Button>
                 </div>
-            </div>
-            
-
-            
+            </div>           
         </div>
     </>)
 }
