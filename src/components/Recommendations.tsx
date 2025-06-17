@@ -11,12 +11,13 @@ export default function Recommendations({ books,type }: {books:RecommendationsPr
   return (
     <section className="bg-white p-4 rounded-xl shadow-lg ">
       <h2 className="text-lg font-semibold mb-1 flex items-center gap-2"><div
-          className="p-3 rounded-lg  bg-gradient-to-br from-blue-100 to-purple-100"
+          className="p-3 rounded-lg  bg-theme-light"
         >
           {admin? (<BookUser></BookUser>):(<Star className="h-8 w-8 text-blue-600"/>)}
         </div>{admin? "Recently Added Book":" Recommended for You"}</h2>
       <p className="text-sm text-gray-500 mb-4">{admin ? "Recent Addition":"Books you might enjoy based on your reading history"}</p>
       <div className="space-y-3">
+
         {books.map((book, index) => {
   const path = admin ? `books/book-list/${book.id}` : `details/${book.id}`;
 
@@ -43,6 +44,7 @@ export default function Recommendations({ books,type }: {books:RecommendationsPr
     </div>
   );
 })}
+
 
       </div>
     </section>

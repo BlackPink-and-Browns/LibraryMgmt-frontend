@@ -75,7 +75,7 @@ export default function BorrowModal({ isOpen, onClose, setBorrowed } : BorrowMod
                     onClick={onClose}
                     variant={{ color: 'secondary', size: 'small' }}
                     >
-                    Close
+                    Confirm
                 </Button>
 
                 <Button

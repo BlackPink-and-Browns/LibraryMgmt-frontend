@@ -13,7 +13,7 @@ export default function BorrowHistory({ history ,type}: {history:BorrowHistoryPr
     <section className="bg-white p-4 rounded-xl shadow-lg ">
       <h2 className="text-lg font-semibold mb-1 flex items-center gap-2">
         <div
-          className="p-3 rounded-lg  bg-gradient-to-br from-blue-100 to-purple-100"
+          className="p-3 rounded-lg  bg-theme-light"
         >
           <Book className="h-8 w-8 text-blue-600"/>
         </div> Borrow History</h2>
