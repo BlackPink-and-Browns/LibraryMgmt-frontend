@@ -19,7 +19,7 @@ export default function BorrowedBooks({books,title,description,closeButton,onClo
                 </div>)
    }
       <h2 className="text-lg font-semibold mb-1 flex items-center gap-2">
-        <div className="p-3 rounded-lg bg-gradient-to-br from-blue-100 to-purple-100">
+        <div className="p-3 rounded-lg bg-theme-light">
           <BookOpen className="h-8 w-8 text-blue-600" />
         </div>
         {title} ({books.length})
