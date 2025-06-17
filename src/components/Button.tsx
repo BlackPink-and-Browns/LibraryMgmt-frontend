@@ -8,7 +8,7 @@ function Button ({
 } : ButtonProps) {
    
     const buttonColor = variant.color === 'primary' ?
-           'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white ' :
+           'bg-theme-dark text-white px-4 py-2' :
            variant.color === 'secondary' ? 'bg-green-600 text-white ' : 'bg-slate-50  border border-blue-500 text-blue-500'
     
     const buttonSize = variant.size === 'large' ? 

@@ -1,5 +1,9 @@
 import React from "react";
+<<<<<<< Updated upstream
 import type { JSX } from "react/jsx-runtime";
+=======
+import type { Book } from "./dataTypes";
+>>>>>>> Stashed changes
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     variant: { 
@@ -23,7 +27,7 @@ export interface SearchBarProps{
 }
 
 export interface BadgeProps{
-    status : "Not Available" | "Available"
+    status : boolean
     variant? : 'sm'
 }
 
@@ -40,23 +44,11 @@ export interface TitleProps {
 }
 
 export interface BookCardProps{
-    bookCard : Book
+    book : Book
 }
 
 export interface BookDetailProps {
     children : React.ReactNode
-}
-
-export interface Book {
-    book_id : number,
-    isbn : string,
-    title : string,
-    author : string,
-    genres : string[],
-    description : string
-    imageCover : URL
-    bookStatus : "Not Available" | "Available"
-    ratingValues : RatingProps
 }
 
 export type HistoryItem = {
