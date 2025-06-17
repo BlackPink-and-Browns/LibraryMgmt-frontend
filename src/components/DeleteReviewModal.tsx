@@ -9,7 +9,7 @@ interface DeleteReviewModalProps {
 
 export default function DeleteReviewModal({ onClose, onDelete }: DeleteReviewModalProps) {
   return (
-    <div className="fixed inset-0 bg-[rgba(0,0,0,0.3)] z-50 flex items-center justify-center">
+    <div className="fixed inset-0 bg-[rgba(0,0,0,0.7)] z-50 flex items-center justify-center">
       <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
         <button
           onClick={onClose}
