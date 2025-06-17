@@ -9,8 +9,8 @@ const AdminSideBar = () => {
     <div className='mainbox py-20'>
          <div className='flex flex-col gap-5 '>
             <SidebarNavButton label="Dashboard" to="/admin" Icon={Home} />
-            <SidebarNavButton label="Books" to="/admin/books" Icon={Book} />
-            <SidebarNavButton label="Shelf" to="/admin/shelf" Icon={Warehouse} />
+            <SidebarNavButton label="Books" to="/admin/books/book-list" Icon={Book} />
+            <SidebarNavButton label="Shelf" to="/admin/shelf/shelf-list" Icon={Warehouse} />
             <SidebarNavButton label="Users" to="/admin/users" Icon={User} />
             <SidebarNavButton label="Explore Books" to="/12/explore" Icon={User} />
         </div>

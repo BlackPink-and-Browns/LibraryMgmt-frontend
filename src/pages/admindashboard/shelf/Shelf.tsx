@@ -7,7 +7,7 @@ const Shelf = () => {
   return (
     <div className='flex flex-col gap-2 overflow-auto '>
       <div className='flex  sticky top-0 z-50  justify-center gap-10'>
-          <StatCard title='List Shelves' value={""} icon={List} onClick={()=>navigate("/admin/shelf/list-shelf")}></StatCard>
+          <StatCard title='List Shelves' value={""} icon={List} onClick={()=>navigate("/admin/shelf/shelf-list")}></StatCard>
           <StatCard title='Add Shelves' value={""} icon={CirclePlus} onClick={()=>navigate("/admin/shelf/add-shelf")}></StatCard>          
       </div>
       <div>

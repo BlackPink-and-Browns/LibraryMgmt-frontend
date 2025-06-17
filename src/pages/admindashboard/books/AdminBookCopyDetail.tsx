@@ -1,20 +1,37 @@
 import { useParams } from "react-router-dom";
 import { useState } from "react";
-import { bookDb } from "../../../data"; // Update based on your project structure
+import { bookDb } from "../../../data";
+import RelocateModal from "../../../components/RelocateBook"
+
 const AdminBookCopyDetail = () => {
   const { isbnId } = useParams<{ isbnId: string }>();
   const book = bookDb.find((b) => b.isbn === isbnId);
 
   const [copies, setCopies] = useState(book?.copies || []);
 
-  const handleRelocate = (id: number) => {
-    const newShelf = prompt("Enter new shelf location:");
-    if (!newShelf) return;
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [selectedCopyId, setSelectedCopyId] = useState<number | null>(null);
+
+  // Example office + shelf data
+  const offices = [
+    { name: "Chennai", shelves: ["A1", "A2", "A3"] },
+    { name: "Hyderabad", shelves: ["B1", "B2"] },
+    { name: "Delhi", shelves: ["C1", "C2", "C3"] },
+  ];
+
+  const handleRelocateClick = (id: number) => {
+    setSelectedCopyId(id);
+    setModalOpen(true);
+  };
+
+  const handleModalRelocate = (office: string, shelf: string) => {
+    if (selectedCopyId === null) return;
     setCopies((prev) =>
       prev.map((copy) =>
-        copy.id === id ? { ...copy, shelf: newShelf } : copy
+        copy.id === selectedCopyId ? { ...copy, shelf: `${office} - ${shelf}` } : copy
       )
     );
+    setSelectedCopyId(null);
   };
 
   const handleDelete = (id: number) => {
@@ -55,7 +72,7 @@ const AdminBookCopyDetail = () => {
               <div className="flex gap-3">
                 <button
                   className="px-3 py-1 border border-blue-500 text-blue-600 rounded hover:bg-blue-50 transition"
-                  onClick={() => handleRelocate(copy.id)}
+                  onClick={() => handleRelocateClick(copy.id)}
                 >
                   Relocate
                 </button>
@@ -70,6 +87,14 @@ const AdminBookCopyDetail = () => {
           ))}
         </div>
       )}
+
+      {/* Relocate Modal */}
+      <RelocateModal
+        isOpen={isModalOpen}
+        onClose={() => setModalOpen(false)}
+        onRelocate={handleModalRelocate}
+        offices={offices}
+      />
     </div>
   );
 };

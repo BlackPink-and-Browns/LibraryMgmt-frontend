@@ -27,6 +27,7 @@ import BookDetail from "./pages/admindashboard/books/BookDetail.tsx";
 import EmployeeDashboard from "./pages/employeedashboard/EmployeeDashboard.tsx";
 import ReturnBook from "./pages/employeedashboard/returnbook/ReturnBook.tsx";
 import BorrowedBookRecords from "./pages/employeedashboard/borrowedBookRecord.tsx";
+import Issuedbook from "./pages/admindashboard/books/Issuedbook.tsx";
 
 const router = createBrowserRouter([
   {
@@ -66,6 +67,7 @@ const router = createBrowserRouter([
           { path: "bulk-upload", element: <BulkUpload /> },
           { path: "scan-isbn", element: <ScanIsbn /> },
           { path: "book-list", element: <BookList /> },
+          { path: "issued", element: <Issuedbook/> },
           { path: "book-list/:isbnId", element: <BookDetail /> },
         ],
       },
@@ -74,7 +76,7 @@ const router = createBrowserRouter([
         element: <Shelf />,
         children: [
           { path: "add-shelf", element: <AddShelf /> },
-          { path: "list-shelf", element: <ListShelf /> },
+          { path: "shelf-list", element: <ListShelf /> },
         ],
       },
       { path: "users", element: <UserList /> },
