@@ -13,19 +13,56 @@ import {
 } from "lucide-react";
 import type { Book, Recommendation, StatCardProps } from "../../types/propTypes";
 import DashboardNavButtons from "../../components/DashboardNavButtons";
-import { borrowedBooksDb, borrowHistoryDb, recommendedBooksDb, statsDb } from "../../data";
+import { borrowedBooksDb, borrowHistoryDb, recommendedBooksDb } from "../../data";
+import OverdueBooks from "../../components/OverdueBooksModal";
+import { useState } from "react";
+import RequestedBooks from "../../components/RequestedBooksModal";
+
+
 
 export default function EmployeeDashboard() {
   const navigate = useNavigate();
 
   const borrowedBooks = borrowedBooksDb
-
   const recommendedBooks = recommendedBooksDb
+  const borrowHistory = borrowHistoryDb
 
-  
-const borrowHistory = borrowHistoryDb
+  const [displayOverdueBooks,setDisplayOverdueBooks] = useState(false)
+  const [displayRequestedBooks, setDisplayRequestedBooks] = useState(false);
 
-  const stats=statsDb
+const stats: StatCardProps[] = [
+      {
+        title: "Books Borrowed",
+        value: borrowHistory.length,
+        change: "+12%",
+        icon: BookIcon,
+        onClick: () => console.log("Books Borrowed clicked"),
+        variant: "default",
+      },
+      {
+        title: "Currently reading",
+        value: borrowedBooks.length,
+        change: "+5%",
+        icon: Eye,
+        onClick: () => console.log("Currently Reading clicked"),
+        variant: "default",
+      },
+      {
+        title: "Requested books",
+        value: 45,
+        change: "+2%",
+        icon: Bookmark,
+        onClick: () => {setDisplayRequestedBooks(true); console.log("Requested clicked")},
+        variant: "default",
+      },
+      {
+        title: "Overdue Notice",
+        value: borrowedBooks.filter(book => book.daysLeft <= 0).length,
+        icon: Clock,
+        variant: "danger",
+        onClick: () => {setDisplayOverdueBooks(true); console.log("Overdue Notice clicked")},
+      },
+    ];
 
   return (
     <>
@@ -49,11 +86,16 @@ const borrowHistory = borrowHistoryDb
             />
           ))}
         </div>
+        {displayOverdueBooks && (
+            <OverdueBooks onClose={() => setDisplayOverdueBooks(false)}></OverdueBooks>)}
+        {displayRequestedBooks && (
+            <RequestedBooks onClose={() => setDisplayRequestedBooks(false)}></RequestedBooks>
+            )}    
 
        <section className="space-y-6">
   {/* Row 1: Two side-by-side cards */}
 <div className="grid gap-8 md:grid-cols-2">
-    <BorrowedBooks books={borrowedBooks} />
+    <BorrowedBooks books={borrowedBooks} title="Currently Borrowed" description="Books you currently have checked out"/>
     <Recommendations books={recommendedBooks} />
 </div>
 

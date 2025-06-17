@@ -1,11 +1,11 @@
 // components/Recommendations.tsx
 import React from "react";
 import type { RecommendationsProps } from "../types/propTypes";
-import { BookUser, Plus, Star } from "lucide-react";
+import { BookUser, Star } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 
-export default function Recommendations({ books,type }: {books:RecommendationsProps['books'],type?:string}) {
+export default function Recommendations({ books,type }: {books:RecommendationsProps["books"],type?:string}) {
   const admin=type==="admin"
     const navigate = useNavigate();
   return (
@@ -43,6 +43,25 @@ export default function Recommendations({ books,type }: {books:RecommendationsPr
     </div>
   );
 })}
+
+        {books.map((book) => (
+          <div key={book.id} className="bg-yellow-50 p-4 rounded-md flex justify-between items-center" onClick={() => navigate(`details/${book.id}`)}>
+            <div>
+              <div className="font-medium">{book.title}</div>
+              <div className="text-sm text-gray-600">by {book.author}</div>
+              <div className="text-sm text-yellow-700 mt-1">⭐ {book.rating}</div>
+            </div>
+            {book.available ? (
+              <button className="text-sm px-3 py-1 bg-green-100 text-green-700 rounded-md hover:bg-green-200">
+                {admin? "Available":"Borrow"}
+              </button>
+            ) : (
+              <button className="text-sm px-3 py-1 bg-blue-100 text-blue-700 rounded-md hover:bg-blue-200">
+                {admin? "Not Available":"Request"}
+              </button>
+            )}
+          </div>
+        ))}
 
       </div>
     </section>
