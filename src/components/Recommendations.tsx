@@ -44,8 +44,6 @@ export default function Recommendations({ books,type }: {books:RecommendationsPr
   );
 })}
 
-<<<<<<< HEAD
-=======
         {books.map((book) => (
           <div key={book.id} className="bg-yellow-50 p-4 rounded-md flex justify-between items-center" onClick={() => navigate(`details/${book.id}`)}>
             <div>
@@ -65,7 +63,6 @@ export default function Recommendations({ books,type }: {books:RecommendationsPr
           </div>
         ))}
 
->>>>>>> main
       </div>
     </section>
   );
