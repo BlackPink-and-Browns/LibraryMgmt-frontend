@@ -25,7 +25,7 @@ export default function BookCard ({bookCard}  : BookCardProps){
 
             <Title title={bookCard.title} author={bookCard.author} variant='sm' />
 
-            <div className="flex flex-row justify-between mx-7">
+            <div className="flex flex-row justify-between ml-7">
                 <div className="pb-15 mr-3 w-3/4">
                     {status === 'Available' ? 
                         <Button 
@@ -34,7 +34,7 @@ export default function BookCard ({bookCard}  : BookCardProps){
                             onClick={()=>{}}
                         >
                             <div className="flex flex-row">
-                                <BookOpen className="mx-4"/>
+                                <BookOpen className="mx-2"/>
                                 <p >Borrow</p>
                             </div>                       
                         </Button> 
@@ -54,8 +54,8 @@ export default function BookCard ({bookCard}  : BookCardProps){
                         type="button"
                         onClick={()=> navigate(`${bookCard.book_id}/details`)} 
                         variant={{color:'ternary', size : 'small'}} >
-                        <div className="flex flex-row items-center justify-center text-blue-500">
-                            <Eye className="mx-3"/>
+                        <div className="flex flex-row items-center justify-center text-blue-500 px-2">
+                            <Eye className="ml-1"/>
                             <p> Details </p>
                         </div>
                     </Button>

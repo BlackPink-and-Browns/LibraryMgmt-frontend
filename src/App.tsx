@@ -28,7 +28,6 @@ import EmployeeDashboard from "./pages/employeedashboard/EmployeeDashboard.tsx";
 import ReturnBook from "./pages/employeedashboard/returnbook/ReturnBook.tsx";
 import BorrowedBookRecords from "./pages/employeedashboard/borrowedBookRecord.tsx";
 
-<<<<<<< Updated upstream
 const router = createBrowserRouter([
   {
     path: "/",
@@ -88,8 +87,7 @@ const router = createBrowserRouter([
   },
 ]);
 
-=======
->>>>>>> Stashed changes
+
 function App() {
   return <RouterProvider router={router} />;
 }

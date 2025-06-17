@@ -18,8 +18,8 @@ export default function BookCatalog (){
         <Header heading="Book Catalog" description="Discover and borrow book from our collection">
             <Button 
                 type="button" 
-                variant ={{ color : "primary", size : 'medium'}}
-                onClick={()=> navigate('/')}
+                variant ={{ color : "primary", size : 'large'}}
+                onClick={()=> navigate(-1)}
             >
                 Back to Home
             </Button>

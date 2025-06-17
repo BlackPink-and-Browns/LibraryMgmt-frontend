@@ -1,9 +1,25 @@
 @import "tailwindcss";
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-*{
-   
-    box-sizing: border-box ;  
+@layer components {
+  .btn-primary {
+    @apply bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold rounded px-4 py-2;
+  }
+
+  .bg-theme-light {
+    @apply bg-gradient-to-br from-blue-50 to-purple-50;
+  }
+
+  .text-theme {
+    @apply text-blue-500;
+  }
+
+  .layout-center {
+    @apply flex flex-row items-center justify-center;
+  }
 }
 
 /* :root {
