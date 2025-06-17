@@ -1,6 +1,8 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { Star } from "lucide-react";
+import Rating from "../../../components/Rating";
+import ReviewInput from "../../../components/ReviewInput";
 
 const offices = [
   { name: "Head Office", id: "head" },
@@ -19,17 +21,15 @@ export default function ReturnBook({ type }: { type?: string }) {
   const { bookId } = useParams();
   const navigate = useNavigate();
 
-  const [selectedOffice, setSelectedOffice] = useState(offices[0].id);
-  const [selectedShelf, setSelectedShelf] = useState(
-    shelvesByOffice[offices[0].id][0]
-  );
+   const location = useLocation();
+const book = location.state;
+
+  const [selectedOffice, setSelectedOffice] = useState<string>(offices[0].id);
+  const [selectedShelf, setSelectedShelf] = useState(shelvesByOffice[offices[0].id][0]);
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState("");
 
-  const book = {
-    title: "Clean Code",
-    author: "Robert C. Martin",
-  };
+ 
 
   const handleOfficeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
@@ -92,52 +92,9 @@ export default function ReturnBook({ type }: { type?: string }) {
           </div>
 
           {/* Rating */}
-
-          {!admin && (
-            <div>
-              {/* Rating */}
-              <div>
-                <label className="block text-sm font-medium mb-1">Rating</label>
-                <div className="flex items-center gap-1">
-                  {[1, 2, 3, 4, 5].map((n) => (
-                    <button
-                      key={n}
-                      type="button"
-                      onClick={() => setRating(n)}
-                      className="hover:scale-110 transition-transform"
-                    >
-                      <Star
-                        className={`w-5 h-5 ${
-                          n <= rating
-                            ? "text-yellow-500 fill-yellow-300"
-                            : "text-gray-400"
-                        }`}
-                        fill={n <= rating ? "#facc15" : "none"}
-                      />
-                    </button>
-                  ))}
-                  {rating > 0 && (
-                    <span className="text-xs text-gray-500 ml-2">
-                      ({rating})
-                    </span>
-                  )}
-                </div>
-              </div>
-
-              {/* Review */}
-              <div>
-                <label className="block text-sm font-medium mb-1">Review</label>
-                <textarea
-                  value={review}
-                  onChange={(e) => setReview(e.target.value)}
-                  placeholder="Share your thoughts about the book..."
-                  className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
-                  rows={3}
-                />
-              </div>
-            </div>
-          )}
-
+          <Rating value={rating} onChange={setRating} />
+          {/* Review */}
+          <ReviewInput value={review} onChange={setReview} />
           <button
             type="submit"
             className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-2 rounded hover:from-blue-700 hover:to-purple-700"

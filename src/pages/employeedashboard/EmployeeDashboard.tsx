@@ -11,7 +11,7 @@ import {
   Clock,
   Eye,
 } from "lucide-react";
-import type { Book, StatCardProps } from "../../types/propTypes";
+import type { Book, Recommendation, StatCardProps } from "../../types/propTypes";
 import DashboardNavButtons from "../../components/DashboardNavButtons";
 import { borrowedBooksDb, borrowHistoryDb, recommendedBooksDb, statsDb } from "../../data";
 
@@ -52,10 +52,10 @@ const borrowHistory = borrowHistoryDb
 
        <section className="space-y-6">
   {/* Row 1: Two side-by-side cards */}
-  <div className="grid gap-8 md:grid-cols-2">
+<div className="grid gap-8 md:grid-cols-2">
     <BorrowedBooks books={borrowedBooks} />
     <Recommendations books={recommendedBooks} />
-  </div>
+</div>
 
   {/* Row 2: Full-width card */}
   <BorrowHistory  history={borrowHistory} />
