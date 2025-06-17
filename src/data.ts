@@ -190,7 +190,7 @@ const userDb=[{
         author: "Robert C. Martin",
         shelf: "A1-05",
         due: "2024-01-15",
-        daysLeft: 3,
+        daysLeft: 0,
       },
       {
         id: 2,
@@ -199,6 +199,14 @@ const userDb=[{
         shelf: "B2-12",
         due: "2024-01-20",
         daysLeft: 8,
+      },
+      {
+        id: 2,
+        title: "The good Programmer",
+        author: "Andrew Hunt kkk",
+        shelf: "B2-72",
+        due: "2024-01-20",
+        daysLeft: -1,
       },
     ];
   
@@ -263,7 +271,7 @@ const userDb=[{
           cover: "https://covers.openlibrary.org/b/id/345678-L.jpg",
           borrowed: "2023-09-12",
           returned: "2023-10-01",
-          status: "Overdue" as "Overdue",
+          status: "Returned" as "Returned",
           review: "Helpful for interview prep.",
           rating: 3,
           borrowShelf: "C3-07",
@@ -272,38 +280,6 @@ const userDb=[{
       },
   ];
   
-    const statsDb: StatCardProps[] = [
-      {
-        title: "Books Borrowed",
-        value: 25,
-        change: "+12%",
-        icon: BookIcon,
-        onClick: () => console.log("Books Borrowed clicked"),
-        variant: "default",
-      },
-      {
-        title: "Currently reading",
-        value: 89,
-        change: "+5%",
-        icon: Eye,
-        onClick: () => console.log("Currently Reading clicked"),
-        variant: "default",
-      },
-      {
-        title: "Requested books",
-        value: 45,
-        change: "+2%",
-        icon: Bookmark,
-        onClick: () => console.log("Requested clicked"),
-        variant: "default",
-      },
-      {
-        title: "Overdue Notice",
-        value: 3,
-        icon: Clock,
-        variant: "danger",
-        onClick: () => console.log("Viewing overdue books"),
-      },
-    ];
-  export  {bookDb , userDb,borrowedBooksDb,borrowHistoryDb,recommendedBooksDb,statsDb};
+    
+  export  {bookDb , userDb,borrowedBooksDb,borrowHistoryDb,recommendedBooksDb};
  
