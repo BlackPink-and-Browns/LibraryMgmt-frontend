@@ -5,7 +5,7 @@ import { BookUser, Plus, Star } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 
-export default function Recommendations({ books,type }: {books:RecommendationsProps,type?:string}) {
+export default function Recommendations({ books,type }: {books:RecommendationsProps['books'],type?:string}) {
   const admin=type==="admin"
     const navigate = useNavigate();
   return (

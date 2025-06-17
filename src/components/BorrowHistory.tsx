@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 
 
-export default function BorrowHistory({ history ,type}: {history:BorrowHistoryProps,type?:string}) {
+export default function BorrowHistory({ history ,type}: {history:BorrowHistoryProps['history'],type?:string}) {
     const admin = type==="admin"
     const navigate = useNavigate();
   return (
