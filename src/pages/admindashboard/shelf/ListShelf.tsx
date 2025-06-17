@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { FolderIcon } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const ListShelf = () => {
+  const navigate = useNavigate();
   const [shelves, setShelves] = useState([
     { id: 1, office: "Main Library", label: "A-1" },
     { id: 2, office: "Main Library", label: "A-2" },
@@ -26,12 +28,15 @@ const ListShelf = () => {
 
         {Object.entries(grouped).map(([office, shelfList]) => (
           <div key={office} className="border border-gray-200 rounded-lg p-4">
-            <h3 className="text-lg font-semibold text-indigo-600 mb-2">{office}</h3>
+            <h3 className="text-lg font-semibold text-indigo-600 mb-2">
+              {office}
+            </h3>
             <ul className="space-y-2">
               {shelfList.map((shelf) => (
                 <li
                   key={shelf.id}
-                  className="flex items-center gap-2 text-gray-700 bg-gray-50 px-4 py-2 rounded"
+                  onClick={() => navigate(`${shelf.id}`)}
+                  className="flex items-center gap-2 text-gray-700 px-4 py-2 rounded cursor-pointer bg-gray-50 hover:bg-gray-200 transition-colors"
                 >
                   <FolderIcon className="w-4 h-4 text-purple-500" />
                   Shelf Label: <strong>{shelf.label}</strong>
