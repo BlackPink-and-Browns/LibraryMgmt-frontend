@@ -1,19 +1,31 @@
 import React, { useState } from "react";
 
 function RelocateModal(props) {
-  const { isOpen, onClose, onRelocate, offices } = props;
+  const {
+    isOpen,
+    onClose,
+    onRelocate, // For "add" mode, this can still be reused
+    offices,
+    mode = "relocate", // "relocate" or "add"
+  } = props;
 
   const [selectedOffice, setSelectedOffice] = useState("");
   const [selectedShelf, setSelectedShelf] = useState("");
+  const [numCopies, setNumCopies] = useState(1);
 
   const shelves =
     offices.find((office) => office.name === selectedOffice)?.shelves || [];
 
-  function handleRelocate() {
+  function handleSubmit() {
     if (selectedOffice && selectedShelf) {
-      onRelocate(selectedOffice, selectedShelf);
+      if (mode === "add") {
+        onRelocate(selectedOffice, selectedShelf, numCopies);
+      } else {
+        onRelocate(selectedOffice, selectedShelf);
+      }
       setSelectedOffice("");
       setSelectedShelf("");
+      setNumCopies(1);
       onClose();
     }
   }
@@ -23,7 +35,9 @@ function RelocateModal(props) {
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
       <div className="bg-white p-6 rounded-xl w-[380px] shadow-lg">
-        <h2 className="text-lg font-semibold mb-4">Relocate Book Copy</h2>
+        <h2 className="text-lg font-semibold mb-4">
+          {mode === "add" ? "Add Book Copy" : "Relocate Book Copy"}
+        </h2>
 
         <label className="block text-sm mb-1">Select Office</label>
         <select
@@ -59,6 +73,19 @@ function RelocateModal(props) {
           ))}
         </select>
 
+        {mode === "add" && (
+          <>
+            <label className="block text-sm mb-1">Number of Copies</label>
+            <input
+              type="number"
+              min="1"
+              value={numCopies}
+              onChange={(e) => setNumCopies(Number(e.target.value))}
+              className="w-full mb-4 p-2 rounded border border-gray-300 text-sm"
+            />
+          </>
+        )}
+
         <div className="flex justify-end gap-3">
           <button
             onClick={onClose}
@@ -67,15 +94,15 @@ function RelocateModal(props) {
             Cancel
           </button>
           <button
-            onClick={handleRelocate}
+            onClick={handleSubmit}
             disabled={!(selectedOffice && selectedShelf)}
             className={`px-4 py-2 text-sm text-white rounded ${
               selectedOffice && selectedShelf
-                ? "bg-blue-600 hover:bg-blue-700 cursor-pointer"
+                ? "bg-blue-600 hover:bg-blue-700"
                 : "bg-blue-300 cursor-not-allowed opacity-70"
             }`}
           >
-            Relocate
+            {mode === "add" ? "Add Copies" : "Relocate"}
           </button>
         </div>
       </div>
@@ -84,3 +111,4 @@ function RelocateModal(props) {
 }
 
 export default RelocateModal;
+

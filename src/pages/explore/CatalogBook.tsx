@@ -37,7 +37,7 @@ export default function BookCatalog (){
                 <div className="flex flex-row flex-wrap mx-4 md:mx-10 lg:mx-50 my-10">
                     {dummyBookCards.map((book) => (
                         <div
-                        className="sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/3 my-5 px-2"
+                        className="sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/4 my-5 px-2"
                         key={book.book_id}
                         >
                         <BookCard bookCard={book} />
