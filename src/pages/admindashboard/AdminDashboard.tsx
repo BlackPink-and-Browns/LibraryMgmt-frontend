@@ -34,7 +34,7 @@ const AdminDashboard = () => {
             title="Books Issued"
             value={"155"}
             icon={ChartColumn}
-            onClick={() => navigate("")}
+            onClick={() => navigate("books/issued")}
           ></StatCard>
           
         </div>

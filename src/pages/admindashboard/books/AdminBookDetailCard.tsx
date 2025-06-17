@@ -7,7 +7,14 @@ import {
 import clsx from "clsx";
 import {bookDb} from "../../../data";
 import { useParams } from "react-router-dom";
+import RelocateModal from "../../../components/RelocateBook";
 
+  const offices = [
+    { name: "Chennai", shelves: ["A1", "A2", "A3"] },
+    { name: "Hyderabad", shelves: ["B1", "B2"] },
+    { name: "Delhi", shelves: ["C1", "C2", "C3"] },
+  ];
+  
 const AddCopyModal = ({
   isOpen,
   onClose,
@@ -61,15 +68,16 @@ const AddCopyModal = ({
 };
 
 const AdminBookDetailCard = () => {
-  const { isbnId } = useParams();
-  const bookFromDb = bookDb.find((book) => book.isbn === isbnId);
+  const { id } = useParams();
+  const bookFromDb = bookDb.find((book) => String(book.id) === id);
   if (!bookFromDb) {
     return <div className="text-center text-red-600">Book not found.</div>;
   }
 
   const [isEditing, setIsEditing] = useState(false);
   const [book, setBook] = useState(bookFromDb);
-  const [showAddModal, setShowAddModal] = useState(false);
+
+  const [isModalOpen, setModalOpen] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -96,16 +104,9 @@ const AdminBookDetailCard = () => {
     setIsEditing(false);
   };
 
-  const handleAddCopy = (shelf: string) => {
-    const newCopy = {
-      id: Math.max(...book.copies.map((c) => c.id), 0) + 1,
-      shelf,
-      status: "Available",
-    };
-    setBook((prev) => ({
-      ...prev,
-      copies: [...prev.copies, newCopy],
-    }));
+  const handleAddCopy = (id: number) => {
+    console.log("in")
+    setModalOpen(true);
   };
 
   const status = book.copies?.[0]?.status || "Unknown";
@@ -247,7 +248,7 @@ const AdminBookDetailCard = () => {
             )}
             <button
               className="ml-auto bg-purple-600 text-white px-4 py-2 rounded shadow"
-              onClick={() => setShowAddModal(true)}
+              onClick={() => handleAddCopy(1)}
             >
               + Add Copy
             </button>
@@ -255,10 +256,12 @@ const AdminBookDetailCard = () => {
         </div>
       </div>
 
-      <AddCopyModal
-        isOpen={showAddModal}
-        onClose={() => setShowAddModal(false)}
-        onAdd={handleAddCopy}
+      <RelocateModal
+        isOpen={isModalOpen}
+        onClose={() => setModalOpen(false)}
+        onRelocate={handleAddCopy}
+        offices={offices}
+        mode="add"
       />
     </>
   );

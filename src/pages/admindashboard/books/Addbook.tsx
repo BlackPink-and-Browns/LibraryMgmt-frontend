@@ -3,7 +3,7 @@ import "./Addbook.css"
 import { useParams } from 'react-router-dom';
 
 const Addbook = () => {
-  const { isbnId } = useParams();
+  const { id } = useParams();
   const [formData, setFormData] = useState({
     title: "",
     author: "",
@@ -15,17 +15,17 @@ const Addbook = () => {
 
   // Prefill form with hardcoded data if isbnId exists
   useEffect(() => {
-    if (isbnId) {
+    if (id) {
       setFormData({
         title: "The Great Gatsby",
         author: "F. Scott Fitzgerald",
-        isbn: isbnId,
+        isbn: id,
         genre: "Classic Fiction",
         description: "A novel set in the Roaring Twenties, exploring themes of wealth and identity.",
         image: null,
       });
     }
-  }, [isbnId]);
+  }, [id]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;

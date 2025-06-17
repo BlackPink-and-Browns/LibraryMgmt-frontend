@@ -1,4 +1,4 @@
-import { EyeIcon, StarIcon } from "lucide-react";
+import { EyeIcon, StarIcon, User, User2, User2Icon } from "lucide-react";
 
 type Book = {
   title: string;
@@ -12,6 +12,7 @@ type User = {
   username: string;
   id: number;
   status: "Active" | "Inactive";
+  profilePicUrl:string;
 };
 
 type ItemTileProps = {
@@ -31,14 +32,20 @@ const AdminItemTile = ({ item, type, onClick, subtype = "normal" }: ItemTileProp
       onClick={onClick}
     >
       {isBook ? (
-        <img
-          src={(item as Book).cover_image}
-          alt={(item as Book).title}
+        (item as Book).cover_image ? (<img
+          src={(item as Book).cover_image }
+          alt={"imgae"}
           className="w-16 h-24 rounded shadow object-cover"
-        />
+        />):("image")
+        
       ) : (
         <div className="w-16 h-16 rounded-full bg-purple-200 flex items-center justify-center font-bold text-purple-700 text-xl shadow">
-          {(item as User).username[0].toUpperCase()}
+            {(item as User).profilePicUrl ? (<img
+          src={(item as User).profilePicUrl}
+          alt={"Pic"}
+          className="w-16 h-16 rounded-full object-cover border"
+        />):(<User2Icon></User2Icon>)}
+          
         </div>
       )}
 
@@ -98,6 +105,7 @@ const AdminItemTile = ({ item, type, onClick, subtype = "normal" }: ItemTileProp
           </>
         ) : (
           <>
+            
             <h3 className="text-lg font-semibold text-purple-700">
               {(item as User).username}
             </h3>

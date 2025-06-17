@@ -136,36 +136,50 @@ const userDb=[{
     id: 1,
     username: "adithya_sailesh",
     status: "Active",
+    email:"test@gmail.com",
+    profilePicUrl: "",
   },
   {
     id: 2,
-    username: "neha_kapoor",
+    username: "Appu Kuttan",
     status: "Inactive",
+    email:"test@gmail.com",
+    profilePicUrl: "https://images.filmibeat.com/ph-big/2013/07/jagathy-sreekumar_137517580426.jpg",
   },
   {
     id: 3,
     username: "mohit_verma",
     status: "Active",
+    email:"test@gmail.com",
+    profilePicUrl: "",
   },
   {
     id: 4,
     username: "alisha_fernandez",
     status: "Inactive",
+    email:"test@gmail.com",
+    profilePicUrl: "",
   },
   {
     id: 5,
     username: "vishal_rao",
     status: "Active",
+    email:"test@gmail.com",
+    profilePicUrl: "",
   },
   {
     id: 6,
     username: "kriti_mehta",
     status: "Active",
+    email:"test@gmail.com",
+    profilePicUrl: "",
   },
   {
     id: 7,
     username: "naveen_joshi",
     status: "Inactive",
+    email:"test@gmail.com",
+    profilePicUrl: "",
   }]
 
 
