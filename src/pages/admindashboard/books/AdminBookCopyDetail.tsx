@@ -4,8 +4,8 @@ import { bookDb } from "../../../data";
 import RelocateModal from "../../../components/RelocateBook"
 
 const AdminBookCopyDetail = () => {
-  const { isbnId } = useParams<{ isbnId: string }>();
-  const book = bookDb.find((b) => b.isbn === isbnId);
+  const { id} = useParams<{ id: string }>();
+  const book = bookDb.find((b) => String(b.id) === id);
 
   const [copies, setCopies] = useState(book?.copies || []);
 
@@ -43,7 +43,7 @@ const AdminBookCopyDetail = () => {
   if (!book) {
     return (
       <div className="max-w-3xl mx-auto mt-10 text-center text-red-500 font-semibold">
-        Book with ISBN "{isbnId}" not found.
+        Book with id "{id}" not found.
       </div>
     );
   }
@@ -94,6 +94,7 @@ const AdminBookCopyDetail = () => {
         onClose={() => setModalOpen(false)}
         onRelocate={handleModalRelocate}
         offices={offices}
+        mode="relocate"
       />
     </div>
   );

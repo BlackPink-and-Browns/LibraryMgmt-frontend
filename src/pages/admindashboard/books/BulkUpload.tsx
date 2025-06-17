@@ -21,7 +21,7 @@ const BulkUpload = () => {
         <div className="min-h-screen flex justify-center items-start px-4 py-10 ">
           <form className="w-full max-w-2xl bg-white p-8 rounded-xl shadow-md space-y-6" onSubmit={handleSubmit}>
             <div>
-              <h2 className="text-2xl font-bold text-purple-700">Bluck Upload Books</h2>
+              <h2 className="text-2xl font-bold text-purple-700">Bulk Upload Books</h2>
               <p className="text-gray-500 text-sm">Upload Excel(csv,xlsx) file with book details</p>
             </div>
     

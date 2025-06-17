@@ -17,24 +17,33 @@ export default function Recommendations({ books,type }: {books:RecommendationsPr
         </div>{admin? "Recently Added Book":" Recommended for You"}</h2>
       <p className="text-sm text-gray-500 mb-4">{admin ? "Recent Addition":"Books you might enjoy based on your reading history"}</p>
       <div className="space-y-3">
-        {books.map((book, index) => (
-          <div key={index} className="bg-yellow-50 p-4 rounded-md flex justify-between items-center" onClick={() => navigate(`details/${book.id}`)}>
-            <div>
-              <div className="font-medium">{book.title}</div>
-              <div className="text-sm text-gray-600">by {book.author}</div>
-              <div className="text-sm text-yellow-700 mt-1">⭐ {book.rating}</div>
-            </div>
-            {book.available ? (
-              <button className="text-sm px-3 py-1 bg-green-100 text-green-700 rounded-md hover:bg-green-200">
-                {admin? "Avialable":"Borrow"}
-              </button>
-            ) : (
-              <button className="text-sm px-3 py-1 bg-blue-100 text-blue-700 rounded-md hover:bg-blue-200">
-                {admin? "Not Avialable":"Request"}
-              </button>
-            )}
-          </div>
-        ))}
+        {books.map((book, index) => {
+  const path = admin ? `books/book-list/${book.id}` : `details/${book.id}`;
+
+  return (
+    <div
+      key={index}
+      className="bg-yellow-50 p-4 rounded-md flex justify-between items-center"
+      onClick={() => navigate(path)}
+    >
+      <div>
+        <div className="font-medium">{book.title}</div>
+        <div className="text-sm text-gray-600">by {book.author}</div>
+        <div className="text-sm text-yellow-700 mt-1">⭐ {book.rating}</div>
+      </div>
+      {book.available ? (
+        <button className="text-sm px-3 py-1 bg-green-100 text-green-700 rounded-md hover:bg-green-200">
+          {admin ? "Available" : "Borrow"}
+        </button>
+      ) : (
+        <button className="text-sm px-3 py-1 bg-blue-100 text-blue-700 rounded-md hover:bg-blue-200">
+          {admin ? "Not Available" : "Request"}
+        </button>
+      )}
+    </div>
+  );
+})}
+
       </div>
     </section>
   );

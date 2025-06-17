@@ -62,13 +62,13 @@ const router = createBrowserRouter([
         element: <Books />,
         children: [
           { path: "add-book", element: <Addbook /> },
-          { path: "add-book/:isbnId", element: <Addbook /> },
+          { path: "add-book/:id", element: <Addbook /> },
           { path: "add-copy", element: <AddBookCopy /> },
           { path: "bulk-upload", element: <BulkUpload /> },
           { path: "scan-isbn", element: <ScanIsbn /> },
           { path: "book-list", element: <BookList /> },
           { path: "issued", element: <Issuedbook/> },
-          { path: "book-list/:isbnId", element: <BookDetail /> },
+          { path: "book-list/:id", element: <BookDetail /> },
         ],
       },
       {
@@ -80,7 +80,7 @@ const router = createBrowserRouter([
         ],
       },
       { path: "users", element: <UserList /> },
-      { path: "users/:id", element: <UserDetail /> },
+      { path: "users/:userId", element: <UserDetail /> },
     ],
   },
   {
