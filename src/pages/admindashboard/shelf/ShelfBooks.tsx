@@ -1,9 +1,10 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import AdminItemTile from '../../../components/AdminItemTile'
 import { bookDb } from '../../../data'
 const books=bookDb
 const ShelfBooks = () => {
+    const navigate=useNavigate()
     const {id}=useParams()
   return (
     
