@@ -3,24 +3,21 @@ import { Badge, Button, Header, RatingStar } from "../../components";
 import { BookOpen, Eye } from "lucide-react";
 import Title from "../../components/Title";
 import type { BookCardProps } from "../../types/propTypes";
+import type { Author, BookCopy, Review } from "../../types/dataTypes";
 
 
-export default function book ({book}  : BookCardProps){
+export default function BookCard ({book}  : BookCardProps){
     const navigate = useNavigate()
 
-    const status = book.copies ? book.copies.some(copy => copy.is_available) : false
-    const authors = book.authors.map((author) => author.name).join(', ')   
+    const status = book.copies ? book.copies.some((copy : BookCopy )=> copy.is_available) : false
+    const authors = book.authors.map((author : Author) => author.name).join(', ')   
     const totalRatings = book.reviews.length;
     const averageRating = totalRatings > 0
-      ? book.reviews.reduce((sum, review) => sum + review.rating, 0) / totalRatings
+      ? book.reviews.reduce((sum : number, review : Review) => sum + review.rating, 0) / totalRatings
       : 0;
 
     return (<>
-<<<<<<< Updated upstream
-        <div className="bg-white  rounded-lg shadow-lg mr-8 hover:scale-105 duration-700">           
-=======
         <div className="bg-white rounded-lg shadow-lg mr-8 hover:scale-105 min-w-fit duration-700">           
->>>>>>> Stashed changes
             <div className="p-8 rounded-lg">
                 <img 
                     src={book.cover_image} alt={book.title} 
@@ -61,7 +58,7 @@ export default function book ({book}  : BookCardProps){
                 <div className="">
                     <Button 
                         type="button"
-                        onClick={()=> navigate(`${book.id}/details`)} 
+                        onClick={()=> navigate(`details/${book.id}`)} 
                         variant={{color:'ternary', size : 'small'}} >
                         <div className="flex flex-row items-center justify-center text-blue-500 px-2">
                             <Eye className="ml-1"/>
