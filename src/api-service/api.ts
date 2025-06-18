@@ -17,7 +17,7 @@ const baseApi = createApi({
     refetchOnMountOrArgChange: true,
     refetchOnReconnect:true,
     endpoints: () => ({}),
-    tagTypes: ['BOOKS','AUTHORS','DEPARTMENTS','SHELFS','GENRES','REVIEWS','BORROW','REQUEST']
+    tagTypes: ['BOOKS','AUTHORS','DEPARTMENTS','SHELFS','GENRES','REVIEWS','BORROW','REQUEST','NOTIFICATIONS']
 
 })
 
