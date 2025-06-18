@@ -5,12 +5,16 @@ import { useState } from "react";
 import SearchBar from "./SearchBar";
 import BookCard from "./CardBook";
 import {dummyBookCards} from '../../types/dummyData'
+import { useGetBooksListQuery } from "../../api-service/book/book.api";
 
 
 export default function BookCatalog (){
     const navigate = useNavigate()
     const [searchValue, setSearchValue] = useState<string>("")
     const [filterValue, setFilterValue] = useState<string>("")
+
+    const {data : allBooks} = useGetBooksListQuery({})
+    console.log(allBooks)
 
     const opacityStyle = searchValue !== "" ? 'opacity-25' : "opacity-100"
 

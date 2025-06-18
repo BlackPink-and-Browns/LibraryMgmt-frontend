@@ -4,6 +4,7 @@ import { authorDetails } from "../../types/dummyData"
 import type { AuthorWithBooks, Book } from "../../types/dataTypes"
 import AdminItemTile from "../../components/AdminItemTile";
 import Title from "../../components/Title";
+import { useGetAuthorDetailsQuery } from "../../api-service/author/author.api";
 
 
 export default function AuthorDetails (){
@@ -14,6 +15,9 @@ export default function AuthorDetails (){
         const author: AuthorWithBooks | undefined = authorDetails.find(
             (author) => author.id === Number(authorId)
         );
+
+        const {data : author2} = useGetAuthorDetailsQuery(Number(authorId))
+
         return (<>
         {
             author ?
@@ -32,7 +36,7 @@ export default function AuthorDetails (){
                     <div className="lg:w-256 lg:ml-70 bg-white p-2 rounded-lg shadow-xl">
                         <Title title="Description" variant="lg"/>
                         <p className="px-7">
-                                
+                            
                         </p>
                     </div>                   
                 </section>
