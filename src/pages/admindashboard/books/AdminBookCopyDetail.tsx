@@ -2,9 +2,14 @@ import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { bookDb } from "../../../data";
 import RelocateModal from "../../../components/RelocateBook"
+import { useGetBooksCopyListQuery } from "../../../api-service/bookcopy/bookcopy.api";
+import { useGetBookDetailsQuery } from "../../../api-service/book/book.api";
 
 const AdminBookCopyDetail = () => {
   const { id} = useParams<{ id: string }>();
+ const { data, error, isLoading } = useGetBookDetailsQuery(id);
+ console.log("book in by id",data?.copies)
+
   const book = bookDb.find((b) => String(b.id) === id);
 
   const [copies, setCopies] = useState(book?.copies || []);
