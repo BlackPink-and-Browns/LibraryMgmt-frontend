@@ -64,7 +64,7 @@ export default function BookCatalog (){
                     <p className="font-bold text-3xl ml-4">Suggested for you</p>
                 </div>    
                 
-                <div className="flex flex-row flex-wrap mx-4 md:mx-10 lg:mx-50 my-10">
+                <div className="flex flex-row flex-wrap mx-4 md:mx-10 lg:mx-50 ">
                     {/* {dummyBookCards.map((book) => (
                         <div
                         className="sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/3 2xl:w-1/4 my-5 px-2"
