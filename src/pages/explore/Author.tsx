@@ -8,8 +8,7 @@ import Title from "../../components/Title";
 
 export default function AuthorDetails (){
 
-        const [searchParams] = useSearchParams();
-        const authorId = searchParams.get("authorId");
+        const {authorId} = useParams();
         const navigate = useNavigate();
 
         const author: AuthorWithBooks | undefined = authorDetails.find(
