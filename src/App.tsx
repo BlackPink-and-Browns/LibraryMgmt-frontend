@@ -50,7 +50,6 @@ const router = createBrowserRouter([
           { path: "author/:authorId", element: <AuthorDetails /> },
         ],
       },
-   
   {
     path: "dashboard",
         element: <ExploreLayout />,

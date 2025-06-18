@@ -9,7 +9,8 @@ import Title from "../../components/Title"
 import ReviewAndRating from "../../components/ReviewAndRating"
 import { useState } from "react"
 import BorrowModal from "./BorrowModal"
-import type { Author, Book, BookCopy, Review } from "../../types/dataTypes"
+import type { Author, Book, BookCopy, Genre, Review } from "../../types/dataTypes"
+import { useGetBookDetailsQuery } from "../../api-service/book/book.api"
 
 
 type Combo = {
@@ -22,13 +23,14 @@ export default function BookDetails(){
     const navigate = useNavigate()
     const {bookId} = (useParams())
     console.log(Number(bookId))
-   
+    const {data : book, isLoading, isError} = useGetBookDetailsQuery(bookId)
+    
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [borrowedCombos, setBorrowedCombos] = useState<Combo[]>([]);
 
-    const book: Book | undefined = dummyBookCards.find(
-        (bookCard: Book) => bookCard.id === Number(bookId)
-    );
+    // const book: Book | undefined = dummyBookCards.find(
+    //     (bookCard: Book) => bookCard.id === Number(bookId)
+    // );
 
     const status = book?.copies ? book.copies.some((copy : BookCopy )=> copy.is_available) : false
     const authors = book?.authors.map((author : Author) => author.name).join(', ')   
@@ -49,6 +51,7 @@ export default function BookDetails(){
         </Header>
 
         {
+            isLoading ? <div>Book Details fetching</div> : 
             book ? 
             <>
                 <BorrowModal
@@ -83,7 +86,7 @@ export default function BookDetails(){
                                                 <p className="mx-2">Genre : </p>
                                                 <div className="flex flex-col text-gray-800">
                                                     {
-                                                        book.genres.map((genre) => 
+                                                        book.genres.map((genre : Genre) => 
                                                         <p className="">
                                                             {genre.name}
                                                         </p>)
@@ -120,8 +123,7 @@ export default function BookDetails(){
                                             >                         
                                                 <p>Request Book </p>                        
                                             </Button>              
-                                        }  
-                                                                             
+                                        }                                                                              
                                     </div>
                                 </div>
                             </div>
@@ -157,13 +159,13 @@ export default function BookDetails(){
                         </section> 
                     </div>
                     
-                    <section className="m-5">
+                    <section className="mt-5">
                         <div className="lg:flex flex-col md:col-span-2 bg-white rounded-lg shadow-xl">
                             <div className="flex flex-row items-center justify-center">
-                                <MessageSquare className="text-neutral-900 ml-7"/>
-                                <Title title="Review and Rating" variant="lg" />
+                                <MessageSquare className="text-neutral-900 ml-8"/>
+                                <Title title="Review & Rating" variant="lg" />
                             </div>
-                            <ReviewAndRating />
+                            <ReviewAndRating bookId={1}/>
                         </div>
                     </section>
                 </div>                              

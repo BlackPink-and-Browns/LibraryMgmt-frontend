@@ -1,6 +1,6 @@
-import employeeBaseApi from "../api";
+import baseApi from "../api";
 
-export const BookApi =  employeeBaseApi.injectEndpoints({
+export const BookApi =  baseApi.injectEndpoints({
     endpoints : (builder) => ({
 
         //because it is querying and keeping the responses as cached, we do not need to specify the response type

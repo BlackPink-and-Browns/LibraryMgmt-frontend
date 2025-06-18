@@ -7,7 +7,7 @@
   }
 
   .bg-theme-light {
-    @apply bg-gradient-to-br from-red-300 via-gray-100 to-blue-300;
+    @apply bg-gradient-to-br from-red-100 via-gray-100 to-blue-300;
   }
 
   .text-theme {
