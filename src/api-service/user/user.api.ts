@@ -22,7 +22,7 @@ const userApi = baseApi.injectEndpoints({
         method: "PATCH",
         body: waitlistIds ? { waitlistIds } : null,
       }),
-      invalidatesTags: ["REQUEST"], // this will refresh the request list
+      invalidatesTags: ["REQUEST"], 
     }),
   }),
 });
