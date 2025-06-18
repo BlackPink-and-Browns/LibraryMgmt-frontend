@@ -12,7 +12,7 @@ const AdminSideBar = () => {
             <SidebarNavButton label="Books" to="/admin/books/book-list" Icon={Book} />
             <SidebarNavButton label="Shelf" to="/admin/shelf/shelf-list" Icon={Warehouse} />
             <SidebarNavButton label="Users" to="/admin/users" Icon={User} />
-            <SidebarNavButton label="Explore Books" to="/12/explore" Icon={User} />
+            <SidebarNavButton label="Explore Books" to="/explore" Icon={User} />
         </div>
     </div>
    
