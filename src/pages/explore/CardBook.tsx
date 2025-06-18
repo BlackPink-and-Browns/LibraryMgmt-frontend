@@ -10,10 +10,10 @@ export default function BookCard ({book,type}: {book:BookCardProps,type?:string}
     const navigate = useNavigate()
 
     const status = book.copies ? book.copies.some((copy : BookCopy )=> copy.is_available) : false
-    const authors = book.authors.map((author : Author) => author.name).join(', ')   
-    const totalRatings = book.reviews.length;
+    const authors = book.authors?.map((author : Author) => author.name).join(', ')   
+    const totalRatings = book.reviews?.length;
     const averageRating = totalRatings > 0
-      ? book.reviews.reduce((sum : number, review : Review) => sum + review.rating, 0) / totalRatings
+      ? book.reviews?.reduce((sum : number, review : Review) => sum + review.rating, 0) / totalRatings
       : 0;
     const widthClass = type === "chatbot" ? "w-1/2" : "w-full";
     return (<>
