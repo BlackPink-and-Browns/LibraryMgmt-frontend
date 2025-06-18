@@ -51,11 +51,6 @@ const router = createBrowserRouter([
         ],
       },
    
-<<<<<<< Updated upstream
- 
-=======
-
->>>>>>> Stashed changes
   {
     path: "dashboard",
         element: <ExploreLayout />,

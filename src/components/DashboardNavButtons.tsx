@@ -41,14 +41,5 @@ export default function DashboardNavButtons() {
 
     </div>
   );
-<<<<<<< Updated upstream
-}
-=======
 }
 
-
-
-
-
-
->>>>>>> Stashed changes

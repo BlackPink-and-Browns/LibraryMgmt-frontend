@@ -23,6 +23,9 @@ import RequestedBooks from "../../components/RequestedBooksModal";
 export default function EmployeeDashboard() {
   const navigate = useNavigate();
 
+  localStorage.getItem("userId") 
+  console.log("User ID:", localStorage.getItem("userId"));
+  
   const borrowedBooks = borrowedBooksDb
   const recommendedBooks = recommendedBooksDb
   const borrowHistory = borrowHistoryDb
