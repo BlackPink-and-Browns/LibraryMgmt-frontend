@@ -3,31 +3,37 @@ import { Badge, Button, Header, RatingStar } from "../../components";
 import { BookOpen, Eye } from "lucide-react";
 import Title from "../../components/Title";
 import type { BookCardProps } from "../../types/propTypes";
+import type { Author, BookCopy, Review } from "../../types/dataTypes";
 
 
-export default function BookCard ({bookCard}  : BookCardProps){
-
-    const status = bookCard.bookStatus
+export default function BookCard ({book}  : BookCardProps){
     const navigate = useNavigate()
 
+    const status = book.copies ? book.copies.some((copy : BookCopy )=> copy.is_available) : false
+    const authors = book.authors.map((author : Author) => author.name).join(', ')   
+    const totalRatings = book.reviews.length;
+    const averageRating = totalRatings > 0
+      ? book.reviews.reduce((sum : number, review : Review) => sum + review.rating, 0) / totalRatings
+      : 0;
+
     return (<>
-        <div className="bg-white  rounded-lg shadow-lg mr-8 hover:scale-105 duration-700">           
+        <div className="bg-white rounded-lg shadow-lg mr-8 hover:scale-105 min-w-fit duration-700">           
             <div className="p-8 rounded-lg">
                 <img 
-                    src={bookCard.imageCover.href} alt={bookCard.title} 
+                    src={book.cover_image} alt={book.title} 
                     className="rounded-lg w-full h-75 "/>
             </div>
 
             <div className="flex flex-row justify-between mx-7" >
                 <Badge status={status} />
-                <RatingStar averageRating={4.9} totalRatings={87} />
+                <RatingStar averageRating={Number(averageRating.toFixed(1))} totalRatings={totalRatings} />
             </div>
 
-            <Title title={bookCard.title} author={bookCard.author} variant='sm' />
+            <Title title={book.title} author={authors} variant='sm' />
 
             <div className="flex flex-row justify-between ml-7">
                 <div className="pb-15 mr-3 w-3/4">
-                    {status === 'Available' ? 
+                    {status  ? 
                         <Button 
                             variant={{color : 'primary', size : 'large'}}
                             type="button"
@@ -52,7 +58,7 @@ export default function BookCard ({bookCard}  : BookCardProps){
                 <div className="">
                     <Button 
                         type="button"
-                        onClick={()=> navigate(`${bookCard.book_id}/details`)} 
+                        onClick={()=> navigate(`details/${book.id}`)} 
                         variant={{color:'ternary', size : 'small'}} >
                         <div className="flex flex-row items-center justify-center text-blue-500 px-2">
                             <Eye className="ml-1"/>

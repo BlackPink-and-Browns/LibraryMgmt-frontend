@@ -10,10 +10,10 @@ export default function Title ({title, author, variant} : TitleProps){
     const [_, setSearchParams] = useSearchParams();
      const navigate = useNavigate();
 
-     const handleAuthorClick = () => {
+    const handleAuthorClick = () => {
         if (author){
-           const authorId : number = authorDetails.find((authors) => authors.name === author) | 1
-            setSearchParams({ authorId: authorId });
+            const authorId : number = authorDetails.find((authors) => authors.name === author)?.id ?? 1;
+            setSearchParams({ authorId: authorId.toString() });
             navigate(`author?authorId=${authorId}`);      
         }     
     };

@@ -23,7 +23,7 @@ export interface Genre {
 export interface BookCopy {
     id : number
     shelf : string
-    status : boolean
+    is_available : boolean
 }
 
 export interface Review {
