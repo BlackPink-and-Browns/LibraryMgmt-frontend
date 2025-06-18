@@ -50,12 +50,6 @@ const router = createBrowserRouter([
           { path: "author/:authorId", element: <AuthorDetails /> },
         ],
       },
-   
-<<<<<<< Updated upstream
- 
-=======
-
->>>>>>> Stashed changes
   {
     path: "dashboard",
         element: <ExploreLayout />,

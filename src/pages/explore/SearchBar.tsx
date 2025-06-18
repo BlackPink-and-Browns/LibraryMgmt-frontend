@@ -5,7 +5,7 @@ import type { SearchBarProps } from "../../types/propTypes"
 export default function SearchBar ({searchValue, setSearchValue, setFilterValue} : SearchBarProps) {
 
     return (
-        <div className="bg-white py-5 px-5 mx-50 my-10">
+        <div className="bg-white py-5 px-5 mx-50 my-10 rounded-2xl">
             <div className="flex flex-col md:flex-row gap-4">
                 <div className="relative w-4/5">
                     <Search className="absolute text-gray-500 left-0 top-3 h-4 w-4 ml-2" />
