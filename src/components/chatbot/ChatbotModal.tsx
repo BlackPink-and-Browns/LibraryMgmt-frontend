@@ -2,6 +2,7 @@ import "./ChatbotModal.css"
 import { X, SendHorizontal, Brain, ScanEye } from "lucide-react";
 import SingleMessage from "./SingleMessage";
 import { use, useState } from "react";
+import { bookDb } from "../../data";
 
 interface ChatbotModalProps {
   isOpen: boolean;
@@ -9,6 +10,8 @@ interface ChatbotModalProps {
 }
 
 const ChatbotModal: React.FC<ChatbotModalProps> = ({ isOpen, onClose }) => {
+  const book=bookDb[0]
+  console.log(book)
   const [messages, setMessages] = useState<{type: "sent" | "received", content: string}[]>([]);
   const [inputValue, setInputValue] = useState("");
 
@@ -53,7 +56,8 @@ const ChatbotModal: React.FC<ChatbotModalProps> = ({ isOpen, onClose }) => {
       </div>
       <div className="chatbot-content">
         <div className="messages">
-          {/* Chat messages go here */}
+          
+          <SingleMessage books={[book]} type='received' text='efef'/>
           {messages.map((message, index) => (
             <SingleMessage key={index} type={message.type} text={message.content} />
           ))}
