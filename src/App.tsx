@@ -42,16 +42,16 @@ const router = createBrowserRouter([
     element: <Login />,
   },
   {
-    path: ":id/explore",
+    path: "explore",
     element: <ExploreLayout />,
     children: [
       { path: "", element: <BookCatalog /> },
       { path: "details/:bookId", element: <BookDetails /> },
-      { path: ":author", element: <AuthorDetails /> }
+      { path: "author/:authorId", element: <AuthorDetails /> }
     ],
   },
   {
-    path: ":id/dashboard",
+    path: "dashboard",
     element: <ExploreLayout />,
     children: [
       { path: "", element: <EmployeeDashboard /> },

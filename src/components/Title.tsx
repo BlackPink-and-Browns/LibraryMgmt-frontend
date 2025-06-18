@@ -7,14 +7,14 @@ export default function Title ({title, author, variant} : TitleProps){
     const authorSize = variant === 'lg' ? 'text-2xl' : 'text-lg'
     const fontWeight = author ? 'font-bold' : 'font-semibold'
 
-    const [_, setSearchParams] = useSearchParams();
+    
      const navigate = useNavigate();
 
     const handleAuthorClick = () => {
         if (author){
             const authorId : number = authorDetails.find((authors) => authors.name === author)?.id ?? 1;
-            setSearchParams({ authorId: authorId.toString() });
-            navigate(`author?authorId=${authorId}`);      
+            
+            navigate(`/explore/author/${authorId}`);      
         }     
     };
 

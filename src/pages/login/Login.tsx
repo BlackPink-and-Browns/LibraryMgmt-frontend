@@ -10,7 +10,8 @@ const Login = () => {
   const [error, setError] = useState('');
   const [loginError, setLoginError] = useState("");
   const navigate=useNavigate()
- const [login, { isLoading }] = useLoginMutation();
+  const [login, { isLoading }] = useLoginMutation();
+
   async function LoginOnSubmit(e:React.FormEvent) {
       e.preventDefault()
       login({ email: email, password: password })
@@ -18,8 +19,17 @@ const Login = () => {
             .then((response) => {
                 localStorage.setItem("isLoggedIn", "true");
                 localStorage.setItem("token", response.accessToken);
-                alert("Suucess")
-                navigate("12/dashboard");
+                const accessToken = localStorage.getItem('token')
+              
+                if (accessToken){
+                   const user = JSON.parse(atob(accessToken.split(".")[1])) ?? {};                  
+                   
+                   localStorage.setItem("role", user.role)
+                   localStorage.setItem("userId", user.id)
+                   alert("Success")
+                   navigate("dashboard");
+                }
+                
             })
             .catch((error) => {
               alert("wrong")
