@@ -7,7 +7,7 @@ const baseApi = createApi({
         baseUrl: "https://librarymanagement-backend-f008.onrender.com",
         prepareHeaders: (headers) => {
             const token = localStorage.getItem("token")
-            console.log("token", token)
+       
             if(token) {
                 headers.set("Authorization",`Bearer ${token}`)
             }

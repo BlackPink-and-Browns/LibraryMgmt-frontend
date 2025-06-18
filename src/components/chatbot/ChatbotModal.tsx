@@ -35,8 +35,8 @@ const ChatbotModal: React.FC<ChatbotModalProps> = ({ isOpen, onClose }) => {
     return null;
   }
   return (
-    <div className={`chatbot-modal`}>
-      <div className="chatbot-header">
+    <div className={`chatbot-modal bg-theme-light`}>
+      <div className="chatbot-header ">
         <div className="chatbot-icon">
           <Brain />
         </div>

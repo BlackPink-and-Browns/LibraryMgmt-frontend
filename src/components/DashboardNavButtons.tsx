@@ -9,6 +9,8 @@ export default function DashboardNavButtons() {
   const onLogout=()=>{
         localStorage.setItem("token","")
         localStorage.setItem("isLoggedIn","false")
+        localStorage.setItem("role","")
+        localStorage.setItem("userId","")
         navigate("/",{replace:true})
     }
 

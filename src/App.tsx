@@ -35,7 +35,6 @@ import OverdueBooks from "./components/OverdueBooksModal.tsx";
 import AuthorDetails from "./pages/explore/Author.tsx";
 // ProtectedRoute wrapper
 import ProtectedRoute from "./ProtectedRoute";
-
 const router = createBrowserRouter([
   {
     path: "/",
@@ -43,10 +42,7 @@ const router = createBrowserRouter([
   },
   {
     path: "explore",
-    element: <ProtectedRoute allowedRoles={["admin", "user"]} />,
-    children: [
-      {
-        path: "",
+    
         element: <ExploreLayout />,
         children: [
           { path: "", element: <BookCatalog /> },
@@ -54,14 +50,10 @@ const router = createBrowserRouter([
           { path: "author/:authorId", element: <AuthorDetails /> },
         ],
       },
-    ],
-  },
+   
+ 
   {
     path: "dashboard",
-    element: <ProtectedRoute allowedRoles={["admin", "user"]} />,
-    children: [
-      {
-        path: "",
         element: <ExploreLayout />,
         children: [
           { path: "", element: <EmployeeDashboard /> },
@@ -71,11 +63,9 @@ const router = createBrowserRouter([
           { path: "overdue", element: <OverdueBooks /> },
         ],
       },
-    ],
-  },
   {
     path: "admin",
-    element: <ProtectedRoute allowedRoles={["admin"]} />,
+    element: <ProtectedRoute allowedRoles={["ADMIN"]} />,
     children: [
       {
         path: "",
@@ -124,12 +114,3 @@ function App() {
   );
 }
 export default App;
-
-
-
-
-
-
-
-
-
