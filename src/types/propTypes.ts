@@ -44,10 +44,19 @@ export interface BookCardProps{
     book : Book
 }
 
-
 export interface BookDetailsProps {
   status? : boolean
   book? : Book
+}
+
+export interface ReviewProp {
+  bookId : number
+}
+
+export interface BookStatusButtonProps{
+  book : Book,
+  setIsModalOpen : React.Dispatch<React.SetStateAction<boolean>>
+  isModalOpen : boolean 
 }
 
 export type HistoryItem = {

@@ -1,6 +1,6 @@
-import employeeBaseApi from "../api";
+import baseApi from "../api";
 
-export const BookApi =  employeeBaseApi.injectEndpoints({
+export const BookApi =  baseApi.injectEndpoints({
     endpoints : (builder) => ({
 
         //because it is querying and keeping the responses as cached, we do not need to specify the response type
@@ -10,6 +10,7 @@ export const BookApi =  employeeBaseApi.injectEndpoints({
         }),
 
         getBookDetails : builder.query({
+            
             query: (id) => ({
                 url : `/books/${id}`,
                 method : 'GET'
@@ -23,7 +24,8 @@ export const BookApi =  employeeBaseApi.injectEndpoints({
                 url : '/books',
                 method : 'POST',
                 body : payload
-            })
+            }),
+            invalidatesTags:['BOOKS']
         }),
 
         editBook : builder.mutation({
@@ -32,7 +34,8 @@ export const BookApi =  employeeBaseApi.injectEndpoints({
                 url : `/books/${id}`,
                 method : 'PATCH',
                 body : payload
-            })
+            }),
+            invalidatesTags:['BOOKS']
         }),
 
         deleteBook : builder.mutation({

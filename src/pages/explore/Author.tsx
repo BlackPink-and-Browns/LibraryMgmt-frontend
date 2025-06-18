@@ -22,7 +22,7 @@ export default function AuthorDetails (){
         {
             author ?
             <div className="">
-                <Header heading={author.name}>
+                <Header heading='Author Details'>
                     <Button 
                         type="button" 
                         variant ={{ color : "primary", size : 'large'}}
@@ -34,26 +34,28 @@ export default function AuthorDetails (){
 
                 <section className="my-5 mx-30">
                     <div className="lg:w-256 lg:ml-70 bg-white p-2 rounded-lg shadow-xl">
-                        <Title title="Description" variant="lg"/>
-                        <p className="px-7">
-                            
-                        </p>
+                        <Title title={author.name} variant="lg"/>
                     </div>                   
                 </section>
 
                 <section className="my-5 mx-30">
-                    <div className="lg:w-256 lg:mx-70 bg-white p-4 rounded-lg shadow-xl">
-                        {
-                            author.books?.map((book: Book) => (
-                                <AdminItemTile
-                                    key={book.id}
-                                    item={book}
-                                    type="book"
-                                    onClick={() => navigate(-1)}
-                                    subtype="normal"
-                                />
-                            ))
-                        }
+                    <div className="lg:w-256 lg:ml-70 bg-white p-2 rounded-lg shadow-xl">
+                        <Title title='Books by the Author' variant="sm"/> 
+                        <section className="my-5 mx-10">
+                            <div className="lg:w-220 lg:mx-2 bg-white p-4 rounded-lg shadow-xl">
+                                {
+                                    author.books?.map((book: Book) => (
+                                        <AdminItemTile
+                                            key={book.id}
+                                            item={book}
+                                            type="book"
+                                            onClick={() => navigate(-1)}
+                                            subtype="normal"
+                                        />
+                                    ))
+                                }
+                            </div>                   
+                        </section>
                     </div>                   
                 </section>
 

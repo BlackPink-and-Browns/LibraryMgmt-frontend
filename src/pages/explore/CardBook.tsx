@@ -6,7 +6,7 @@ import type { BookCardProps } from "../../types/propTypes";
 import type { Author, BookCopy, Review } from "../../types/dataTypes";
 
 
-export default function BookCard ({book}  : BookCardProps){
+export default function BookCard ({book,type}: {book:BookCardProps,type?:string}){
     const navigate = useNavigate()
 
     const status = book.copies ? book.copies.some((copy : BookCopy )=> copy.is_available) : false
@@ -15,9 +15,9 @@ export default function BookCard ({book}  : BookCardProps){
     const averageRating = totalRatings > 0
       ? book.reviews.reduce((sum : number, review : Review) => sum + review.rating, 0) / totalRatings
       : 0;
-
+    const widthClass = type === "chatbot" ? "w-1/2" : "w-full";
     return (<>
-        <div className="bg-white rounded-lg shadow-lg mr-8 hover:scale-105 min-w-fit duration-700">           
+        <div className={`bg-white rounded-lg shadow-lg mr-8 hover:scale-105 duration-700 ${widthClass}`}>           
             <div className="p-8 rounded-lg">
                 <img 
                     src={book.cover_image} alt={book.title} 
