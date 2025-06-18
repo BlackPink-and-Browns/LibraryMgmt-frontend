@@ -2,6 +2,7 @@ export type Book = {
     id : number
     isbn : string
     title: string;
+    is_available : boolean
     description : string
     cover_image: string;
     genres : Genre[]

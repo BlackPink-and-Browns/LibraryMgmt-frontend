@@ -1,20 +1,29 @@
 import { Star } from "lucide-react";
-import { mockReviews } from "../types/dummyData";
+import { useGetReviewsByBookIdQuery, useGetReviewsByUserIdQuery } from "../api-service/reviews/review.api";
+import type { Review } from "../types/dataTypes";
+import type { ReviewProp } from "../types/propTypes";
+//import { mockReviews } from "../types/dummyData";
 
-export default function Review (){
+export default function Review ({bookId} : ReviewProp){
+    const {data : mockReviews, isLoading : isReviewLoading, isError} = useGetReviewsByBookIdQuery(1)   
+    
     return (<>
-        <div className="space-y-4">
-                {mockReviews.map((review) => (
-                    <div key={review.id} className="border-b border-gray-200 pb-4 last:border-b-0">
+      <div className="bg-blue-50 flex flex-col items-left">
+        <div className="my-1">{
+          isReviewLoading ? <div className="mx-7"> Reviews are being loaded</div>  : 
+          isError ? <div className="mx-7">Error in review fetching</div> :
+          <div className="space-y-2">
+                {mockReviews?.map((review : Review) => (
+                    <div key={review.id} className="border-b border-gray-200 pb-2 last:border-b-0">
                       <div className="flex items-start gap-3">
                         <img 
-                          src={review.avatar} 
-                          alt={review.userName}
+                          src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face' 
+                          alt={review.employee?.name}
                           className="w-8 h-8 rounded-full object-cover"
                         />
                         <div className="flex-1">
                           <div className="flex items-center justify-between mb-1">
-                            <span className="font-semibold text-sm">{review.userName}</span>
+                            <span className="font-semibold text-sm">{review.employee?.name}</span>
                             <div className="flex items-center">
                               {[...Array(5)].map((_, i) => (
                                 <Star 
@@ -24,12 +33,15 @@ export default function Review (){
                               ))}
                             </div>
                           </div>
-                          <p className="text-sm text-gray-600 mb-1">{review.comment}</p>
-                          <span className="text-xs text-gray-400">{new Date(review.date).toLocaleDateString()}</span>
+                          <p className="text-sm text-gray-600 mb-1">{review.content}</p>
+                          {/* <span className="text-xs text-gray-400">{new Date(review.date).toLocaleDateString()}</span> */}
                         </div>
                       </div>
                     </div>
                   ))}
+
         </div>
+      }         
+      </div></div>
     </>)
 }
