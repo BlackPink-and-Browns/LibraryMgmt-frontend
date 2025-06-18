@@ -29,7 +29,7 @@ export default function DashboardNavButtons() {
       <Button
         variant={{ color:"ternary", size: "medium" }}
         type="button"
-        onClick={() => navigate(`/${id}/explore`)}
+        onClick={() => navigate(`/explore`)}
       >
         <div className="flex flex-row items-center justify-center text-blue-500">
           <Search  />
