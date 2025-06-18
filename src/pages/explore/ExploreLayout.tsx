@@ -12,7 +12,7 @@ export default function ExploreLayout (){
     }
 
     return (
-        <div className="min-h-screen bg-theme-light">
+        <div className="h-full min-h-screen bg-theme-light">
             <ChatbotModal isOpen={chatbotOpen} onClose={toggleChatbot} />
             <ChatbotButton onClick={toggleChatbot} isVisible={!chatbotOpen} />
             <Outlet />

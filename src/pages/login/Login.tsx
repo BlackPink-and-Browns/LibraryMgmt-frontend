@@ -22,7 +22,7 @@ const Login = () => {
           localStorage.setItem("role", user.role);
           localStorage.setItem("userId", user.id);
           alert("Success");
-          user.role === "ADMIN" ? navigate("admin") : navigate("dashboard");
+          user.role === "ADMIN" ? navigate("/admin") : navigate("dashboard");
         }
       })
       .catch((error) => {
@@ -35,19 +35,10 @@ const Login = () => {
     const isLoggedIn = localStorage.getItem("isLoggedIn");
     if (isLoggedIn === "true") {
       const role=localStorage.getItem("role");
-      role === "ADMIN" ? navigate("admin") : navigate("dashboard");
+      role === "ADMIN" ? navigate("/admin") : navigate("dashboard");
       return;
     }
   }, []);
-  // const handleSubmit = (e:any) => {
-  //   e.preventDefault();
-  //   if(email==user.email && password==user.password){
-  //       alert("Success")
-  //   }
-  //   else{
-  //       setError("Not Valid")
-  //   }
-  // };
   return (
     <div className="login-container">
       <div className="login-card">
