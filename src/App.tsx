@@ -31,6 +31,8 @@ import Issuedbook from "./pages/admindashboard/books/Issuedbook.tsx";
 import AuthorDetails from "./pages/explore/Author.tsx";
 import ShelfBooks from "./pages/admindashboard/shelf/ShelfBooks.tsx";
 import OverdueBooks from "./components/OverdueBooksModal.tsx";
+import { Provider } from "react-redux";
+import store from "./store/store.ts";
 
 
 
@@ -99,7 +101,13 @@ const router = createBrowserRouter([
 
 
 function App() {
-  return <RouterProvider router={router} />;
+  return(
+    <Provider store={store}>
+    <RouterProvider router={router} />;
+  </Provider>
+  )
+  
+  
 }
 
 export default App;

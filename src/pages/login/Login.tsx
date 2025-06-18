@@ -1,26 +1,57 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Login.css'; // Make sure this file has the styles
+import { useNavigate } from 'react-router-dom';
+import { useLoginMutation } from '../../api-service/auth/login.api';
 
 const Login = () => {
+  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-    const user={email:"test@gmail.com",password:"test1234"}
-  const handleSubmit = (e:any) => {
-    e.preventDefault();
-    if(email==user.email && password==user.password){
-        alert("Success")
+  const [loginError, setLoginError] = useState("");
+  const navigate=useNavigate()
+ const [login, { isLoading }] = useLoginMutation();
+  async function LoginOnSubmit(e:React.FormEvent) {
+      e.preventDefault()
+      login({ email: email, password: password })
+            .unwrap()
+            .then((response) => {
+                localStorage.setItem("isLoggedIn", "true");
+                localStorage.setItem("token", response.accessToken);
+                alert("Suucess")
+                navigate("12/dashboard");
+            })
+            .catch((error) => {
+              alert("wrong")
+                setLoginError(error.data.message);
+                console.log(error)
+            });
     }
-    else{
-        setError("Not Valid")
-    }
-  };
+
+    useEffect(() => {
+        const isLoggedIn =localStorage.getItem("isLoggedIn");
+        if (isLoggedIn === "true") {
+            navigate("/12/dashboard");
+            return;
+        }
+    }, []);
+
+
+  // const handleSubmit = (e:any) => {
+  //   e.preventDefault();
+  //   if(email==user.email && password==user.password){
+  //       alert("Success")
+  //   }
+  //   else{
+  //       setError("Not Valid")
+  //   }
+  // };
 
   return (
     <div className="login-container">
       <div className="login-card">
         <h2 className="login-title">Employee Login</h2>
-        <form className="login-form" onSubmit={handleSubmit}>
+        <form className="login-form" onSubmit={LoginOnSubmit}>
           <div className="form-group">
             <label htmlFor="email">Email</label>
             <input
