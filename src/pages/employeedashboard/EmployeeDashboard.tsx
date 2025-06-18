@@ -11,7 +11,7 @@ import {
   Clock,
   Eye,
 } from "lucide-react";
-import type { Book, Recommendation, StatCardProps } from "../../types/propTypes";
+import type {  StatCardProps } from "../../types/propTypes";
 import DashboardNavButtons from "../../components/DashboardNavButtons";
 import { borrowedBooksDb, borrowHistoryDb, recommendedBooksDb } from "../../data";
 import OverdueBooks from "../../components/OverdueBooksModal";

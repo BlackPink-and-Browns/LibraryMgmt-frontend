@@ -216,14 +216,11 @@ const AdminBookDetailCard = () => {
               <span className="font-bold">📖 ISBN:</span>
               <span>{book.isbn}</span>
             </div>
-
             <div className="flex items-center gap-2">
-              <MapPin className="w-4 h-4" />
-              Location:{" "}
-              <span className="font-medium text-indigo-600">
-                {book.copies[0]?.shelf || "N/A"}
-              </span>
+              <span className="font-bold">BookId</span>
+              <span>{book.id}</span>
             </div>
+           
           </div>
 
           {/* Action Buttons */}

@@ -28,7 +28,9 @@ const AdminItemTile = ({ item, type, onClick, subtype = "normal" }: ItemTileProp
 
   return (
     <div
-      className="flex items-start gap-4 py-4 border-b cursor-pointer"
+      // className="flex items-start gap-4 py-4 border p-2 border rounded-xl cursor-pointer"
+      className="flex items-start gap-4 p-4 border border-gray-300 rounded-2xl shadow-sm hover:shadow-md hover:border-blue-400 transition-all duration-200 bg-white cursor-pointer"
+
       onClick={onClick}
     >
       {isBook ? (
