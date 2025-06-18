@@ -1,15 +1,16 @@
 import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-
+import { Provider } from "react-redux";
+import store from "./store/store.ts";
+// Common pages
 import {
   Login,
-  BookCard,
   BookCatalog,
   ExploreLayout,
   NotFound,
   BookDetails,
 } from "./pages";
-
+// Admin pages
 import AdminLayout from "./pages/adminlayout/AdminLayout";
 import AdminDashboard from "./pages/admindashboard/AdminDashboard";
 import Addbook from "./pages/admindashboard/books/Addbook.tsx";
@@ -24,17 +25,16 @@ import UserDetail from "./pages/admindashboard/userlist/UserDetail.tsx";
 import BookList from "./pages/admindashboard/books/BookList.tsx";
 import AddBookCopy from "./pages/admindashboard/books/AddBookCopy.tsx";
 import BookDetail from "./pages/admindashboard/books/BookDetail.tsx";
+import Issuedbook from "./pages/admindashboard/books/Issuedbook.tsx";
+import ShelfBooks from "./pages/admindashboard/shelf/ShelfBooks.tsx";
+// User pages
 import EmployeeDashboard from "./pages/employeedashboard/EmployeeDashboard.tsx";
 import ReturnBook from "./pages/employeedashboard/returnbook/ReturnBook.tsx";
 import BorrowedBookRecords from "./pages/employeedashboard/borrowedBookRecord.tsx";
-import Issuedbook from "./pages/admindashboard/books/Issuedbook.tsx";
-import AuthorDetails from "./pages/explore/Author.tsx";
-import ShelfBooks from "./pages/admindashboard/shelf/ShelfBooks.tsx";
 import OverdueBooks from "./components/OverdueBooksModal.tsx";
-import { Provider } from "react-redux";
-import store from "./store/store.ts";
-
-
+import AuthorDetails from "./pages/explore/Author.tsx";
+// ProtectedRoute wrapper
+import ProtectedRoute from "./ProtectedRoute";
 
 const router = createBrowserRouter([
   {
@@ -43,54 +43,72 @@ const router = createBrowserRouter([
   },
   {
     path: "explore",
-    element: <ExploreLayout />,
+    element: <ProtectedRoute allowedRoles={["admin", "user"]} />,
     children: [
-      { path: "", element: <BookCatalog /> },
-      { path: "details/:bookId", element: <BookDetails /> },
-      { path: "author/:authorId", element: <AuthorDetails /> }
+      {
+        path: "",
+        element: <ExploreLayout />,
+        children: [
+          { path: "", element: <BookCatalog /> },
+          { path: "details/:bookId", element: <BookDetails /> },
+          { path: "author/:authorId", element: <AuthorDetails /> },
+        ],
+      },
     ],
   },
   {
     path: "dashboard",
-    element: <ExploreLayout />,
+    element: <ProtectedRoute allowedRoles={["admin", "user"]} />,
     children: [
-      { path: "", element: <EmployeeDashboard /> },
-      { path: "returnbook/:bookId", element: <ReturnBook /> },
-      { path: "details/:bookId", element: <BookDetails /> },
-      { path: "borrowHistory/:bookId", element: <BorrowedBookRecords /> },
-      {  path: "overdue", element: <OverdueBooks /> },
+      {
+        path: "",
+        element: <ExploreLayout />,
+        children: [
+          { path: "", element: <EmployeeDashboard /> },
+          { path: "returnbook/:bookId", element: <ReturnBook /> },
+          { path: "details/:bookId", element: <BookDetails /> },
+          { path: "borrowHistory/:bookId", element: <BorrowedBookRecords /> },
+          { path: "overdue", element: <OverdueBooks /> },
+        ],
+      },
     ],
   },
   {
     path: "admin",
-    element: <AdminLayout />,
+    element: <ProtectedRoute allowedRoles={["admin"]} />,
     children: [
-      { path: "", element: <AdminDashboard /> },
       {
-        path: "books",
-        element: <Books />,
+        path: "",
+        element: <AdminLayout />,
         children: [
-          { path: "add-book", element: <Addbook /> },
-          { path: "add-book/:id", element: <Addbook /> },
-          { path: "add-copy", element: <AddBookCopy /> },
-          { path: "bulk-upload", element: <BulkUpload /> },
-          { path: "scan-isbn", element: <ScanIsbn /> },
-          { path: "book-list", element: <BookList /> },
-          { path: "issued", element: <Issuedbook/> },
-          { path: "book-list/:id", element: <BookDetail /> },
+          { path: "", element: <AdminDashboard /> },
+          {
+            path: "books",
+            element: <Books />,
+            children: [
+              { path: "add-book", element: <Addbook /> },
+              { path: "add-book/:id", element: <Addbook /> },
+              { path: "add-copy", element: <AddBookCopy /> },
+              { path: "bulk-upload", element: <BulkUpload /> },
+              { path: "scan-isbn", element: <ScanIsbn /> },
+              { path: "book-list", element: <BookList /> },
+              { path: "book-list/:id", element: <BookDetail /> },
+              { path: "issued", element: <Issuedbook /> },
+            ],
+          },
+          {
+            path: "shelf",
+            element: <Shelf />,
+            children: [
+              { path: "add-shelf", element: <AddShelf /> },
+              { path: "shelf-list", element: <ListShelf /> },
+              { path: "shelf-list/:id", element: <ShelfBooks /> },
+            ],
+          },
+          { path: "users", element: <UserList /> },
+          { path: "users/:userId", element: <UserDetail /> },
         ],
       },
-      {
-        path: "shelf",
-        element: <Shelf />,
-        children: [
-          { path: "add-shelf", element: <AddShelf /> },
-          { path: "shelf-list", element: <ListShelf /> },
-          { path: "shelf-list/:id", element: <ShelfBooks/>},
-        ],
-      },
-      { path: "users", element: <UserList /> },
-      { path: "users/:userId", element: <UserDetail /> },
     ],
   },
   {
@@ -98,16 +116,20 @@ const router = createBrowserRouter([
     element: <NotFound />,
   },
 ]);
-
-
 function App() {
-  return(
+  return (
     <Provider store={store}>
-    <RouterProvider router={router} />;
-  </Provider>
-  )
-  
-  
+      <RouterProvider router={router} />
+    </Provider>
+  );
 }
-
 export default App;
+
+
+
+
+
+
+
+
+
