@@ -47,7 +47,7 @@ const router = createBrowserRouter([
     element: <ExploreLayout />,
     children: [
       { path: "", element: <BookCatalog /> },
-      { path: ":bookId/details", element: <BookDetails /> },
+      { path: "details/:bookId", element: <BookDetails /> },
       { path: ":author", element: <AuthorDetails /> }
     ],
   },
