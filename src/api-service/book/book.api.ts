@@ -10,6 +10,7 @@ export const BookApi =  employeeBaseApi.injectEndpoints({
         }),
 
         getBookDetails : builder.query({
+            
             query: (id) => ({
                 url : `/books/${id}`,
                 method : 'GET'
@@ -23,7 +24,8 @@ export const BookApi =  employeeBaseApi.injectEndpoints({
                 url : '/books',
                 method : 'POST',
                 body : payload
-            })
+            }),
+            invalidatesTags:['BOOKS']
         }),
 
         editBook : builder.mutation({
@@ -32,7 +34,8 @@ export const BookApi =  employeeBaseApi.injectEndpoints({
                 url : `/books/${id}`,
                 method : 'PATCH',
                 body : payload
-            })
+            }),
+            invalidatesTags:['BOOKS']
         }),
 
         deleteBook : builder.mutation({

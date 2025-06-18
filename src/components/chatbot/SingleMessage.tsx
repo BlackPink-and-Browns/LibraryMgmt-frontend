@@ -18,7 +18,8 @@ const SingleMessage: React.FC<MessageProps> = ({ text, type, books }) => (
             {books.map((b) => (
                 <BookCard
                     key={b.book_id}
-                    bookCard={b}
+                    book={b}
+                    type={'chatbot'}
                 />
             ))}
         </div>

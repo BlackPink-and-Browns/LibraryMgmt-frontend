@@ -1,20 +1,27 @@
-import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { FolderIcon } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useGetShelfListQuery } from "../../../api-service/shelf/shelf.api";
 
 const ListShelf = () => {
   const navigate = useNavigate();
-  const [shelves, setShelves] = useState([
-    { id: 1, office: "Main Library", label: "A-1" },
-    { id: 2, office: "Main Library", label: "A-2" },
-    { id: 3, office: "Branch A", label: "B-1" },
-    { id: 4, office: "Branch B", label: "C-3" },
-  ]);
+  const{id}=useParams()
+  const { data: shelfData = [], isLoading } = useGetShelfListQuery({});
+  console.log("shelfdata", shelfData);
 
-  // Group shelves by office
-  const grouped = shelves.reduce((acc, shelf) => {
-    if (!acc[shelf.office]) acc[shelf.office] = [];
-    acc[shelf.office].push(shelf);
+  // Show loading text
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex justify-center items-center text-lg font-semibold text-gray-600">
+        Loading shelves...
+      </div>
+    );
+  }
+
+  // Group shelves by office name
+  const grouped = shelfData.reduce((acc, shelf) => {
+    const officeName = shelf.office?.name ?? "Unknown Office";
+    if (!acc[officeName]) acc[officeName] = [];
+    acc[officeName].push({ id: shelf.id, label: shelf.label });
     return acc;
   }, {} as Record<string, { id: number; label: string }[]>);
 

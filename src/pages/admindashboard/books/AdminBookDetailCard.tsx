@@ -1,83 +1,28 @@
-import { useState } from "react";
-import {
-  PencilIcon,
-  Trash2Icon,
-  MapPin,
-} from "lucide-react";
+import { useEffect, useState } from "react";
+import { PencilIcon, Trash2Icon } from "lucide-react";
 import clsx from "clsx";
-import {bookDb} from "../../../data";
 import { useParams } from "react-router-dom";
 import RelocateModal from "../../../components/RelocateBook";
+import { useGetBookDetailsQuery } from "../../../api-service/book/book.api";
 
-  const offices = [
-    { name: "Chennai", shelves: ["A1", "A2", "A3"] },
-    { name: "Hyderabad", shelves: ["B1", "B2"] },
-    { name: "Delhi", shelves: ["C1", "C2", "C3"] },
-  ];
-  
-const AddCopyModal = ({
-  isOpen,
-  onClose,
-  onAdd,
-}: {
-  isOpen: boolean;
-  onClose: () => void;
-  onAdd: (shelf: string) => void;
-}) => {
-  const [shelf, setShelf] = useState("");
-
-  if (!isOpen) return null;
-
-  const handleSubmit = () => {
-    if (shelf.trim()) {
-      onAdd(shelf.trim());
-      setShelf("");
-      onClose();
-    }
-  };
-
-  return (
-    <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
-      <div className="bg-white rounded-lg p-6 w-80 shadow-lg relative">
-        <button
-          onClick={onClose}
-          className="absolute top-2 right-2 text-gray-600 hover:text-black"
-        >
-          ✖
-        </button>
-        <h2 className="text-lg font-semibold mb-4">Add New Copy</h2>
-        <label className="block text-sm mb-1">Shelf Name</label>
-        <input
-          type="text"
-          value={shelf}
-          onChange={(e) => setShelf(e.target.value)}
-          className="w-full border px-3 py-2 rounded mb-4"
-          placeholder="e.g., B3"
-        />
-        <div className="flex justify-end">
-          <button
-            onClick={handleSubmit}
-            className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
-          >
-            Add Copy
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
+const offices = [
+  { name: "Chennai", shelves: ["A1", "A2", "A3"] },
+  { name: "Hyderabad", shelves: ["B1", "B2"] },
+  { name: "Delhi", shelves: ["C1", "C2", "C3"] },
+];
 
 const AdminBookDetailCard = () => {
   const { id } = useParams();
-  const bookFromDb = bookDb.find((book) => String(book.id) === id);
-  if (!bookFromDb) {
-    return <div className="text-center text-red-600">Book not found.</div>;
-  }
-
+  const { data: bookFromDb } = useGetBookDetailsQuery(id);
+  const [book, setBook] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [book, setBook] = useState(bookFromDb);
-
   const [isModalOpen, setModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (bookFromDb) {
+      setBook(bookFromDb);
+    }
+  }, [bookFromDb]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -87,12 +32,16 @@ const AdminBookDetailCard = () => {
     if (name === "authors") {
       setBook((prev) => ({
         ...prev,
-        authors: value.split(",").map((n, i) => ({ id: i + 1, name: n.trim() })),
+        authors: value
+          .split(",")
+          .map((n, i) => ({ id: i + 1, name: n.trim() })),
       }));
     } else if (name === "genres") {
       setBook((prev) => ({
         ...prev,
-        genres: value.split(",").map((n, i) => ({ id: i + 1, name: n.trim() })),
+        genres: value
+          .split(",")
+          .map((n, i) => ({ id: i + 1, name: n.trim() })),
       }));
     } else {
       setBook((prev) => ({ ...prev, [name]: value }));
@@ -104,14 +53,17 @@ const AdminBookDetailCard = () => {
     setIsEditing(false);
   };
 
-  const handleAddCopy = (id: number) => {
-    console.log("in")
+  const handleAddCopy = () => {
     setModalOpen(true);
   };
 
-  const status = book.copies?.[0]?.status || "Unknown";
-  const averageRating =
-    book.reviews.reduce((sum, r) => sum + r.rating, 0) / book.reviews.length;
+  if (!book) {
+    return <div className="text-center text-red-600">Book not found.</div>;
+  }
+
+  const status =
+    book.copies?.[0]?.is_available === true ? "Available" : "Unavailable";
+  const averageRating = book.avg_rating || 0;
 
   return (
     <>
@@ -165,12 +117,14 @@ const AdminBookDetailCard = () => {
             {isEditing ? (
               <input
                 name="authors"
-                value={book.authors.map((a) => a.name).join(", ")}
+                value={book.authors?.map((a) => a.name).join(", ") || ""}
                 onChange={handleChange}
                 className="inputfield"
               />
-            ) : (
+            ) : book.authors?.length ? (
               book.authors.map((a) => a.name).join(", ")
+            ) : (
+              "Unknown"
             )}
           </div>
 
@@ -220,7 +174,6 @@ const AdminBookDetailCard = () => {
               <span className="font-bold">BookId</span>
               <span>{book.id}</span>
             </div>
-           
           </div>
 
           {/* Action Buttons */}
@@ -245,7 +198,7 @@ const AdminBookDetailCard = () => {
             )}
             <button
               className="ml-auto bg-purple-600 text-white px-4 py-2 rounded shadow"
-              onClick={() => handleAddCopy(1)}
+              onClick={handleAddCopy}
             >
               + Add Copy
             </button>
@@ -256,7 +209,7 @@ const AdminBookDetailCard = () => {
       <RelocateModal
         isOpen={isModalOpen}
         onClose={() => setModalOpen(false)}
-        onRelocate={handleAddCopy}
+        onRelocate={() => {}}
         offices={offices}
         mode="add"
       />

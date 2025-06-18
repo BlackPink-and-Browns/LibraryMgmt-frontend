@@ -5,11 +5,12 @@ import {BookOpen,ChartColumn,Rows4,User} from "lucide-react";
 import Recommendations from "../../components/Recommendations";
 import { recommendedBooksDb } from "../../data";
 import BookAnalytics from "../../components/BookAnalytics";
+import { useGetShelfCountQuery } from "../../api-service/shelf/shelf.api";
 
 const AdminDashboard = () => {
   const book = recommendedBooksDb;
   const navigate = useNavigate();
-
+  const {data:obj}=useGetShelfCountQuery({})
   const popularBooks = [
     { title: "Atomic Habits", borrowCount: 25 },
     { title: "1984", borrowCount: 18 },
@@ -39,7 +40,7 @@ const AdminDashboard = () => {
           ></StatCard>
           <StatCard
             title="Shelf"
-            value={"45"}
+            value={obj?.count ?? '5'}
             icon={Rows4}
             onClick={() => navigate("shelf/shelf-list")}
           ></StatCard>

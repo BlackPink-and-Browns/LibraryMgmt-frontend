@@ -1,12 +1,21 @@
 import React, { useEffect, useState } from "react";
-import "./Addbook.css";
 import { useNavigate, useParams } from "react-router-dom";
-
+import AuthorGenreSelect from "../../../components/AuthorGenreSelect";
+import "./Addbook.css";
+import AddBookForm from "../../../components/addbook/AddBookForm";
+type OptionType = {
+  label: string;
+  value: number | string;
+  description?: string;
+};
 const Addbook = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+
+const [selectedAuthors, setSelectedAuthors] = useState<OptionType[]>([]);
+const [selectedGenres, setSelectedGenres] = useState<OptionType[]>([]);
   const [formData, setFormData] = useState({
     title: "",
     author: "",
@@ -29,27 +38,25 @@ const Addbook = () => {
         if (data.totalItems === 0) {
           alert("Book Not Found");
           navigate("/admin/books/scan-isbn");
-
         } else {
           const book = data.items[0].volumeInfo;
-          const imageUrl = book.imageLinks?.thumbnail || null;
-
           setFormData({
             title: book.title || "",
-            author: (book.authors && book.authors[0]) || "",
+            author: book.authors?.[0] || "",
             isbn: id,
-            genre: (book.categories && book.categories[0]) || "",
+            genre: book.categories?.[0] || "",
             description: book.description || "",
             image: null,
           });
-          setImagePreview(imageUrl);
+          setImagePreview(book.imageLinks?.thumbnail || null);
         }
       } catch (error) {
         console.error("Error fetching book:", error);
         alert("Failed to fetch book");
         navigate("/admin/books/scan-isbn");
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
     fetchBookData();
@@ -73,129 +80,38 @@ const Addbook = () => {
     } else {
       setImagePreview(null);
     }
-
     setFormData((prev) => ({ ...prev, image: file }));
   };
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    alert(`Book added: ${JSON.stringify(formData, null, 2)}`);
+
+ const handleSubmit = (e: React.FormEvent) => {
+  e.preventDefault();
+
+  const payload = {
+    ...formData,
+    authorIds: selectedAuthors.map((a) => a.value),
+    genreIds: selectedGenres.map((g) => g.value),
   };
+
+  console.log("Submit Payload:", payload);
+  // Submit this to backend here
+};
 
   return (
     <div className="min-h-screen flex justify-center items-start px-4 py-10">
       {loading ? (
         <h1 className="text-3xl">Loading...</h1>
       ) : (
-        <form
-          className="w-full max-w-2xl bg-white p-8 rounded-xl shadow-md space-y-6"
-          onSubmit={handleSubmit}
-        >
-          <div>
-            <h2 className="text-2xl font-bold text-purple-700">Add New Book</h2>
-            <p className="text-gray-500 text-sm">
-              Fill the details to add a new book manually.
-            </p>
-          </div>
-
-          {/* Title and Author */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="text-sm font-medium text-gray-700">
-                Book Title
-              </label>
-              <input
-                type="text"
-                name="title"
-                value={formData.title}
-                onChange={handleChange}
-                placeholder="Book Title"
-                className="mt-1 w-full inputfield"
-              />
-            </div>
-            <div>
-              <label className="text-sm font-medium text-gray-700">
-                Author
-              </label>
-              <input
-                type="text"
-                name="author"
-                value={formData.author}
-                onChange={handleChange}
-                placeholder="Author Name"
-                className="mt-1 w-full inputfield"
-              />
-            </div>
-          </div>
-
-          {/* ISBN and Genre */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="text-sm font-medium text-gray-700">ISBN</label>
-              <input
-                type="text"
-                name="isbn"
-                value={formData.isbn}
-                onChange={handleChange}
-                placeholder="ISBN Number"
-                className="mt-1 w-full inputfield"
-              />
-            </div>
-            <div>
-              <label className="text-sm font-medium text-gray-700">Genre</label>
-              <input
-                type="text"
-                name="genre"
-                value={formData.genre}
-                onChange={handleChange}
-                placeholder="Enter book genre"
-                className="mt-1 w-full inputfield"
-              />
-            </div>
-          </div>
-
-          {/* Description */}
-          <div>
-            <label className="text-sm font-medium text-gray-700">
-              Book Description
-            </label>
-            <textarea
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              placeholder="Enter book description"
-              className="mt-1 w-full input h-28 resize-none inputfield"
-            />
-          </div>
-
-          {/* Image Upload */}
-          {imagePreview && (
-            <div className="mt-4">
-              <p className="text-sm text-gray-700 mb-1">Preview:</p>
-              <img
-                src={imagePreview}
-                alt="Book preview"
-                className="w-32 h-48 object-cover rounded shadow"
-              />
-            </div>
-          )}
-
-          <div>
-            <label className="text-sm font-medium text-gray-700">
-              Book Image
-            </label>
-            <input
-              type="file"
-              onChange={handleImageChange}
-              className="mt-1 w-full inputfield"
-            />
-          </div>
-          <button
-            type="submit"
-            className="w-full bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-700 hover:to-purple-600 text-white font-semibold py-3 rounded-lg shadow-md transition"
-          >
-            Add Book
-          </button>
-        </form>
+        <AddBookForm
+          formData={formData}
+          handleChange={handleChange}
+          handleImageChange={handleImageChange}
+          imagePreview={imagePreview}
+          handleSubmit={handleSubmit}
+          selectedAuthors={selectedAuthors}
+          selectedGenres={selectedGenres}
+          setSelectedAuthors={setSelectedAuthors}
+          setSelectedGenres={setSelectedGenres}
+        />
       )}
     </div>
   );
