@@ -1,15 +1,16 @@
 import { useNavigate, useParams } from "react-router-dom"
 import { Badge, Button, Header, RatingStar } from "../../components"
 import { dummyBookCards } from "../../types/dummyData"
-import type { Book, BookDetailProps } from "../../types/propTypes"
+
 import TitleAuthor from "../../components/Title"
-import { Barcode, BookOpen, MapPin, MessageSquare, NotepadText } from "lucide-react"
+import { Barcode, BookOpen, MessageSquare, NotepadText } from "lucide-react"
 import Title from "../../components/Title"
-import Review from "../../components/ReviewAndRating"
-import type React from "react"
+
 import ReviewAndRating from "../../components/ReviewAndRating"
 import { useState } from "react"
 import BorrowModal from "./BorrowModal"
+import type { Author, Book, BookCopy, Review } from "../../types/dataTypes"
+
 
 type Combo = {
   id: number;
@@ -20,13 +21,21 @@ type Combo = {
 export default function BookDetails(){
     const navigate = useNavigate()
     const {bookId} = (useParams())
-    const shelf = ["SHELF A1-05", "SHELF A2-07"]
+    console.log(Number(bookId))
+   
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [borrowedCombos, setBorrowedCombos] = useState<Combo[]>([]);
 
     const book: Book | undefined = dummyBookCards.find(
-        (bookCard: Book) => bookCard.book_id === Number(bookId)
+        (bookCard: Book) => bookCard.id === Number(bookId)
     );
+
+    const status = book?.copies ? book.copies.some((copy : BookCopy )=> copy.is_available) : false
+    const authors = book?.authors.map((author : Author) => author.name).join(', ')   
+    const totalRatings = book?.reviews.length ?? 0 ;
+    const averageRating = totalRatings > 0
+          ? book ?  book.reviews?.reduce((sum : number, review : Review) => sum + review.rating, 0) / totalRatings
+          : 0 : 0;
 
     return (<>
         <Header heading="Book Details">
@@ -54,17 +63,17 @@ export default function BookDetails(){
                             <div className="lg:flex flex-row md:col-span-2 lg:w-256 lg:ml-70 bg-white rounded-lg shadow-xl">
                                 <div className="p-8 rounded-lg lg:w-1/2">
                                     <img 
-                                        src={book.imageCover.href} alt={book.title} 
+                                        src={book.cover_image} alt={book.title} 
                                         className="rounded-lg  h-110 "/>
                                 </div>
 
                                 <div className="flex flex-col">
                                     <div className="flex flex-row justify-between m-7 lg:w-128" >
-                                        <Badge status={book.bookStatus} variant="sm"/>
-                                        <RatingStar averageRating={book.ratingValues.averageRating} totalRatings={book.ratingValues.totalRatings} />
+                                        <Badge status={status} variant="sm"/>
+                                        <RatingStar averageRating={averageRating} totalRatings={totalRatings} />
                                     </div>
 
-                                    <TitleAuthor title={book.title} author={book.author} variant='lg' />
+                                    <TitleAuthor title={book.title} author={authors} variant='lg' />
 
                                     <div className="flex flex-row flex-wrap text-gray-600 mx-7">
 
@@ -76,7 +85,7 @@ export default function BookDetails(){
                                                     {
                                                         book.genres.map((genre) => 
                                                         <p className="">
-                                                            {genre}
+                                                            {genre.name}
                                                         </p>)
                                                     }
                                                 </div>
@@ -91,7 +100,7 @@ export default function BookDetails(){
                                     </div>
 
                                     <div className="pb-15 mx-5 my-5 w-1/3">
-                                        {book.bookStatus === 'Available' ? 
+                                        {status ? 
                                             <Button 
                                                 variant={{color : 'primary', size : 'medium'}}
                                                 type="button"

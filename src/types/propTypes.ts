@@ -1,9 +1,6 @@
 import React from "react";
-<<<<<<< Updated upstream
-import type { JSX } from "react/jsx-runtime";
-=======
+
 import type { Book } from "./dataTypes";
->>>>>>> Stashed changes
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     variant: { 
@@ -47,8 +44,10 @@ export interface BookCardProps{
     book : Book
 }
 
-export interface BookDetailProps {
-    children : React.ReactNode
+
+export interface BookDetailsProps {
+  status? : boolean
+  book? : Book
 }
 
 export type HistoryItem = {
