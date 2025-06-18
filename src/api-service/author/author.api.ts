@@ -5,20 +5,21 @@ const authorApi = baseApi.injectEndpoints({
 
         getAuthorDetails : builder.query({
             query: (id) => ({
-                url : `/authors/${id}`,
+                url : `/author/${id}`,
                 method : 'GET'
             }),
             providesTags : ['BOOKS', 'AUTHORS']        
         }),
         getAllAuthors:builder.query({
             query:()=>({
-                url:"/authors",
+                url:"/author",
                 method:'GET'
-            })
+            }),
+            providesTags : ['BOOKS', 'AUTHORS']  
         }),
         createAuthor:builder.mutation({
             query:(payload)=>({
-                url:'/authors',
+                url:'/author',
                 method:'POST',
                 body:payload
             }),

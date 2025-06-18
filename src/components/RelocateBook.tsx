@@ -1,30 +1,44 @@
 import React, { useState } from "react";
+import { useGetShelfListQuery } from "../api-service/shelf/shelf.api";
+import { useCreateBookCopyMutation } from "../api-service/bookcopy/bookcopy.api";
 
-function RelocateModal(props) {
+function RelocateModal(props:any) {
   const {
     isOpen,
     onClose,
-    onRelocate, // For "add" mode, this can still be reused
-    offices,
-    mode = "relocate", // "relocate" or "add"
+    onRelocate,
+    mode = "relocate",
+    id
   } = props;
 
-  const [selectedOffice, setSelectedOffice] = useState("");
-  const [selectedShelf, setSelectedShelf] = useState("");
+  const { data: shelfData = [] } = useGetShelfListQuery({});
+  const [addCopy]=useCreateBookCopyMutation()
+  const [selectedOfficeId, setSelectedOfficeId] = useState("");
+  const [selectedShelfId, setSelectedShelfId] = useState("");
   const [numCopies, setNumCopies] = useState(1);
 
-  const shelves =
-    offices.find((office) => office.name === selectedOffice)?.shelves || [];
+  const offices = Array.from(
+    new Map(
+      shelfData.map((shelf) => [
+        shelf.office.id,
+        { id: shelf.office.id, name: shelf.office.name },
+      ])
+    ).values()
+  );
+
+  const shelves = shelfData
+    .filter((shelf) => String(shelf.office.id) === selectedOfficeId)
+    .map((shelf) => ({ id: shelf.id, label: shelf.label }));
 
   function handleSubmit() {
-    if (selectedOffice && selectedShelf) {
+    if (selectedOfficeId && selectedShelfId) {
       if (mode === "add") {
-        onRelocate(selectedOffice, selectedShelf, numCopies);
+        onRelocate(selectedOfficeId, selectedShelfId, numCopies);
       } else {
-        onRelocate(selectedOffice, selectedShelf);
+        onRelocate(selectedOfficeId, selectedShelfId);
       }
-      setSelectedOffice("");
-      setSelectedShelf("");
+      setSelectedOfficeId("");
+      setSelectedShelfId("");
       setNumCopies(1);
       onClose();
     }
@@ -41,16 +55,16 @@ function RelocateModal(props) {
 
         <label className="block text-sm mb-1">Select Office</label>
         <select
-          value={selectedOffice}
+          value={selectedOfficeId}
           onChange={(e) => {
-            setSelectedOffice(e.target.value);
-            setSelectedShelf("");
+            setSelectedOfficeId(e.target.value);
+            setSelectedShelfId("");
           }}
           className="w-full mb-4 p-2 rounded border border-gray-300 text-sm"
         >
           <option value="">-- Select Office --</option>
           {offices.map((office) => (
-            <option key={office.name} value={office.name}>
+            <option key={office.id} value={office.id}>
               {office.name}
             </option>
           ))}
@@ -58,17 +72,17 @@ function RelocateModal(props) {
 
         <label className="block text-sm mb-1">Select Shelf</label>
         <select
-          value={selectedShelf}
-          onChange={(e) => setSelectedShelf(e.target.value)}
-          disabled={!selectedOffice}
+          value={selectedShelfId}
+          onChange={(e) => setSelectedShelfId(e.target.value)}
+          disabled={!selectedOfficeId}
           className={`w-full mb-4 p-2 rounded border border-gray-300 text-sm ${
-            !selectedOffice ? "bg-gray-100" : "bg-white"
+            !selectedOfficeId ? "bg-gray-100" : "bg-white"
           }`}
         >
           <option value="">-- Select Shelf --</option>
           {shelves.map((shelf) => (
-            <option key={shelf} value={shelf}>
-              {shelf}
+            <option key={shelf.id} value={shelf.id}>
+              {shelf.label}
             </option>
           ))}
         </select>
@@ -95,9 +109,9 @@ function RelocateModal(props) {
           </button>
           <button
             onClick={handleSubmit}
-            disabled={!(selectedOffice && selectedShelf)}
+            disabled={!(selectedOfficeId && selectedShelfId)}
             className={`px-4 py-2 text-sm text-white rounded ${
-              selectedOffice && selectedShelf
+              selectedOfficeId && selectedShelfId
                 ? "bg-blue-600 hover:bg-blue-700"
                 : "bg-blue-300 cursor-not-allowed opacity-70"
             }`}
@@ -111,4 +125,3 @@ function RelocateModal(props) {
 }
 
 export default RelocateModal;
-

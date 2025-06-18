@@ -3,19 +3,38 @@ import { useNavigate, useParams } from "react-router-dom";
 import AuthorGenreSelect from "../../../components/AuthorGenreSelect";
 import "./Addbook.css";
 import AddBookForm from "../../../components/addbook/AddBookForm";
+import { useCreateBookMutation } from "../../../api-service/book/book.api";
+import {
+  useCreateGenreMutation,
+  useGetAllGenreQuery,
+} from "../../../api-service/genre/genre.api";
+import {
+  useCreateAuthorMutation,
+  useGetAllAuthorsQuery,
+} from "../../../api-service/author/author.api";
+
 type OptionType = {
   label: string;
   value: number | string;
   description?: string;
 };
+
 const Addbook = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
-const [selectedAuthors, setSelectedAuthors] = useState<OptionType[]>([]);
-const [selectedGenres, setSelectedGenres] = useState<OptionType[]>([]);
+  const [createAuthor] = useCreateAuthorMutation();
+  const [createGenre] = useCreateGenreMutation();
+  const [createBook] = useCreateBookMutation();
+
+  const { data: authors } = useGetAllAuthorsQuery({});
+  const { data: genres } = useGetAllGenreQuery({});
+
+  const [selectedAuthors, setSelectedAuthors] = useState<OptionType[]>([]);
+  const [selectedGenres, setSelectedGenres] = useState<OptionType[]>([]);
+
   const [formData, setFormData] = useState({
     title: "",
     author: "",
@@ -49,6 +68,20 @@ const [selectedGenres, setSelectedGenres] = useState<OptionType[]>([]);
             image: null,
           });
           setImagePreview(book.imageLinks?.thumbnail || null);
+
+          setSelectedAuthors(
+            (book.authors || []).map((name) => ({
+              label: name,
+              value: name, // Trigger creation or lookup
+            }))
+          );
+
+          setSelectedGenres(
+            (book.categories || []).map((name) => ({
+              label: name,
+              value: name,
+            }))
+          );
         }
       } catch (error) {
         console.error("Error fetching book:", error);
@@ -83,18 +116,73 @@ const [selectedGenres, setSelectedGenres] = useState<OptionType[]>([]);
     setFormData((prev) => ({ ...prev, image: file }));
   };
 
- const handleSubmit = (e: React.FormEvent) => {
-  e.preventDefault();
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("selectedAuthors", selectedAuthors);
+    console.log("selectedGenre", selectedGenres);
+    console.log("author", authors);
+    console.log("genre", genres);
+    const resolveAuthorsRaw = await Promise.all(
+      selectedAuthors.map(async (a) => {
+        const condition =
+          authors?.some((auth) => auth.name === a.label) ?? false;
+        try {
+          if (condition) {
+            const user = authors?.find((auth) => auth.name === a.label);
 
-  const payload = {
-    ...formData,
-    authorIds: selectedAuthors.map((a) => a.value),
-    genreIds: selectedGenres.map((g) => g.value),
+            console.log("user", user);
+            console.log("user.id", user.id);
+            return user.id;
+          } else {
+            console.log("in else");
+            const newAuthor = await createAuthor({ name: a.label }).unwrap();
+            return newAuthor?.id;
+          }
+        } catch (err) {
+          const existing = authors?.find((auth) => auth.name === a.label);
+          return existing?.id ?? null;
+        }
+      })
+    );
+
+    const resolveGenresRaw = await Promise.all(
+      selectedGenres.map(async (g) => {
+        try {
+          const newGenre = await createGenre({
+            name: g.label,
+            description: "Auto-filled genre",
+          }).unwrap();
+          return newGenre?.id;
+        } catch (err) {
+          const existing = genres?.find((gen) => gen.name === g.label);
+          return existing?.id ?? null;
+        }
+      })
+    );
+
+    const validAuthorIds = resolveAuthorsRaw.filter((id): id is number => !!id);
+    const validGenreIds = resolveGenresRaw.filter((id): id is number => !!id);
+
+    const payload = {
+      title: formData.title,
+      isbn: formData.isbn,
+      description: formData.description,
+      cover_image: imagePreview ?? "",
+      authors: validAuthorIds,
+      genres: validGenreIds,
+    };
+
+    console.log("Final Payload:", payload);
+
+    try {
+      await createBook(payload).unwrap();
+      alert("Book Added");
+      navigate("/admin/books/book-list")
+    } catch (err) {
+      console.error("Failed to add book:", err);
+      alert("Failed to add book");
+    }
   };
-
-  console.log("Submit Payload:", payload);
-  // Submit this to backend here
-};
 
   return (
     <div className="min-h-screen flex justify-center items-start px-4 py-10">
