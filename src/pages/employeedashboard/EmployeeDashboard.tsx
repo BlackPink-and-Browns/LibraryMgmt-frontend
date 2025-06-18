@@ -17,24 +17,50 @@ import { borrowedBooksDb, borrowHistoryDb, recommendedBooksDb } from "../../data
 import OverdueBooks from "../../components/OverdueBooksModal";
 import { useState } from "react";
 import RequestedBooks from "../../components/RequestedBooksModal";
+import { useGetUserBorrowHistoryQuery, useGetUserRequestsQuery } from "../../api-service/user/user.api";
+import { useGetBooksListQuery } from "../../api-service/book/book.api";
+import type { RequestedBooksProp } from "../../api-service/user/types";
 
 
 
 export default function EmployeeDashboard() {
   const navigate = useNavigate();
 
-  const borrowedBooks = borrowedBooksDb
+  const userId = localStorage.getItem("userId");
+  const UserId = userId ? Number(userId) : 0; 
+  console.log("User ID:", userId);
+  
+  // const borrowedBooks = borrowedBooksDb
   const recommendedBooks = recommendedBooksDb
-  const borrowHistory = borrowHistoryDb
+  // const borrowHistory = borrowHistoryDb
+  
+const {
+  data: userProfile,
+  isLoading,
+  isError,
+} = useGetUserBorrowHistoryQuery({});
+console.log("User Profile:", userProfile);
+
+const {
+  data: requestedBooksData = [],
+  isLoading: isRequestedLoading,
+  isError: isRequestedError,
+} = useGetUserRequestsQuery({ });
+console.log("Requested Books:", requestedBooksData);
+
+const borrowedBooks = userProfile?.borrowed_books || [];
+console.log("Borrowed Books:", borrowedBooks);
+const borrowHistory = userProfile?.book_history || [];
+const overdueBooks = userProfile?.overdue_books || []; 
 
   const [displayOverdueBooks,setDisplayOverdueBooks] = useState(false)
   const [displayRequestedBooks, setDisplayRequestedBooks] = useState(false);
+
 
 const stats: StatCardProps[] = [
       {
         title: "Books Borrowed",
         value: borrowHistory.length,
-        change: "+12%",
         icon: BookIcon,
         onClick: () => console.log("Books Borrowed clicked"),
         variant: "default",
@@ -42,22 +68,20 @@ const stats: StatCardProps[] = [
       {
         title: "Currently reading",
         value: borrowedBooks.length,
-        change: "+5%",
         icon: Eye,
         onClick: () => console.log("Currently Reading clicked"),
         variant: "default",
       },
       {
         title: "Requested books",
-        value: 45,
-        change: "+2%",
+        value: requestedBooksData.filter((reqbook: RequestedBooksProp) => reqbook.status === "NOTIFIED" || reqbook.status === "REQUESTED").length,
         icon: Bookmark,
         onClick: () => {setDisplayRequestedBooks(true); console.log("Requested clicked")},
         variant: "default",
       },
       {
         title: "Overdue Notice",
-        value: borrowedBooks.filter(book => book.daysLeft <= 0).length,
+        value: overdueBooks.length,
         icon: Clock,
         variant: "danger",
         onClick: () => {setDisplayOverdueBooks(true); console.log("Overdue Notice clicked")},
@@ -89,7 +113,7 @@ const stats: StatCardProps[] = [
         {displayOverdueBooks && (
             <OverdueBooks onClose={() => setDisplayOverdueBooks(false)}></OverdueBooks>)}
         {displayRequestedBooks && (
-            <RequestedBooks onClose={() => setDisplayRequestedBooks(false)}></RequestedBooks>
+            <RequestedBooks closeButton={true} books={requestedBooksData} onClose={() => setDisplayRequestedBooks(false)}></RequestedBooks>
             )}    
 
        <section className="space-y-6">
