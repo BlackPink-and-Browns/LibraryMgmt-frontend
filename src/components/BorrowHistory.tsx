@@ -25,7 +25,7 @@ export default function BorrowHistory({ history ,type}: {history:BorrowHistoryPr
           <li key={index} className="flex items-center justify-between border-b-1 p-2" onClick={() =>
     admin
       ? navigate("")
-      : navigate(`borrowHistory/${book.transactionId}`, { state: book })
+      : navigate(`borrowHistory/${book.id}`, { state: book })
   }>
             <div className="">
               <p className="font-medium">{book.title}</p>

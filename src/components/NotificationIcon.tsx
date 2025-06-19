@@ -1,24 +1,23 @@
 import { Bell, X, BookCheck, AlertCircle } from 'lucide-react';
 import { useState } from 'react';
-import { useGetNotificationsQuery, useMarkNotificationReadMutation } from '../api-service/notifications/notification.api';
+import {
+  useGetNotificationsQuery,
+  useMarkNotificationReadMutation,
+} from '../api-service/notifications/notification.api';
 
 const NotificationButton: React.FC = () => {
   const [showDropdown, setShowDropdown] = useState(false);
-  const { data: notifications = [], isLoading } = useGetNotificationsQuery({ read: '' });
+  const { data: notifications = [], isLoading, refetch } = useGetNotificationsQuery({ read: 'false' });
   const [markAsRead] = useMarkNotificationReadMutation();
-
-  const [hidden, setHidden] = useState<number[]>([]); // Track dismissed notifications
 
   const toggleDropdown = () => setShowDropdown(!showDropdown);
 
-  const unreadCount = notifications.filter((n) => !n.read && !hidden.includes(n.id)).length;
-
   const handleDismiss = async (id: number) => {
     try {
-      await markAsRead(id); // PATCH /notifications/:id
-      setHidden((prev) => [...prev, id]); // Remove from UI
+      await markAsRead(id);       // mark notification as read on server
+      refetch();                  // refresh list to exclude it from view
     } catch (err) {
-      console.error("Failed to mark notification as read", err);
+      console.error('Failed to mark as read:', err);
     }
   };
 
@@ -32,6 +31,8 @@ const NotificationButton: React.FC = () => {
         return null;
     }
   };
+
+  const unreadCount = notifications.length;
 
   return (
     <div style={{ position: 'fixed', top: '24px', right: '32px', zIndex: 999 }}>
@@ -94,39 +95,37 @@ const NotificationButton: React.FC = () => {
 
           {isLoading ? (
             <p>Loading...</p>
-          ) : notifications.filter((n) => !hidden.includes(n.id)).length === 0 ? (
-            <p style={{ fontSize: '13px', color: '#6b7280' }}>No notifications</p>
+          ) : unreadCount === 0 ? (
+            <p style={{ fontSize: '13px', color: '#6b7280' }}>No new notifications</p>
           ) : (
-            notifications
-              .filter((n) => !hidden.includes(n.id))
-              .map((n) => (
-                <div
-                  key={n.id}
+            notifications.map((n) => (
+              <div
+                key={n.id}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  backgroundColor: '#dbeafe',
+                  padding: '8px',
+                  borderRadius: '6px',
+                  marginBottom: '6px',
+                }}
+              >
+                {getIcon(n.type)}
+                <span style={{ flex: 1 }}>{n.message}</span>
+                <button
+                  onClick={() => handleDismiss(n.id)}
                   style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    backgroundColor: '#dbeafe', // light blue background
-                    padding: '8px',
-                    borderRadius: '6px',
-                    marginBottom: '6px',
+                    color: '#9ca3af',
+                    marginLeft: '8px',
+                    cursor: 'pointer',
+                    background: 'none',
+                    border: 'none',
                   }}
                 >
-                  {getIcon(n.type)}
-                  <span style={{ flex: 1 }}>{n.message}</span>
-                  <button
-                    onClick={() => handleDismiss(n.id)}
-                    style={{
-                      color: '#9ca3af',
-                      marginLeft: '8px',
-                      cursor: 'pointer',
-                      background: 'none',
-                      border: 'none',
-                    }}
-                  >
-                    <X size={14} />
-                  </button>
-                </div>
-              ))
+                  <X size={14} />
+                </button>
+              </div>
+            ))
           )}
         </div>
       )}
