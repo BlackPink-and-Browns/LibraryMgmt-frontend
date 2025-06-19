@@ -56,7 +56,8 @@ export interface ReviewProp {
 }
 
 export interface BookStatusButtonProps{
-  book : Book,
+  bookId : number,
+  status : boolean
   setIsModalOpen : React.Dispatch<React.SetStateAction<boolean>>
   isModalOpen : boolean 
 }
