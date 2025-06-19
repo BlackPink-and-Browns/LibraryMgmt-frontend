@@ -6,7 +6,7 @@ import remarkGfm from "remark-gfm";
 
 interface MessageProps {
     text: string;
-    type: 'sent' | 'received';
+    type: 'sent' | 'received' | 'typing';
     imageBase64?: string;
     books?: Book[];
 }
@@ -24,6 +24,15 @@ interface MessageProps {
 const SingleMessage: React.FC<MessageProps> = ({ text, type, books, imageBase64 }) => {
   const processedText = text.replace(/\\n/g, '\n').replace(/\r?\n/g, '  \n');
   console.log("text",text, "imageBase64", imageBase64);
+
+  if (type === "typing") {
+    return (
+      <div >
+        <TypingIndicator />
+      </div>
+    );
+  }
+
   return (
     <div>
     <div className={`message ${type}-message`}>
