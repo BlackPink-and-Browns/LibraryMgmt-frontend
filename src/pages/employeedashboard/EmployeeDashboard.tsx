@@ -92,12 +92,12 @@ const stats: StatCardProps[] = [
     <>
       <Header
         heading="Employee Dashboard"
-        description="Welcome back!manage your books and discover new ones"
+        description="Welcome! Manage your books and discover new ones"
       >
         <DashboardNavButtons />
       </Header>
-      <main className="px-40 py-10 min-h-screen  ">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <main className="px-40 py-10 min-h-screen ">
+        <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {stats.map((stat, index) => (
             <StatCard
               key={index}

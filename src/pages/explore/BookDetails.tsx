@@ -130,7 +130,7 @@ export default function BookDetails(){
                         </section>
 
                         <section className="m-5">
-                            <div className="lg:w-256 lg:ml-70 bg-white p-2 rounded-lg shadow-xl">
+                            <div className="lg:w-256 lg:ml-70 bg-white p-2 rounded-lg shadow-xl pb-5">
                                 <Title title="Description" variant="lg"/>
                                 <p className="px-7">
                                         {book.description}
@@ -139,7 +139,7 @@ export default function BookDetails(){
                         </section>
 
                         <section className="m-5">
-                            <div className="lg:w-256 lg:ml-70 bg-white p-2 rounded-lg shadow-xl">
+                            <div className="lg:w-256 lg:ml-70 bg-white p-2 rounded-lg shadow-xl pb-5">
                                 <Title title="Borrow Status" variant="lg"/>
                                     <div className="ml-7 mt-6">
                                         <h3 className="text-lg font-semibold mb-2">Borrowed Items:</h3>

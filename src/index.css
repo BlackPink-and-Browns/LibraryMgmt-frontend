@@ -21,6 +21,10 @@
   .layout-center {
     @apply flex flex-row items-center justify-center;
   }
+
+  .admin-header {
+    @apply pl-75
+  }
 }
 
 /* :root {

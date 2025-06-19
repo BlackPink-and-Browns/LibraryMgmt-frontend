@@ -9,7 +9,7 @@ const StatCard: React.FC<StatCardProps> = ({ title, value, change, icon: Icon, o
   return (
     <div
       onClick={onClick}
-      className={`rounded-xl min-w-60  p-6 shadow-lg transition-all duration-300 cursor-pointer hover:scale-[1.02] ${
+      className={`rounded-xl min-w-60 h-30 p-6 shadow-lg transition-all duration-300 cursor-pointer over:scale-[1.02] ${
         isDanger
           ? "bg-red-50 text-red-800 hover:shadow-red-200"
           : "bg-white/80 backdrop-blur-sm text-gray-900 hover:shadow-xl"
@@ -22,7 +22,7 @@ const StatCard: React.FC<StatCardProps> = ({ title, value, change, icon: Icon, o
           <p className={`text-3xl font-bold ${isDanger ? "text-red-800" : "text-gray-900"}`}>
             {value}
           </p>
-          {isDanger && (<p>You have books overdue . Please return them to avoid late fees.</p>)}
+          {isDanger}
           {change && (
             <p
               className={`text-sm px-2 py-1 rounded-full w-fit mt-1 ${

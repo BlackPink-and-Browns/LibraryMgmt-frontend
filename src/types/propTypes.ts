@@ -14,6 +14,7 @@ export interface HeaderProps {
     heading : string
     children : React.ReactNode
     description? : string
+    className?: string
 }
 
 export interface SearchBarProps{
