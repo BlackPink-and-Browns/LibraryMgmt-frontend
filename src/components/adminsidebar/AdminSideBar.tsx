@@ -15,8 +15,8 @@ const AdminSideBar = () => {
 
   };
   return (
-    <div className=" h-full bg-white/80 backdrop-blur-sm shadow pl-5 py-6 text-gray-600 flex flex-col justify-between">
-      <div className="mainbox py-20">
+    <div className="h-full bg-white/80 backdrop-blur-sm pl-5 py-6 text-gray-600 flex flex-col justify-between">
+      <div className="mainbox ">
         <div className="flex flex-col gap-5 ">
           <SidebarNavButton label="Dashboard" to="/admin" Icon={Home} />
           <SidebarNavButton
@@ -30,12 +30,12 @@ const AdminSideBar = () => {
             Icon={Warehouse}
           />
           <SidebarNavButton label="Users" to="/admin/users" Icon={User} />
-          <SidebarNavButton label="Explore Books" to="/explore" Icon={User} />
+          <SidebarNavButton label="Explore Books" to="/explore" Icon={Book} />
         </div>
       </div>
       <button
         onClick={handleLogout}
-        className="px-4 mr-2 py-2 bg-red-400 text-white rounded-lg hover:bg-red-200 transition-colors duration-200"
+        className="px-4 mr-2 py-2 bg-theme-logout text-black rounded-lg transition-colors duration-200"
       >
         Logout
       </button>

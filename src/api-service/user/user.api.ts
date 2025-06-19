@@ -31,8 +31,6 @@ const userApi = baseApi.injectEndpoints({
 export const {
   useGetAllUserQuery,
   useGetUserBorrowHistoryQuery,
-  useGetUserRequestsQuery,
-  useRemoveRequestMutation,
   useGetUserBorrowHistoryByAdminQuery
 } = userApi;
 

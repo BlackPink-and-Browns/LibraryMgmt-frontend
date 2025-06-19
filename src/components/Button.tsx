@@ -9,7 +9,7 @@ function Button ({
    
     const buttonColor = variant.color === 'primary' ?
            'bg-theme-dark text-white px-4 py-2' :
-           variant.color === 'secondary' ? 'bg-green-600 text-white ' : 'bg-slate-50  border border-blue-500 text-blue-500'
+           variant.color === 'secondary' ? 'bg-green-600 text-white ' : variant.color === 'logout'? 'bg-theme-logout text-white px-4 py-2':'bg-slate-50  border border-blue-500 text-blue-500'
     
     const buttonSize = variant.size === 'large' ? 
            ' w-full sm:w-1/2 md:w-2/3 lg:w-3/3' : variant.size == 'medium' ? 
