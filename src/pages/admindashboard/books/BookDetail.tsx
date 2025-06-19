@@ -1,4 +1,3 @@
-import React from 'react'
 import AdminBookDetailCard from './AdminBookDetailCard'
 import AdminBookCopyDetail from './AdminBookCopyDetail'
 

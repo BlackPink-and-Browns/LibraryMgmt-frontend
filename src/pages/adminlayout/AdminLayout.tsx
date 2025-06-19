@@ -18,7 +18,7 @@ const AdminLayout = () => {
   }
   
   return (
-    <div className="h-screen flex flex-col bg-gradient-to-br from-blue-100 via-white to-purple-50">
+    <div className="h-screen flex flex-col bg-theme-light">
 
       <Header heading="Admin Dashboard" description="Welcome">
         <Button
@@ -33,7 +33,7 @@ const AdminLayout = () => {
 
       <div className="flex flex-1 overflow-hidden">
 
-        <div className="h-full w-64 h-full overflow-hidden">
+        <div className="h-full w-70 h-full overflow-hidden">
           <AdminSideBar />
         </div>
 

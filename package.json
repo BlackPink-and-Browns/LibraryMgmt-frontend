@@ -19,10 +19,12 @@
     "lucide-react": "^0.515.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-markdown": "^10.1.0",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.6.2",
     "react-select": "^5.10.1",
     "redux": "^5.0.1",
+    "remark-gfm": "^4.0.1",
     "tailwindcss": "^4.1.10"
   },
   "devDependencies": {

@@ -70,7 +70,7 @@ const Login = () => {
           </div>
           {error && <div className="error-message">{error}</div>}
           <button type="submit" className="login-button">
-            Login
+            {isLoading ? "Loading":"Login"}
           </button>
         </form>
       </div>

@@ -39,12 +39,15 @@ const AddBookForm: React.FC<AddBookFormProps> = ({
   selectedGenres,
   setSelectedAuthors,
   setSelectedGenres,
+  
 }) => (
+  
   <form
     className="w-full max-w-2xl bg-white p-8 rounded-xl shadow-md space-y-6"
     onSubmit={handleSubmit}
   >
     <div>
+      
       <h2 className="text-2xl font-bold text-purple-700">Add New Book</h2>
       <p className="text-gray-500 text-sm">
         Fill the details to add a new book manually.

@@ -20,7 +20,6 @@ export const BookApi =  baseApi.injectEndpoints({
 
         createBook : builder.mutation({
             query : (payload) => ({
-                //in backend, the route is /employees with POST
                 url : '/books',
                 method : 'POST',
                 body : payload

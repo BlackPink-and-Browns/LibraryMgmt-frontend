@@ -212,6 +212,7 @@ const AdminBookDetailCard = () => {
         onRelocate={() => {}}
         offices={offices}
         mode="add"
+        id={book.id}
       />
     </>
   );

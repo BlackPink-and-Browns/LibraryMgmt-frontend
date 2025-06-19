@@ -48,7 +48,7 @@ export default function BookCatalog (){
                         <BookCard book={book} />
                         </div>
                     ))}
-                    {allBooks.map((book : Book) => (
+                    {allBooks?.map((book : Book) => (
                         <div
                         className="w-full sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/3 2xl:w-1/4 my-5 px-2"
                         key={book.id}
