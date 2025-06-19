@@ -6,10 +6,13 @@ import Recommendations from "../../components/Recommendations";
 import { recommendedBooksDb } from "../../data";
 import BookAnalytics from "../../components/BookAnalytics";
 import { useGetShelfCountQuery } from "../../api-service/shelf/shelf.api";
+import { useGetBooksListQuery } from "../../api-service/book/book.api";
 
 const AdminDashboard = () => {
   const book = recommendedBooksDb;
   const navigate = useNavigate();
+  const detail=useGetBooksListQuery({})
+  console.log("detail",detail)
   const {data:obj}=useGetShelfCountQuery({})
   const popularBooks = [
     { title: "Atomic Habits", borrowCount: 25 },
