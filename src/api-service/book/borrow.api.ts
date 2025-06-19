@@ -4,7 +4,7 @@ export const BorrowApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         createBorrow: builder.mutation({
             query: (data) => ({
-                url: `books/borrow`,
+                url: `borrows`,
                 method: "POST",
                 body: data,
             }),

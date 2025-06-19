@@ -43,7 +43,7 @@ export default function BookDetails(){
         <Header heading="Book Details">
             <Button 
                 type="button" 
-                variant ={{ color : "primary", size : 'large'}}
+                variant ={{ color : "ternary", size : 'large'}}
                 onClick={() => navigate(-1)}
             >
                 Back to Catalog
@@ -57,14 +57,14 @@ export default function BookDetails(){
                 <BorrowModal
                     isOpen={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
-                    setBorrowed={setBorrowedCombos}
+                    copies = {book.copies}
                 />
                 <div className="flex flex-row">
                     
                     <div className="flex flex-col">
                         <section className="m-5">
                             <div className="lg:flex flex-row md:col-span-2 lg:w-256 lg:ml-70 bg-white rounded-lg shadow-xl">
-                                <div className="p-8 rounded-lg lg:w-1/2">
+                                <div className="p-8 rounded-lg lg:w-">
                                     <img 
                                         src={book.cover_image} alt={book.title} 
                                         className="rounded-lg  h-110 "/>
@@ -80,7 +80,7 @@ export default function BookDetails(){
 
                                     <div className="flex flex-row flex-wrap text-gray-600 mx-7">
 
-                                        <div className="flex flex-row my-3">
+                                        <div className="flex flex-col my-3">
                                             <div className="flex flex-row">
                                                 <NotepadText className=""/>
                                                 <p className="mx-2">Genre : </p>
@@ -94,7 +94,7 @@ export default function BookDetails(){
                                                 </div>
                                             </div>
 
-                                            <div className="flex flex-row mx-10">
+                                            <div className="flex flex-row my-3">
                                                 <Barcode />
                                                 <p className="mx-2">ISBN : </p>
                                                 <p className="text-gray-800"> {book.isbn}</p>

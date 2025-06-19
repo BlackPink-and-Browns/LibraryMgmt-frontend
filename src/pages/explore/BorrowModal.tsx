@@ -1,46 +1,65 @@
 import React, { useState } from 'react';
 import { Button } from '../../components';
-type Combo = {
-  id: number;
-  office: string;
-  shelf: string;
-};
-
-type BorrowModalProps = {
-  isOpen: boolean;
-  onClose: () => void;
-  setBorrowed: React.Dispatch<React.SetStateAction<Combo[]>>;
-};
+import type { BorrowModalProps } from '../../types/propTypes';
+import { useGetBooksCopyListQuery } from '../../api-service/bookcopy/bookcopy.api';
+import type { ShelfType } from '../../types/dataTypes';
+import { useGetShelfDetailsQuery } from '../../api-service/shelf/shelf.api';
+import { useCreateBorrowMutation } from '../../api-service/book/borrow.api';
 
 
-// Dummy data for shelves and offices
-const dummyCombos = [
-  { id: 1, office: 'Office 101', shelf: 'Shelf A1' },
-  { id: 2, office: 'Office 102', shelf: 'Shelf B2' },
-  { id: 3, office: 'Office 103', shelf: 'Shelf C3' },
-  { id: 4, office: 'Office 104', shelf: 'Shelf D4' },
-];
-
-export default function BorrowModal({ isOpen, onClose, setBorrowed } : BorrowModalProps) {
-  const [availableCombos, setAvailableCombos] = useState(dummyCombos);
-  const [selectedId, setSelectedId] = useState(0);
-  const [successMessage, setSuccessMessage] = useState('');
-
+export default function BorrowModal({ isOpen, onClose, copies } : BorrowModalProps) {
   if (!isOpen) return null;
+  
+  const [selectedId, setSelectedId] = useState<number>(0);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [borrow, {isLoading}] = useCreateBorrowMutation({})
+
+  const availableCopies =copies.filter((copy) => copy.is_available);
+  console.log('Available Copies: ', availableCopies)
+
+  const userId = Number(localStorage.getItem('userId'))
+  console.log('User id : ', userId)
+
+  const copyShelfIds : {shelfId: number, copyId : number}[] = availableCopies?.map((copy) => {
+    const {data : bookCopy, isLoading} = useGetBooksCopyListQuery(copy?.id)
+    isLoading ? console.log('Loading BookCopy details') : <></>
+    return ({
+      shelfId : bookCopy?.shelf?.id,
+      copyId : copy?.id
+    })
+  })
+  console.log('Shelf Details : ' , copyShelfIds)
+
+  const shelves : ShelfType[] = copyShelfIds.map((shelf) => {
+    const {data : bookShelf, isLoading} = useGetShelfDetailsQuery(shelf?.shelfId)
+    isLoading ? console.log('Loading Book Shelf details') : <></>
+    return ({
+      id : shelf?.copyId,
+      label : bookShelf?.label, 
+      office : bookShelf?.office?.name
+    })
+  })
+  console.log('Shelves :', shelves )
 
   const handleSelect = (id:number) => {
     setSelectedId(id);
     setSuccessMessage('');
   };
 
-  const handleBorrow = () => {
-    const selectedCombo = availableCombos.find((combo) => combo.id === selectedId);
-    if (selectedCombo) {
-      setBorrowed((prev:Combo[]) => [...prev, selectedCombo]);
-      setAvailableCombos((prev) => prev.filter((combo) => combo.id !== selectedId));
-      setSuccessMessage(`Successfully borrowed from ${selectedCombo.office}, ${selectedCombo.shelf}`);
-      setSelectedId(0);
-    }
+  const handleBorrow = async () => {
+     const payload = {
+      employeeId : userId,
+      bookCopyId : selectedId
+     }
+     
+     borrow(payload).unwrap()
+     .then((response) => {
+       console.log("Successfully borrowed :", response)
+       onClose()
+     }).catch((error) => {
+        console.error(error)
+     })
+
   };
 
   return (
@@ -49,7 +68,7 @@ export default function BorrowModal({ isOpen, onClose, setBorrowed } : BorrowMod
         <h2 className="text-xl font-semibold mb-4">Select Office -  Shelf to Borrow</h2>
 
         <div className="space-y-2 max-h-60 overflow-y-auto mb-4">
-          {availableCombos.map(({ id, office, shelf }) => (
+          {shelves.map(({ id, office, label }) => (
             <button
               key={id}
               className={`w-full border rounded p-3 text-left ${
@@ -58,7 +77,7 @@ export default function BorrowModal({ isOpen, onClose, setBorrowed } : BorrowMod
               onClick={() => handleSelect(id)}
             >
               <div className="font-medium">{office}</div>
-              <div className="text-sm text-gray-600">{shelf}</div>
+              <div className="text-sm text-gray-600">{label}</div>
             </button>
           ))}
          
@@ -72,7 +91,7 @@ export default function BorrowModal({ isOpen, onClose, setBorrowed } : BorrowMod
         <div className='layout-center'>
             <div className="flex space-x-3 w-1/2">
                 <Button
-                    onClick={onClose}
+                    onClick={handleBorrow}
                     variant={{ color: 'secondary', size: 'small' }}
                     >
                     Confirm
