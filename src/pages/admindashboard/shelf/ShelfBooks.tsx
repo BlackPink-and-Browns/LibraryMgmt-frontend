@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { EyeIcon, StarIcon, User2Icon } from "lucide-react";
 import { useGetShelfDetailsQuery } from "../../../api-service/shelf/shelf.api";
+import { useGetBooksListQuery } from "../../../api-service/book/book.api";
 
 const ShelfBooks = () => {
   const navigate = useNavigate();
@@ -9,7 +10,11 @@ const ShelfBooks = () => {
   const shelfId = Number(id);
 
   const { data: shelfData, isLoading, error } = useGetShelfDetailsQuery(shelfId);
+  const { data: bookListData } = useGetBooksListQuery({});
+  const totalBooks = bookListData || 0;
+  console.log("Total Books:", totalBooks);
 
+  
   if (isLoading) return <p className="text-center mt-10">Loading shelf details...</p>;
   if (error) return <p className="text-center mt-10 text-red-500">Error loading shelf data</p>;
 
@@ -22,15 +27,17 @@ const ShelfBooks = () => {
       {bookCopies.length > 0 ? (
         bookCopies.map((copy) => {
           const book = copy.book;
+          const currbook=totalBooks.find((b)=>b.id==book.id)
+          console.log("booker",currbook)
           return (
             <div
               key={copy.id}
               className="flex items-start gap-4 p-4 border border-gray-300 rounded-2xl shadow-sm hover:shadow-md hover:border-blue-400 transition-all duration-200 bg-white cursor-pointer"
               onClick={() => navigate(`/admin/books/book-list/${book.id}`)}
             >
-              {book.cover_image ? (
+              {currbook.cover_image ? (
                 <img
-                  src={book.cover_image}
+                  src={currbook.cover_image}
                   alt="Book Cover"
                   className="w-16 h-24 rounded shadow object-cover"
                 />

@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function BorrowHistory({ history ,type}: {history:BorrowHistoryProps['history'],type?:string}) {
     const admin = type==="admin"
+   
     const navigate = useNavigate();
   return (
     <section className="bg-white p-4 rounded-xl shadow-lg ">
@@ -24,7 +25,7 @@ export default function BorrowHistory({ history ,type}: {history:BorrowHistoryPr
           <li key={index} className="flex items-center justify-between border-b-1 p-2" onClick={() =>
     admin
       ? navigate("")
-      : navigate(`borrowHistory/${book.transactionId}`, { state: book })
+      : navigate(`borrowHistory/${book.id}`, { state: book })
   }>
             <div className="">
               <p className="font-medium">{book.title}</p>

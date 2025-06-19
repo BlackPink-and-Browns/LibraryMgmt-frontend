@@ -132,10 +132,12 @@ const AdminItemTile = ({
         ) : (
           <>
             <h3 className="text-lg font-semibold text-purple-700">
-              {(item as User).username}
+              {(item as User).name}
             </h3>
             <p className="text-sm text-gray-500">
               User ID: {(item as User).id}
+            </p><p className="text-sm text-gray-500">
+              User Email: {(item as User).email}
             </p>
             <span
               className={`inline-block mt-2 text-xs px-3 py-1 rounded-full font-medium ${

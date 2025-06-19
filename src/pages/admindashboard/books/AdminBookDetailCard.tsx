@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PencilIcon, Trash2Icon } from "lucide-react";
 import clsx from "clsx";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import RelocateModal from "../../../components/RelocateBook";
-import { useGetBookDetailsQuery } from "../../../api-service/book/book.api";
+import { useDeleteBookMutation, useEditBookMutation, useGetBookDetailsQuery } from "../../../api-service/book/book.api";
 
 const offices = [
   { name: "Chennai", shelves: ["A1", "A2", "A3"] },
@@ -12,8 +12,11 @@ const offices = [
 ];
 
 const AdminBookDetailCard = () => {
+  const navigate=useNavigate()
   const { id } = useParams();
   const { data: bookFromDb } = useGetBookDetailsQuery(id);
+  const[deleteBook]=useDeleteBookMutation()
+  const [editBook]=useEditBookMutation()
   const [book, setBook] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
@@ -30,13 +33,17 @@ const AdminBookDetailCard = () => {
     const { name, value } = e.target;
 
     if (name === "authors") {
-      setBook((prev) => ({
-        ...prev,
-        authors: value
-          .split(",")
-          .map((n, i) => ({ id: i + 1, name: n.trim() })),
-      }));
-    } else if (name === "genres") {
+  const existingAuthors = book?.authors || [];
+  setBook((prev) => ({
+    ...prev,
+    authors: value.split(",").map((name, i) => {
+      const existing = existingAuthors[i];
+      return { id: existing?.id || i + 1, name: name.trim() };
+    }),
+  }));
+}
+
+     else if (name === "genres") {
       setBook((prev) => ({
         ...prev,
         genres: value
@@ -48,11 +55,38 @@ const AdminBookDetailCard = () => {
     }
   };
 
-  const handleSave = () => {
+ const handleSave = async () => {
+  try {
+    const payload = {
+      ...book,
+      authors: book.authors.map((a) => a.id),
+      genres: book.genres.map((g) => g.id),
+    };
+
+    await editBook({ id: book.id, payload }).unwrap();
     alert("Book details saved!");
     setIsEditing(false);
-  };
+  } catch (error) {
+    console.error("Failed to save book:", error);
+    alert("Failed to save book. Please try again.");
+  }
+};
 
+const handleDelete = async () => {
+    if (!id) return;
+
+    const confirmed = window.confirm("Are you sure you want to delete this book?");
+    if (!confirmed) return;
+
+    try {
+      await deleteBook(id).unwrap();
+      navigate("/admin/books/book-list");
+    } catch (err) {
+      console.error("Failed to delete book:", err);
+      alert("Error deleting book. Please try again.");
+    }
+  };
+ 
   const handleAddCopy = () => {
     setModalOpen(true);
   };
@@ -60,9 +94,9 @@ const AdminBookDetailCard = () => {
   if (!book) {
     return <div className="text-center text-red-600">Book not found.</div>;
   }
-
+  console.log("hello",book)
   const status =
-    book.copies?.[0]?.is_available === true ? "Available" : "Unavailable";
+    book?.is_available === true ? "Available" : "Unavailable";
   const averageRating = book.avg_rating || 0;
 
   return (
@@ -178,7 +212,7 @@ const AdminBookDetailCard = () => {
 
           {/* Action Buttons */}
           <div className="flex flex-wrap gap-3 mt-6">
-            <button className="bg-red-600 text-white px-4 py-2 rounded shadow flex items-center gap-2">
+            <button className="bg-red-600 text-white px-4 py-2 rounded shadow flex items-center gap-2" onClick={handleDelete}>
               <Trash2Icon size={16} /> Delete Book
             </button>
             {isEditing ? (

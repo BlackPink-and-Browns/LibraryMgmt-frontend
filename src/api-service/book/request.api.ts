@@ -17,3 +17,5 @@ const requestApi = baseApi.injectEndpoints({
         }),
     }),
 })
+
+export const {useGetRequestsQuery,useRemoveRequestMutation}= requestApi;

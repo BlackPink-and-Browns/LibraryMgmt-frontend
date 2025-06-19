@@ -21,7 +21,7 @@ const Login = () => {
           const user = JSON.parse(atob(accessToken.split(".")[1])) ?? {};
           localStorage.setItem("role", user.role);
           localStorage.setItem("userId", user.id);
-          alert("Success");
+
           user.role === "ADMIN" ? navigate("/admin") : navigate("dashboard");
         }
       })

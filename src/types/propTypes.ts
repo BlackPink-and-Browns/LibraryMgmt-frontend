@@ -93,7 +93,7 @@ export interface BorrowHistoryProps {
 export type BorrowedBook = {
   id: number;
   title: string;
-  author: string;
+  authors: string;
   shelf: string;
   due: string;
   daysLeft: number;
