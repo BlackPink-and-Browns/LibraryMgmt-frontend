@@ -27,4 +27,4 @@ export const BorrowApi = baseApi.injectEndpoints({
     }),
 });
 
-export const { useCreateBorrowMutation, useGetBorrowStatusListQuery } = BorrowApi
+export const { useCreateBorrowMutation, useGetBorrowStatusListQuery ,useGetAllBorrowsQuery} = BorrowApi
