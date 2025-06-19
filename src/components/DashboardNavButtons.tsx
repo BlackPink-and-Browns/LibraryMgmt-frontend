@@ -29,7 +29,7 @@ export default function DashboardNavButtons() {
       </Button>
       
       <Button
-        variant={{ color:"ternary", size: "medium" }}
+        variant={{ color:"logout", size: "medium" }}
         type="submit"
         onClick={onLogout}
       >
