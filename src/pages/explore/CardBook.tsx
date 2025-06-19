@@ -19,7 +19,7 @@ export default function BookCard ({book,type}:  BookCardProps){
       : 0;
     const widthClass = type === "chatbot" ? "w-1/2" : "w-full";
     return (<>
-        <div className={`bg-white rounded-lg shadow-lg mr-8 hover:scale-105 duration-700 ${widthClass} max-width-64`}>           
+        <div className={`bg-white rounded-lg shadow-lg mr-8 hover:scale-105 duration-700 ${widthClass} max-width-64 h-150`}>           
             <div className="p-8 rounded-lg">
                 <img 
                     src={book.cover_image} alt={book.title} 
