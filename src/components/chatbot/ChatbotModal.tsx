@@ -19,6 +19,8 @@ const ChatbotModal: React.FC<ChatbotModalProps> = ({ isOpen, onClose }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
+  const auth_token = localStorage.getItem("token") || "no_token";
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
@@ -41,7 +43,7 @@ const ChatbotModal: React.FC<ChatbotModalProps> = ({ isOpen, onClose }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ message: userMessage, auth_token: "auth_tken_here" }),
+        body: JSON.stringify({ message: userMessage, auth_token: auth_token }),
       });
 
       const data = await response.json();
