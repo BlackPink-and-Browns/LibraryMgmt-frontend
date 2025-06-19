@@ -36,7 +36,7 @@ const AdminDashboard = () => {
             onClick={() => navigate("books/book-list")}
           ></StatCard>
           <StatCard
-            title="Active User"
+            title="User"
             value={"85"}
             icon={User}
             onClick={() => navigate("users")}
