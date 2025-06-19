@@ -20,6 +20,7 @@ import RequestedBooks from "../../components/RequestedBooksModal";
 import { useGetUserBorrowHistoryQuery } from "../../api-service/user/user.api";
 import type { RequestedBooksProp } from "../../api-service/user/types";
 import { useGetRequestsQuery } from "../../api-service/book/request.api";
+import { useIfOverdueQuery } from "../../api-service/book/borrow.api";
 
 
 
@@ -48,10 +49,12 @@ const {
 } = useGetRequestsQuery({ });
 console.log("Requested Books:", requestedBooksData);
 
+const { data:overdueBooksData} = useIfOverdueQuery();
+
 const borrowedBooks = userProfile?.borrowed_books || [];
 console.log("Borrowed Books:", borrowedBooks);
 const borrowHistory = userProfile?.book_history || [];
-const overdueBooks = userProfile?.overdue_books || []; 
+const overdueBooks = overdueBooksData?.overdued_books||[]
 
 function getDaysLeft(expiresAt: string | null): number | null {
   if (!expiresAt) return null;
@@ -144,7 +147,7 @@ const stats: StatCardProps[] = [
         value: overdueBooks.length,
         icon: Clock,
         variant: "danger",
-        onClick: () => {setDisplayOverdueBooks(true); console.log("Overdue Notice clicked")},
+        onClick: () => {setDisplayOverdueBooks(true); console.log("overue books",overdueBooks)},
       },
     ];
 
@@ -171,7 +174,7 @@ const stats: StatCardProps[] = [
           ))}
         </div>
         {displayOverdueBooks && (
-            <OverdueBooks onClose={() => setDisplayOverdueBooks(false)}></OverdueBooks>)}
+            <OverdueBooks books={overdueBooks} onClose={() => setDisplayOverdueBooks(false)}></OverdueBooks>)}
         {displayRequestedBooks && (
             <RequestedBooks closeButton={true} books={requestedBooksData} onClose={() => setDisplayRequestedBooks(false)}></RequestedBooks>
             )}    

@@ -31,11 +31,6 @@ const userApi = baseApi.injectEndpoints({
 export const {
   useGetAllUserQuery,
   useGetUserBorrowHistoryQuery,
-<<<<<<< Updated upstream
-  useGetUserRequestsQuery,
-  useRemoveRequestMutation,
   useGetUserBorrowHistoryByAdminQuery
-=======
->>>>>>> Stashed changes
 } = userApi;
 

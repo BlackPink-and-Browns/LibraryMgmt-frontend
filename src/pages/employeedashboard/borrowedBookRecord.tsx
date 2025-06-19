@@ -1,38 +1,45 @@
-// src/pages/employee/BorrowReviewPage.tsx
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Star } from "lucide-react";
 import EditReviewModal from "../../components/EditReviewModal";
 import DeleteReviewModal from "../../components/DeleteReviewModal";
 import {
-  useCreateReviewMutation,
-  useDeleteReviewMutation,
+  useGetReviewsByUserIdQuery,
   useUpdateReviewMutation,
-} from "../../api-service/reviews/review.api"; // adjust path if needed
-
-// Dummy user context - replace with your real auth hook
- // Example: userId = 1
+  useDeleteReviewMutation,
+} from "../../api-service/reviews/review.api";
 
 export default function BorrowedBookRecords() {
+  const { transactionId } = useParams();
   const navigate = useNavigate();
-  const { state: record } = useLocation();
-  const id =localStorage.getItem("userId"); // get current user
+  const { state: record } = useLocation(); // record should include bookId
 
-  const [rating, setRating] = useState(record?.rating || 0);
-  const [review, setReview] = useState(record?.review || "");
-  const [reviewId, setReviewId] = useState(record?.reviewId || null);
+  const userId = localStorage.getItem("userId");
+  const bookId = record?.bookId;
+
+  const [rating, setRating] = useState(0);
+  const [review, setReview] = useState("");
+  const [reviewId, setReviewId] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
 
-  const [createReview] = useCreateReviewMutation();
+  const { data: userReviews = [] } = useGetReviewsByUserIdQuery(userId, {
+    skip: !userId,
+  });
+
   const [updateReview] = useUpdateReviewMutation();
   const [deleteReview] = useDeleteReviewMutation();
 
   useEffect(() => {
-    if (record?.rating) setRating(record.rating);
-    if (record?.review) setReview(record.review);
-    if (record?.reviewId) setReviewId(record.reviewId);
-  }, [record]);
+    if (record && userReviews.length) {
+      const existingReview = userReviews.find((r) => r.bookId === bookId);
+      if (existingReview) {
+        setReviewId(existingReview.id);
+        setRating(existingReview.rating);
+        setReview(existingReview.content);
+      }
+    }
+  }, [userReviews, record]);
 
   if (!record) return <div className="text-center mt-12">Record not found.</div>;
 
@@ -41,20 +48,15 @@ export default function BorrowedBookRecords() {
       if (reviewId) {
         await updateReview({
           id: reviewId,
-          payload: { rating, review },
+          payload: {
+            rating,
+            content: review,
+          },
         }).unwrap();
-      } else {
-        const res = await createReview({
-          bookId: record.bookId,
-          id,
-          rating,
-          review,
-        }).unwrap();
-        setReviewId(res.id);
       }
       setEditMode(false);
     } catch (err) {
-      console.error("Failed to save review:", err);
+      console.error("Failed to update review:", err);
     }
   };
 
@@ -62,10 +64,10 @@ export default function BorrowedBookRecords() {
     try {
       if (reviewId) {
         await deleteReview(reviewId).unwrap();
+        setReviewId(null);
+        setRating(0);
+        setReview("");
       }
-      setRating(0);
-      setReview("");
-      setReviewId(null);
       setShowDelete(false);
     } catch (err) {
       console.error("Failed to delete review:", err);
@@ -76,7 +78,7 @@ export default function BorrowedBookRecords() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-purple-50 px-4">
       <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-xl">
         <div className="flex gap-4 items-start mb-6">
-          <img src={record.cover} alt="cover" className="w-16 h-24 rounded border" />
+          <img src={record.coverImage} alt="cover" className="w-16 h-24 rounded border" />
           <div>
             <h2 className="text-xl font-bold">{record.title}</h2>
             <p className="text-gray-600 text-sm">{record.author}</p>
@@ -94,18 +96,18 @@ export default function BorrowedBookRecords() {
           </div>
           <div>
             <p className="text-sm font-medium">Borrowed From</p>
-            <div className="bg-gray-100 rounded px-3 py-2">{record.borrowShelf}</div>
+            <div className="bg-gray-100 rounded px-3 py-2">{record.shelf}</div>
           </div>
           <div>
             <p className="text-sm font-medium">Returned To</p>
-            <div className="bg-gray-100 rounded px-3 py-2">{record.returnShelf}</div>
+            <div className="bg-gray-100 rounded px-3 py-2">{record.shelf}</div>
           </div>
         </div>
 
         <div className="mb-4">
           <p className="text-sm font-medium">Rating</p>
           <div className="flex items-center gap-1 mt-1">
-            {[1, 2, 3, 4, 5].map(n => (
+            {[1, 2, 3, 4, 5].map((n) => (
               <Star
                 key={n}
                 className={`h-5 w-5 ${n <= rating ? "text-yellow-500 fill-yellow-300" : "text-gray-400"}`}
@@ -123,17 +125,11 @@ export default function BorrowedBookRecords() {
         </div>
 
         <div className="flex gap-2">
-          <button
-            className="bg-purple-600 text-white px-4 py-2 rounded"
-            onClick={() => setEditMode(true)}
-          >
+          <button className="bg-purple-600 text-white px-4 py-2 rounded" onClick={() => setEditMode(true)}>
             {reviewId ? "Update" : "Add"} Review/Rating
           </button>
           {reviewId && (
-            <button
-              className="bg-gradient-to-r from-pink-500 to-red-500 text-white px-4 py-2 rounded"
-              onClick={() => setShowDelete(true)}
-            >
+            <button className="bg-gradient-to-r from-pink-500 to-red-500 text-white px-4 py-2 rounded" onClick={() => setShowDelete(true)}>
               Delete Review/Rating
             </button>
           )}

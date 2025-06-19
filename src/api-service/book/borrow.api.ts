@@ -1,4 +1,5 @@
 import baseApi from "../api";
+import type { IfOverdueResponse } from "./types";
 
 export const BorrowApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
@@ -11,9 +12,9 @@ export const BorrowApi = baseApi.injectEndpoints({
             invalidatesTags : ['BORROW']
         }),
 
-        ifOverdue: builder.query({
-            query: (id) => ({
-                url: `books/overdue/check/${id}`,
+        ifOverdue: builder.query<IfOverdueResponse, void>({
+            query: () => ({
+                url: `books/overdue/check/`,
                 method: "GET",
             }),
             providesTags : ['BORROW']
