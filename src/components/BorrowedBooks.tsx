@@ -3,7 +3,7 @@ import { BookOpen, X } from "lucide-react";
 import type { BorrowedBooksProps } from "../types/propTypes";
 import Button from "./Button";
 
-export default function BorrowedBooks({books,title,description,closeButton,onClose} :{books: any,title?: string, description?: string,closeButton?: boolean, onClose?: () => void}) {
+export default function BorrowedBooks({books,title,description,closeButton,onClose} :{books:any,title?: string, description?: string,closeButton?: boolean, onClose?: () => void}) {
   const navigate = useNavigate();
    
   return (
@@ -12,7 +12,7 @@ export default function BorrowedBooks({books,title,description,closeButton,onClo
         <div className="relative">
         <button
                     onClick={onClose}
-                  className="absolute top-3 right-3 text-gray-500 hover:text-black"
+                  className="absolute  right-1 text-gray-500 hover:text-black"
                 >
                   <X/>
                 </button>
@@ -37,7 +37,7 @@ export default function BorrowedBooks({books,title,description,closeButton,onClo
           >
             <div className="flex flex-col ">
               <div className="font-medium">{book.title}</div>
-              <div className="text-sm text-gray-600">by {book.authors}</div>
+              <div className="text-sm text-gray-600">by {book.author}</div>
               <div className="text-sm text-blue-600">Shelf: {book.shelf}</div>
             </div>
 
