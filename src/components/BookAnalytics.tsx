@@ -1,8 +1,8 @@
 import React from "react";
 
 function BookAnalytics(props: {
-  popularBooks: { title: string; borrowCount: number }[];
-  popularGenres: { genre: string; count: number }[];
+  popularBooks: { title: string; borrow_count: number }[];
+  popularGenres: { name: string; borrow_count: number }[];
 }) {
   const { popularBooks, popularGenres } = props;
 
@@ -18,7 +18,7 @@ function BookAnalytics(props: {
               className="flex justify-between items-center bg-gray-50 p-3 rounded"
             >
               <span className="text-gray-700">{book.title}</span>
-              <span className="text-sm text-gray-500">Borrows: {book.borrowCount}</span>
+              <span className="text-sm text-gray-500">Borrows: {book.borrow_count}</span>
             </li>
           ))}
         </ul>
@@ -32,8 +32,8 @@ function BookAnalytics(props: {
               key={index}
               className="flex justify-between items-center bg-gray-50 p-3 rounded"
             >
-              <span className="text-gray-700">{genre.genre}</span>
-              <span className="text-sm text-gray-500">Books: {genre.count}</span>
+              <span className="text-gray-700">{genre.name}</span>
+              <span className="text-sm text-gray-500">Books: {genre.borrow_count}</span>
             </li>
           ))}
         </ul>
