@@ -17,9 +17,9 @@ import { borrowedBooksDb, borrowHistoryDb, recommendedBooksDb } from "../../data
 import OverdueBooks from "../../components/OverdueBooksModal";
 import { useState } from "react";
 import RequestedBooks from "../../components/RequestedBooksModal";
-import { useGetUserBorrowHistoryQuery, useGetUserRequestsQuery } from "../../api-service/user/user.api";
-import { useGetBooksListQuery } from "../../api-service/book/book.api";
+import { useGetUserBorrowHistoryQuery } from "../../api-service/user/user.api";
 import type { RequestedBooksProp } from "../../api-service/user/types";
+import { useGetRequestsQuery } from "../../api-service/book/request.api";
 
 
 
@@ -45,13 +45,73 @@ const {
   data: requestedBooksData = [],
   isLoading: isRequestedLoading,
   isError: isRequestedError,
-} = useGetUserRequestsQuery({ });
+} = useGetRequestsQuery({ });
 console.log("Requested Books:", requestedBooksData);
 
 const borrowedBooks = userProfile?.borrowed_books || [];
 console.log("Borrowed Books:", borrowedBooks);
 const borrowHistory = userProfile?.book_history || [];
 const overdueBooks = userProfile?.overdue_books || []; 
+
+function getDaysLeft(expiresAt: string | null): number | null {
+  if (!expiresAt) return null;
+
+  const expiresDate = new Date(expiresAt);
+  const today = new Date();
+
+  // Strip time (compare only dates)
+  const expiresUTC = new Date(expiresDate.toDateString());
+  const todayUTC = new Date(today.toDateString());
+
+  const diffTime = expiresUTC.getTime() - todayUTC.getTime();
+  const daysLeft = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+  return daysLeft;
+}
+
+function formatDate(timestamp: string): string {
+  const date = new Date(timestamp);
+  return date.toLocaleDateString("en-IN", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
+
+
+const borrowedBookDetails = borrowedBooks.map((borrow) => {
+  const book = borrow.bookCopy?.book;
+  return {
+    borrowId: borrow.id,
+    id: book?.id,
+    title: book?.title,
+    authors: book?.authors?.map((author) => author.name).join(", "),
+    coverImage: book?.cover_image,
+    rating: book?.avg_rating,
+    shelf: borrow.bookCopy?.shelf?.label,
+    status: borrow.status,
+    borrowedAt: borrow.createdAt,
+    due: formatDate(borrow.expires_at|| "2025-06-24"),
+    daysLeft: getDaysLeft(borrow.expires_at|| "2025-06-24"),
+  };
+});
+
+const borrowHistoryDetails = borrowHistory.filter(borrow => borrow.status === "RETURNED").map((borrow) => {
+  const book = borrow.bookCopy?.book;
+  return {
+    id: book?.id,
+    title: book?.title,
+    authors: book?.authors?.map((author) => author.name).join(", "),
+    coverImage: book?.cover_image,
+    rating: book?.avg_rating,
+    shelf: borrow.bookCopy?.shelf?.label,
+    status: borrow.status,
+    borrowed: formatDate(borrow.createdAt),
+    returned: formatDate(borrow.returned_at)
+  };
+});
+
+console.log("Borrowed Book Details:", borrowedBookDetails);
 
   const [displayOverdueBooks,setDisplayOverdueBooks] = useState(false)
   const [displayRequestedBooks, setDisplayRequestedBooks] = useState(false);
@@ -67,7 +127,7 @@ const stats: StatCardProps[] = [
       },
       {
         title: "Currently reading",
-        value: borrowedBooks.length,
+        value: borrowedBookDetails.length,
         icon: Eye,
         onClick: () => console.log("Currently Reading clicked"),
         variant: "default",
@@ -119,12 +179,12 @@ const stats: StatCardProps[] = [
        <section className="space-y-6">
   {/* Row 1: Two side-by-side cards */}
 <div className="grid gap-8 md:grid-cols-2">
-    <BorrowedBooks books={borrowedBooks} title="Currently Borrowed" description="Books you currently have checked out"/>
+    <BorrowedBooks books={borrowedBookDetails} title="Currently Borrowed" description="Books you currently have checked out"/>
     <Recommendations books={recommendedBooks} />
 </div>
 
   {/* Row 2: Full-width card */}
-  <BorrowHistory  history={borrowHistory} />
+  <BorrowHistory  history={borrowHistoryDetails} />
 </section>
 
       </main>

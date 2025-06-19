@@ -2,7 +2,8 @@ import { useNavigate } from "react-router-dom";
 import {type RequestedBooksProp } from "../api-service/user/types";
 import Button from "./Button";
 import { BookOpen, X } from "lucide-react";
-import { useRemoveRequestMutation } from "../api-service/user/user.api";
+import { useRemoveRequestMutation } from "../api-service/book/request.api";
+
 
 export default function RequestedBooks({books,closeButton,onClose}: {books:RequestedBooksProp[],closeButton:boolean, onClose?: () => void}) {
   const navigate = useNavigate();
