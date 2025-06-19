@@ -110,15 +110,6 @@ const ChatbotModal: React.FC<ChatbotModalProps> = ({ isOpen, onClose }) => {
 
     const base64Image = canvas.toDataURL("image/jpeg").split(",")[1];
 
-    // 🟩 Save it to chat messages
-    setMessages((prev) => [
-      ...prev,
-      {
-        type: "sent",
-        content: "[Image sent]",
-        imageBase64: `data:image/jpeg;base64,${base64Image}`,
-      },
-    ]);
 
     // 🟦 Then send to backend
     sendMessageWithImage(base64Image);
@@ -129,7 +120,8 @@ const ChatbotModal: React.FC<ChatbotModalProps> = ({ isOpen, onClose }) => {
 
 
   const sendMessageWithImage = async (base64Image: string) => {
-    setMessages((prev) => [...prev, { type: "sent", content: "[Image sent]" }]);
+    setMessages((prev) => [...prev, { type: "sent", content: "", imageBase64: `data:image/jpeg;charset-utf-8;base64,${base64Image}` }]);
+    console.log("Sending image to backend:", base64Image);
     setIsLoading(true);
 
     try {
@@ -139,8 +131,8 @@ const ChatbotModal: React.FC<ChatbotModalProps> = ({ isOpen, onClose }) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          message: "Image-based request",
-          auth_token: "auth_tken_here",
+          message: "",
+          auth_token: "auth_tken_ere",
           image_base64: base64Image,
         }),
       });
@@ -185,7 +177,7 @@ const ChatbotModal: React.FC<ChatbotModalProps> = ({ isOpen, onClose }) => {
       <div className="chatbot-content">
         <div className="messages">
           {messages.map((message, index) => (
-            <SingleMessage key={index} type={message.type} text={message.content} books={message.books} />
+            <SingleMessage key={index} type={message.type} text={message.content} books={message.books} imageBase64={message.imageBase64} />
           ))}
           {isLoading && <SingleMessage type="received" text="Typing..." />}
           <div ref={messagesEndRef} />
