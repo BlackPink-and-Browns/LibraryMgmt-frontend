@@ -6,6 +6,7 @@ import type { BookCardProps } from "../../types/propTypes";
 import type { Author, BookCopy, Review } from "../../types/dataTypes";
 import BookStatusButton from "../../components/BookStatusButton";
 import { useState } from "react";
+import BorrowModal from "./BorrowModal";
 
 
 export default function BookCard ({book,type}:  BookCardProps){
@@ -19,6 +20,11 @@ export default function BookCard ({book,type}:  BookCardProps){
       : 0;
     const widthClass = type === "chatbot" ? "w-1/2" : "w-full";
     return (<>
+        <BorrowModal
+                            isOpen={isModalOpen}
+                            onClose={() => setIsModalOpen(false)}
+                            copies = {book.copies ?? []}
+                        />
         <div className={`bg-white rounded-lg shadow-lg mr-8 hover:scale-105 duration-700 ${widthClass} max-width-64`}>           
             <div className="p-8 rounded-lg">
                 <img 

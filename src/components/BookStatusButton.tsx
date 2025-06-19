@@ -18,6 +18,11 @@ export default function BookStatusButton ({bookId, status, setIsModalOpen, isMod
     }) 
     // console.log('userCurrentlyHolding : ', userCurrentlyHolding)
 
+    function handleBorrow (){
+        console.log('Modal Open: ',isModalOpen)
+        setIsModalOpen(true)
+    }
+
     async function handleRequest (){
 
     }
@@ -36,8 +41,7 @@ export default function BookStatusButton ({bookId, status, setIsModalOpen, isMod
                 <Button 
                     variant={{color : 'primary', size : 'medium'}}
                     type="button"
-                    onClick={()=>{setIsModalOpen(true) 
-                        console.log(isModalOpen)}}
+                    onClick={handleBorrow}
                 >
                     <div className="flex flex-row justify-center pr-2">
                         <BookOpen className="mx-2"/>

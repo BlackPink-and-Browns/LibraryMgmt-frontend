@@ -6,12 +6,13 @@ import SearchBar from "./SearchBar";
 import BookCard from "./CardBook";
 import { useGetBooksListQuery } from "../../api-service/book/book.api";
 import type { Book } from "../../types/dataTypes";
+import BorrowModal from "./BorrowModal";
 
 
 export default function BookCatalog (){
     const navigate = useNavigate()
   const [searchValue, setSearchValue] = useState<string>("")
-  const [filterValue, setFilterValue] = useState<string>("All")
+  const [filterValue, setFilterValue] = useState<number>(0)
   const [searchedBooks, setSearchedBooks] = useState<Book[]>([])
   const [filteredBooks, setFilteredBooks] = useState<Book[]>([])
 
@@ -20,7 +21,6 @@ export default function BookCatalog (){
   // Live search filter
   useEffect(() => {
     if (!allBooks) return
-
     const searched = allBooks.filter((book: Book) =>
       book.title.toLowerCase().includes(searchValue.toLowerCase()) ||
       book.genres.some((genre) =>
@@ -30,28 +30,27 @@ export default function BookCatalog (){
         author.name.toLowerCase().includes(searchValue.toLowerCase())
       )
     )
-
     setSearchedBooks(searched)
   }, [searchValue, allBooks])
 
   // Filter by genre on top of search
-  useEffect(() => {
-    let booksToShow = searchedBooks
+ useEffect(() => {
+  let booksToShow = searchedBooks
 
-    if (filterValue !== "All") {
-      booksToShow = booksToShow.filter((book: Book) =>
-        book.genres.some((genre) =>
-          genre.name.toLowerCase().includes(filterValue.toLowerCase())
-        )
-      )
-    }
+  if (filterValue !== 0) { // Only filter if a genre is selected
+    booksToShow = booksToShow.filter((book: Book) =>
+      book.genres.some((genre) => genre.id === filterValue)
+    )
+  }
 
-    setFilteredBooks(booksToShow)
-  }, [searchedBooks, filterValue])
+  setFilteredBooks(booksToShow)
+}, [searchedBooks, filterValue])
 
-  const shouldShowTrending = searchValue === "" && (filterValue === "All" || filterValue === "")
+
+  const shouldShowTrending = searchValue === "" && !filterValue
 
     return (<>
+    
        <Header heading="Book Catalog" description="Discover and borrow books from our collection">
         <Button
           type="button"
