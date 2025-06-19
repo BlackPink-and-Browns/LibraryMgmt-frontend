@@ -11,6 +11,7 @@ import { useState } from "react"
 import BorrowModal from "./BorrowModal"
 import type { Author, Book, BookCopy, Genre, Review } from "../../types/dataTypes"
 import { useGetBookDetailsQuery } from "../../api-service/book/book.api"
+import BookStatusButton from "../../components/BookStatusButton"
 
 
 type Combo = {
@@ -102,7 +103,7 @@ export default function BookDetails(){
                                         </div>                                                                             
                                     </div>
 
-                                    <div className="pb-15 mx-5 my-5 w-1/3">
+                                    {/* <div className="pb-15 mx-5 my-5 w-1/3">
                                         {status ? 
                                             <Button 
                                                 variant={{color : 'primary', size : 'medium'}}
@@ -124,7 +125,14 @@ export default function BookDetails(){
                                                 <p>Request Book </p>                        
                                             </Button>              
                                         }                                                                              
-                                    </div>
+                                    </div> */}
+
+                                    <BookStatusButton 
+                                        bookId={book.id}
+                                        status={book.is_available}
+                                        isModalOpen={isModalOpen}
+                                        setIsModalOpen={setIsModalOpen}
+                                    /> 
                                 </div>
                             </div>
                         </section>
