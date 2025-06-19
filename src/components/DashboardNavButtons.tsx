@@ -19,25 +19,27 @@ export default function DashboardNavButtons() {
     <div className="flex gap-4 items-center">
       <Button
         variant={{ color:"primary", size: "medium" }}
+        type="button"
+        onClick={() => navigate(`/explore`)}
+      >
+        <div className="flex flex-row items-center justify-center ">
+          <Search  />
+        <p >Explore Books</p>
+        </div>
+      </Button>
+      
+      <Button
+        variant={{ color:"logout", size: "medium" }}
         type="submit"
         onClick={onLogout}
       >
-        <div className="flex flex-row items-center justify-center text-white-500">
+        <div className="flex flex-row items-center justify-center ">
           <LogOut/>
         <p >Logout</p>
         </div>
       </Button>
 
-      <Button
-        variant={{ color:"ternary", size: "medium" }}
-        type="button"
-        onClick={() => navigate(`/explore`)}
-      >
-        <div className="flex flex-row items-center justify-center text-blue-500">
-          <Search  />
-        <p >Explore Books</p>
-        </div>
-      </Button>
+      
 
     </div>
   );

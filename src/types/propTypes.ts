@@ -4,7 +4,7 @@ import type { Book, BookCopy } from "./dataTypes";
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     variant: { 
-        color : "primary" | 'secondary' | 'ternary',
+        color : "primary" | 'secondary' | 'ternary' | 'logout',
         size : "small" | 'medium' | 'large'
     } 
     children : React.ReactNode
@@ -14,6 +14,7 @@ export interface HeaderProps {
     heading : string
     children : React.ReactNode
     description? : string
+    className?: string
 }
 
 export interface SearchBarProps{
@@ -55,7 +56,8 @@ export interface ReviewProp {
 }
 
 export interface BookStatusButtonProps{
-  book : Book,
+  bookId : number,
+  status : boolean
   setIsModalOpen : React.Dispatch<React.SetStateAction<boolean>>
   isModalOpen : boolean 
 }

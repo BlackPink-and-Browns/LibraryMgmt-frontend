@@ -8,7 +8,7 @@ const Books = () => {
   return (
     <div className='flex flex-col gap-2 overflow-auto '>
       <div className='flex  sticky top-0 z-50  justify-center gap-10'>
-          <StatCard title='Book List' value={""} icon={List} onClick={()=>navigate("/admin/books/book-list")}></StatCard>
+          {/* <StatCard title='Book List' value={""} icon={List} onClick={()=>navigate("/admin/books/book-list")}></StatCard> */}
           <StatCard title='Issued Books' value={""} icon={BookMarked} onClick={()=>navigate("/admin/books/issued")}></StatCard>
           <StatCard title='Add Book' value={""} icon={Book} onClick={()=>navigate("/admin/books/add-book")}></StatCard>
           <StatCard title='Add Book By Isbn' value={""} icon={BookPlus} onClick={()=>navigate("/admin/books/scan-isbn")}></StatCard>

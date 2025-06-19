@@ -10,7 +10,7 @@ interface ChatbotModalProps {
 }
 
 const ChatbotModal: React.FC<ChatbotModalProps> = ({ isOpen, onClose }) => {
-  const [messages, setMessages] = useState<{ type: "sent" | "received"; content: string; books?: Book[], imageBase64?: string  }[]>([]);
+  const [messages, setMessages] = useState<{ type: "sent" | "received" | "typing"; content: string; books?: Book[], imageBase64?: string  }[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showCamera, setShowCamera] = useState(false);
@@ -18,6 +18,8 @@ const ChatbotModal: React.FC<ChatbotModalProps> = ({ isOpen, onClose }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  const auth_token = localStorage.getItem("token") || "no_token";
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
@@ -41,7 +43,7 @@ const ChatbotModal: React.FC<ChatbotModalProps> = ({ isOpen, onClose }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ message: userMessage, auth_token: "auth_tken_here" }),
+        body: JSON.stringify({ message: userMessage, auth_token: auth_token }),
       });
 
       const data = await response.json();
@@ -179,7 +181,7 @@ const ChatbotModal: React.FC<ChatbotModalProps> = ({ isOpen, onClose }) => {
           {messages.map((message, index) => (
             <SingleMessage key={index} type={message.type} text={message.content} books={message.books} imageBase64={message.imageBase64} />
           ))}
-          {isLoading && <SingleMessage type="received" text="Typing..." />}
+          {isLoading && <SingleMessage type="typing" text="Typing..." />}
           <div ref={messagesEndRef} />
         </div>
 
