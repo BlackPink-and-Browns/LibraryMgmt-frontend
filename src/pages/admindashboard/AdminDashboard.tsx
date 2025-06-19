@@ -15,6 +15,7 @@ const AdminDashboard = () => {
   const book = recommendedBooksDb;
   const navigate = useNavigate();
   const { data: analytics } = useGetAnalyticsQuery({});
+  console.log(analytics)
   console.log("details", analytics);
   const popularBooks = [
     { title: "Atomic Habits", borrowCount: 25 },
@@ -41,6 +42,12 @@ const AdminDashboard = () => {
           <StatCard
             title="Shelf"
             value={analytics?.shelvesCount.totalCount ?? "20"}
+            icon={Rows4}
+            onClick={() => navigate("shelf/shelf-list")}
+          ></StatCard>
+          <StatCard
+            title="Active Users"
+            value={analytics?.activeUsersCount.currentMonthCount ?? "20"}
             icon={Rows4}
             onClick={() => navigate("shelf/shelf-list")}
           ></StatCard>
