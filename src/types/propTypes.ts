@@ -1,6 +1,6 @@
 import React from "react";
 
-import type { Book } from "./dataTypes";
+import type { Book, BookCopy } from "./dataTypes";
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     variant: { 
@@ -42,6 +42,7 @@ export interface TitleProps {
 
 export interface BookCardProps{
     book : Book
+    type? : string
 }
 
 export interface BookDetailsProps {
@@ -58,6 +59,15 @@ export interface BookStatusButtonProps{
   setIsModalOpen : React.Dispatch<React.SetStateAction<boolean>>
   isModalOpen : boolean 
 }
+
+
+export type BorrowModalProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  copies : BookCopy[]
+};
+
+
 
 export type HistoryItem = {
   id: number;

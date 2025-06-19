@@ -6,7 +6,7 @@ import type { BookCardProps } from "../../types/propTypes";
 import type { Author, BookCopy, Review } from "../../types/dataTypes";
 
 
-export default function BookCard ({book,type}: {book:BookCardProps,type?:string}){
+export default function BookCard ({book,type}:  BookCardProps){
     const navigate = useNavigate()
 
     const status = book.copies ? book.copies.some((copy : BookCopy )=> copy.is_available) : false

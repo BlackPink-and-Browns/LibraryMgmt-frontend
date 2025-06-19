@@ -40,3 +40,9 @@ export interface Review {
 export interface AuthorWithBooks extends Author {
     books : Book[]
 }
+
+export interface ShelfType {
+    id : number
+    label : string
+    office : string
+}
