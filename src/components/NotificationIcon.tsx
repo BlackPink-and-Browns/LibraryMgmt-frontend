@@ -35,13 +35,13 @@ const NotificationButton: React.FC = () => {
   const unreadCount = notifications.length;
 
   return (
-    <div style={{ position: 'fixed', top: '24px', right: '32px', zIndex: 999 }}>
+    <div style={{ position: 'fixed', top: '30px', right: '32px', zIndex: 999 }}>
       <button
         style={{
           width: '48px',
           height: '48px',
           borderRadius: '50%',
-          background: 'linear-gradient(135deg, #f97316 60%, #ef4444 100%)',
+          background: 'linear-gradient(135deg, blue 10%, #ef4444 100%)',
           boxShadow: '0 4px 16px rgba(0,0,0,0.18)',
           display: 'flex',
           alignItems: 'center',

@@ -18,7 +18,7 @@ export default function DashboardNavButtons() {
   return (
     <div className="flex gap-4 items-center">
       <Button
-        variant={{ color:"primary", size: "medium" }}
+        variant={{ color:"logout", size: "medium" }}
         type="submit"
         onClick={onLogout}
       >

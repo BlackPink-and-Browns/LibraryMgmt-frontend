@@ -35,7 +35,7 @@ const AdminSideBar = () => {
       </div>
       <button
         onClick={handleLogout}
-        className="px-4 mr-2 py-2 bg-theme-dark text-white rounded-lg transition-colors duration-200"
+        className="px-4 mr-2 py-2 bg-theme-logout text-black rounded-lg transition-colors duration-200"
       >
         Logout
       </button>

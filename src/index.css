@@ -14,16 +14,16 @@
     @apply bg-gradient-to-br from-red-200  to-blue-300;
   }
 
+  .bg-theme-logout {
+    @apply bg-blue-200  hover:bg-blue-300;
+  }
+
   .text-theme {
     @apply text-gray-500;
   }
 
   .layout-center {
     @apply flex flex-row items-center justify-center;
-  }
-
-  .admin-header {
-    @apply pl-75
   }
 }
 
