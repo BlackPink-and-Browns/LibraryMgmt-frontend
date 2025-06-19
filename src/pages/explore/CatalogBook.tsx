@@ -23,7 +23,7 @@ export default function BookCatalog (){
         <Header heading="Book Catalog" description="Discover and borrow book from our collection">
             <Button 
                 type="button" 
-                variant ={{ color : "primary", size : 'large'}}
+                variant ={{ color : "ternary", size : 'large'}}
                 onClick={()=> navigate(-1)}
             >
                 Back to Home
@@ -40,14 +40,14 @@ export default function BookCatalog (){
                 </div>    
                 
                 <div className="flex flex-row flex-wrap justiify-between mx-4 md:mx-10 lg:mx-50 my-10">
-                    {dummyBookCards.map((book) => (
+                    {/* {dummyBookCards.map((book) => (
                         <div
                         className="w-full sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/3 2xl:w-1/4 my-5 px-2"
                         key={book.id}
                         >
                         <BookCard book={book} />
                         </div>
-                    ))}
+                    ))} */}
                     {allBooks?.map((book : Book) => (
                         <div
                         className="w-full sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/3 2xl:w-1/4 my-5 px-2"

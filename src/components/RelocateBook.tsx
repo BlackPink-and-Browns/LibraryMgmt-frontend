@@ -1,18 +1,26 @@
 import React, { useState } from "react";
 import { useGetShelfListQuery } from "../api-service/shelf/shelf.api";
-import { useCreateBookCopyMutation } from "../api-service/bookcopy/bookcopy.api";
+import {
+  useCreateBookCopyMutation,
+  useDeleteBookCopyMutation,
+  useEditBookCopyMutation,
+} from "../api-service/bookcopy/bookcopy.api";
 
-function RelocateModal(props:any) {
+function RelocateModal(props: any) {
   const {
     isOpen,
     onClose,
     onRelocate,
     mode = "relocate",
-    id
+    id: bookId, // book ID
+    selectedCopyId,
+    refetch,
   } = props;
 
   const { data: shelfData = [] } = useGetShelfListQuery({});
-  const [addCopy]=useCreateBookCopyMutation()
+  const [createBookCopy, { isLoading }] = useCreateBookCopyMutation();
+  const [editBookCopy] = useEditBookCopyMutation(); //for relocation
+  console.log("from 1st selectedCopyId", selectedCopyId);
   const [selectedOfficeId, setSelectedOfficeId] = useState("");
   const [selectedShelfId, setSelectedShelfId] = useState("");
   const [numCopies, setNumCopies] = useState(1);
@@ -30,17 +38,51 @@ function RelocateModal(props:any) {
     .filter((shelf) => String(shelf.office.id) === selectedOfficeId)
     .map((shelf) => ({ id: shelf.id, label: shelf.label }));
 
-  function handleSubmit() {
-    if (selectedOfficeId && selectedShelfId) {
-      if (mode === "add") {
-        onRelocate(selectedOfficeId, selectedShelfId, numCopies);
-      } else {
-        onRelocate(selectedOfficeId, selectedShelfId);
+  async function handleSubmit() {
+    if (!selectedShelfId || !selectedOfficeId) return;
+
+    if (mode === "add") {
+      try {
+        console.log("from payload", selectedOfficeId);
+        const payload = {
+          book_id: Number(bookId),
+          count: Number(numCopies),
+          shelf_id: Number(selectedShelfId),
+        };
+        const result = await createBookCopy(payload);
+        if ("error" in result) {
+          console.error("API Error:", result.error);
+          alert("Failed to add book copy.");
+        } else {
+          onRelocate(selectedOfficeId, selectedShelfId, numCopies);
+          await props.refetch?.();
+          onClose();
+          setSelectedOfficeId("");
+          setSelectedShelfId("");
+          setNumCopies(1);
+        }
+      } catch (err) {
+        console.error("Failed to add book copy:", err);
+        alert("Failed to add book copy.");
       }
-      setSelectedOfficeId("");
-      setSelectedShelfId("");
-      setNumCopies(1);
-      onClose();
+    } else {
+      try {
+        console.log("from edit ", selectedCopyId, selectedShelfId);
+        const payload = {
+          shelf_id: Number(selectedShelfId),
+        };
+        await editBookCopy({ id: selectedCopyId, data: payload }).unwrap();
+        const relocatedShelf = shelfData.find(
+          (s) => s.id === Number(selectedShelfId)
+        );
+        onRelocate(relocatedShelf); // return shelf with office attached
+        setSelectedOfficeId("");
+        setSelectedShelfId("");
+        onClose();
+      } catch (err) {
+        console.error("Failed to relocate book copy:", err);
+        alert("Failed to relocate book copy.");
+      }
     }
   }
 
@@ -109,14 +151,18 @@ function RelocateModal(props:any) {
           </button>
           <button
             onClick={handleSubmit}
-            disabled={!(selectedOfficeId && selectedShelfId)}
+            disabled={isLoading || !(selectedOfficeId && selectedShelfId)}
             className={`px-4 py-2 text-sm text-white rounded ${
-              selectedOfficeId && selectedShelfId
+              selectedOfficeId && selectedShelfId && !isLoading
                 ? "bg-blue-600 hover:bg-blue-700"
                 : "bg-blue-300 cursor-not-allowed opacity-70"
             }`}
           >
-            {mode === "add" ? "Add Copies" : "Relocate"}
+            {isLoading
+              ? "Adding..."
+              : mode === "add"
+              ? "Add Copies"
+              : "Relocate"}
           </button>
         </div>
       </div>

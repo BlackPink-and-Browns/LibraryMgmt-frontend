@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function BorrowHistory({ history ,type}: {history:BorrowHistoryProps['history'],type?:string}) {
     const admin = type==="admin"
+   
     const navigate = useNavigate();
   return (
     <section className="bg-white p-4 rounded-xl shadow-lg ">
