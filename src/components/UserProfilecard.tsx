@@ -3,29 +3,31 @@ import clsx from "clsx";
 import { User } from "lucide-react";
 
 function UserProfileCard(props: {
-  username: string;
+  name: string;
   id: number;
   email: string;
+  role:string;
   status: "Active" | "Inactive";
   profilePicUrl: string;
 }) {
     console.log("props",props)
-  const { username, id, email, status, profilePicUrl } = props;
+  const { name, id, email,role, status, profilePicUrl } = props;
 
   return (
     <div className="bg-white p-6 rounded-xl shadow-md flex items-center gap-5 ">
       {/* Profile Picture */}
         {profilePicUrl ? ( <img
         src={profilePicUrl}
-        alt={username}
+        alt={name}
         className="w-25 h-25 rounded-full object-cover border"
       />):(<User className="w-25 h-25 rounded-full object-cover border bg-pink"></User>)}
      
 
       {/* User Info */}
       <div className="flex-1 space-y-1 items-center justify-center">
-        <h2 className="text-lg font-semibold">{username}</h2>
+        <h2 className="text-lg font-semibold">{name}</h2>
         <p className="text-sm text-gray-600">User ID: {id}</p>
+        <p className="text-sm text-gray-600">Role: {role}</p>
         <p className="text-sm text-gray-600">Email: {email}</p>
         <span 
           className={clsx(
