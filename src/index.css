@@ -15,7 +15,7 @@
   }
 
   .bg-theme-logout {
-    @apply bg-blue-200  hover:bg-blue-300;
+    @apply bg-blue-300  hover:bg-blue-400;
   }
 
   .text-theme {
