@@ -2,27 +2,45 @@ import { BookOpen } from "lucide-react";
 import type { Book } from "../types/dataTypes";
 import Button from "./Button";
 import type { BookStatusButtonProps } from "../types/propTypes";
+import { useGetBorrowStatusListQuery } from "../api-service/book/borrow.api";
 
-export default function BookStatusButton ({book, setIsModalOpen, isModalOpen} : BookStatusButtonProps){
+export default function BookStatusButton ({bookId, status, setIsModalOpen, isModalOpen} : BookStatusButtonProps){
+    const userId = Number(localStorage.getItem('userId'))
+    //console.log('UserId, BookID : ', userId, bookId)
 
-    async function handleBorrow (){
-
-    }
+    const {data : borrowRecord, isLoading : borrowsLoading } = useGetBorrowStatusListQuery({})
+    borrowsLoading ? console.log('Loading..') : <></>
+    //console.log('Borrow Records :', borrowRecord)
+    
+    const userCurrentlyHolding =borrowRecord?.records?.some((record : any) => {       
+        return record?.borrowedBy.id === userId &&
+        record?.bookCopy.book.id === bookId
+    }) 
+    // console.log('userCurrentlyHolding : ', userCurrentlyHolding)
 
     async function handleRequest (){
 
     }
     return (
-        <div className="pb-15 mx-5 my-5 w-1/3">
-            {book.is_available ? 
+        <div className="">
+            {
+                userCurrentlyHolding ? 
+                <Button 
+                    variant={{color : 'ternary', size : 'medium'}}
+                    type="button"
+                    onClick={handleRequest}
+                >                         
+                    <p>Return Book</p>                        
+                </Button> : 
+                status ? 
                 <Button 
                     variant={{color : 'primary', size : 'medium'}}
                     type="button"
                     onClick={()=>{setIsModalOpen(true) 
                         console.log(isModalOpen)}}
                 >
-                    <div className="flex flex-row">
-                        <BookOpen className="mx-4"/>
+                    <div className="flex flex-row justify-center pr-2">
+                        <BookOpen className="mx-2"/>
                         <p >Borrow</p>
                     </div>                       
                 </Button> 

@@ -24,29 +24,13 @@ const userApi = baseApi.injectEndpoints({
       }),
       providesTags: ["BORROW"],
     }),
-    getUserRequests: builder.query({
-      query: () => ({
-        url: "requests/books",
-        method: "GET",
-      }),
-      providesTags: ["REQUEST"],
-    }),
-    removeRequest: builder.mutation({
-      query: (waitlistIds: number[] | null) => ({
-        url: `/requests/books`,
-        method: "PATCH",
-        body: waitlistIds ? { waitlistIds } : null,
-      }),
-      invalidatesTags: ["REQUEST"], 
-    }),
+    
   }),
 });
 
 export const {
   useGetAllUserQuery,
   useGetUserBorrowHistoryQuery,
-  useGetUserRequestsQuery,
-  useRemoveRequestMutation,
   useGetUserBorrowHistoryByAdminQuery
 } = userApi;
 

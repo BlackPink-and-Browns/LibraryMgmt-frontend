@@ -22,7 +22,7 @@ const Login = () => {
           localStorage.setItem("role", user.role);
           localStorage.setItem("userId", user.id);
 
-          user.role === "ADMIN" ? navigate("/admin") : navigate("dashboard");
+          user.role === "ADMIN" ? navigate("/admin") : navigate("/dashboard");
         }
       })
       .catch((error) => {
@@ -35,7 +35,7 @@ const Login = () => {
     const isLoggedIn = localStorage.getItem("isLoggedIn");
     if (isLoggedIn === "true") {
       const role=localStorage.getItem("role");
-      role === "ADMIN" ? navigate("/admin") : navigate("dashboard");
+      role === "ADMIN" ? navigate("/admin") : navigate("/dashboard");
       return;
     }
   }, []);
