@@ -5,7 +5,7 @@ const SidebarNavButton = ({ label, to, Icon = Home }: { label: string; to: strin
   const navigate = useNavigate();
 
   return (
-    <div className="w-full flex justify-end">
+    <div className="w-full flex justify-end h-12">
     <button
       onClick={() => navigate(to)}
       className="w-full flex justify-between bg-theme-light items-center gap-3 px-4 py-2 text-gray-700  rounded-tl-lg rounded-bl-lg hover:bg-theme-dark transition-colors"
