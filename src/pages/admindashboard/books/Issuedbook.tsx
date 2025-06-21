@@ -1,12 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useGetAllBorrowsQuery } from "../../../api-service/book/borrow.api";
+import LoadingSpinner from "../../../components/LoadingSpinner";
 
 const Issuedbook = () => {
   const navigate = useNavigate();
   const { data: borrowrecord, isLoading, error } = useGetAllBorrowsQuery({});
 
-  if (isLoading) return <p className="text-center mt-10">Loading...</p>;
+   if (isLoading) return <LoadingSpinner message="Fetching Issued books..." />;
   if (error) return <p className="text-center mt-10 text-red-500">Error fetching borrow records.</p>;
 
   return (

@@ -5,6 +5,7 @@ import {
   useDeleteBookCopyMutation,
   useEditBookCopyMutation,
 } from "../api-service/bookcopy/bookcopy.api";
+import { toast } from "react-toastify";
 
 function RelocateModal(props: any) {
   const {
@@ -19,8 +20,7 @@ function RelocateModal(props: any) {
 
   const { data: shelfData = [] } = useGetShelfListQuery({});
   const [createBookCopy, { isLoading }] = useCreateBookCopyMutation();
-  const [editBookCopy] = useEditBookCopyMutation(); //for relocation
-  console.log("from 1st selectedCopyId", selectedCopyId);
+  const [editBookCopy] = useEditBookCopyMutation(); 
   const [selectedOfficeId, setSelectedOfficeId] = useState("");
   const [selectedShelfId, setSelectedShelfId] = useState("");
   const [numCopies, setNumCopies] = useState(1);
@@ -52,7 +52,7 @@ function RelocateModal(props: any) {
         const result = await createBookCopy(payload);
         if ("error" in result) {
           console.error("API Error:", result.error);
-          alert("Failed to add book copy.");
+          toast.error("Failed to add book copy.");
         } else {
           onRelocate(selectedOfficeId, selectedShelfId, numCopies);
           await props.refetch?.();
@@ -63,7 +63,7 @@ function RelocateModal(props: any) {
         }
       } catch (err) {
         console.error("Failed to add book copy:", err);
-        alert("Failed to add book copy.");
+        toast.error("Failed to add book copy.");
       }
     } else {
       try {
@@ -81,7 +81,7 @@ function RelocateModal(props: any) {
         onClose();
       } catch (err) {
         console.error("Failed to relocate book copy:", err);
-        alert("Failed to relocate book copy.");
+        toast.error("Failed to relocate book copy.");
       }
     }
   }

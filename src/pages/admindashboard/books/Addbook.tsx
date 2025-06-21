@@ -12,6 +12,8 @@ import {
   useCreateAuthorMutation,
   useGetAllAuthorsQuery,
 } from "../../../api-service/author/author.api";
+import LoadingSpinner from "../../../components/LoadingSpinner";
+import { toast } from "react-toastify";
 
 type OptionType = {
   label: string;
@@ -29,8 +31,8 @@ const Addbook = () => {
   const [createGenre] = useCreateGenreMutation();
   const [createBook] = useCreateBookMutation();
 
-  const { data: authors } = useGetAllAuthorsQuery({});
-  const { data: genres } = useGetAllGenreQuery({});
+  const { data: authors,refetch: refetchAuthors } = useGetAllAuthorsQuery({});
+  const { data: genres,refetch:refetchGenre } = useGetAllGenreQuery({});
 
   const [selectedAuthors, setSelectedAuthors] = useState<OptionType[]>([]);
   const [selectedGenres, setSelectedGenres] = useState<OptionType[]>([]);
@@ -55,7 +57,7 @@ const Addbook = () => {
         const data = await res.json();
 
         if (data.totalItems === 0) {
-          alert("Book Not Found");
+          toast.error("Book Not Found");
           navigate("/admin/books/scan-isbn");
         } else {
           const book = data.items[0].volumeInfo;
@@ -72,7 +74,7 @@ const Addbook = () => {
           setSelectedAuthors(
             (book.authors || []).map((name) => ({
               label: name,
-              value: name, // Trigger creation or lookup
+              value: name,
             }))
           );
 
@@ -85,7 +87,7 @@ const Addbook = () => {
         }
       } catch (error) {
         console.error("Error fetching book:", error);
-        alert("Failed to fetch book");
+        toast.error("Failed to fetch book",error.data);
         navigate("/admin/books/scan-isbn");
       } finally {
         setLoading(false);
@@ -118,10 +120,6 @@ const Addbook = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("selectedAuthors", selectedAuthors);
-    console.log("selectedGenre", selectedGenres);
-    console.log("author", authors);
-    console.log("genre", genres);
     const resolveAuthorsRaw = await Promise.all(
       selectedAuthors.map(async (a) => {
         const condition =
@@ -129,14 +127,13 @@ const Addbook = () => {
         try {
           if (condition) {
             const user = authors?.find((auth) => auth.name === a.label);
-
-            console.log("user", user);
-            console.log("user.id", user.id);
             return user.id;
           } else {
             console.log("in else");
-            const newAuthor = await createAuthor({ name: a.label }).unwrap();
-            return newAuthor?.id;
+          await createAuthor({ name: a.label }).unwrap();
+          const updated = await refetchAuthors(); // ⬅️ Re-fetch authors
+          const found = updated.data?.find((auth) => auth.name === a.label);
+          return found?.id ?? null;
           }
         } catch (err) {
           const existing = authors?.find((auth) => auth.name === a.label);
@@ -152,6 +149,8 @@ const Addbook = () => {
             name: g.label,
             description: "Auto-filled genre",
           }).unwrap();
+          console.log("🚀 ~ selectedGenres.map ~ newGenre:", newGenre)
+          
           return newGenre?.id;
         } catch (err) {
           const existing = genres?.find((gen) => gen.name === g.label);
@@ -161,7 +160,9 @@ const Addbook = () => {
     );
 
     const validAuthorIds = resolveAuthorsRaw.filter((id): id is number => !!id);
+    console.log("🚀 ~ handleSubmit ~ validAuthorIds:", validAuthorIds)
     const validGenreIds = resolveGenresRaw.filter((id): id is number => !!id);
+    console.log("🚀 ~ handleSubmit ~ validGenreIds:", validGenreIds)
 
     const payload = {
       title: formData.title,
@@ -176,18 +177,19 @@ const Addbook = () => {
 
     try {
       await createBook(payload).unwrap();
-      alert("Book Added");
+      toast.success("Book Added")
       navigate("/admin/books/book-list")
     } catch (err) {
-      console.error("Failed to add book:", err);
-      alert("Failed to add book");
+      console.error("Failed to add book:",err.data.error );
+      toast.error("Failed to add book")
+
     }
   };
 
   return (
     <div className="min-h-screen flex justify-center items-start px-4 py-10">
       {loading ? (
-        <h1 className="text-3xl">Loading...</h1>
+        <LoadingSpinner message="Loading Detail"/>
       ) : (
         <AddBookForm
           formData={formData}

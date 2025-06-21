@@ -23,7 +23,7 @@ const authorApi = baseApi.injectEndpoints({
                 method:'POST',
                 body:payload
             }),
-            invalidatesTags:['AUTHORS']
+            invalidatesTags:['AUTHORS','BOOKS']
         })
     }),
 });

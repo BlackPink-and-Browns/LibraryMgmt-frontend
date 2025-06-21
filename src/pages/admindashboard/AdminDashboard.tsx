@@ -10,13 +10,13 @@ import { useGetAnalyticsQuery } from "../../api-service/analytics/analytics.api"
 import RecentActivity from "../../components/RecentActivity";
 import Books from "./books/Books";
 import RecentlyAddedBooks from "../../components/RecentlyAddedBooks";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 const AdminDashboard = () => {
   const book = recommendedBooksDb;
   const navigate = useNavigate();
-  const { data: analytics } = useGetAnalyticsQuery({});
-  console.log(analytics)
-  console.log("details", analytics);
+  const { data: analytics,isLoading } = useGetAnalyticsQuery({});
+  if(isLoading) return <LoadingSpinner message="Loading Details.."/>
   const popularBooks = [
     { title: "Atomic Habits", borrowCount: 25 },
     { title: "1984", borrowCount: 18 },
@@ -49,7 +49,7 @@ const AdminDashboard = () => {
             title="Active Users"
             value={analytics?.activeUsersCount.currentMonthCount ?? "20"}
             icon={Rows4}
-            onClick={() => navigate("shelf/shelf-list")}
+            onClick={() => navigate("users")}
           ></StatCard>
           <StatCard
             title="Books Issued"

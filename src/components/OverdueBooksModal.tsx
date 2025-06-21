@@ -4,8 +4,8 @@ import BorrowedBooks from "./BorrowedBooks";
 import { useState } from "react";
 import type { IfOverdueResponse } from "../api-service/book/types";
 
-export default function OverdueBooks({books,onClose}: {books:any,onClose?: () => void}) {
-  const navigate = useNavigate();
+export default function OverdueBooks({books,onClose}: {books?:any,onClose?: () => void}) {
+
   
   const overdueBooks = books
 

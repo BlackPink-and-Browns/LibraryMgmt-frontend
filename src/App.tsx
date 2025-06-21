@@ -2,7 +2,7 @@ import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./store/store.ts";
-// Common pages
+
 import {
   Login,
   BookCatalog,
@@ -10,7 +10,7 @@ import {
   NotFound,
   BookDetails,
 } from "./pages";
-// Admin pages
+
 import AdminLayout from "./pages/adminlayout/AdminLayout";
 import AdminDashboard from "./pages/admindashboard/AdminDashboard";
 import Addbook from "./pages/admindashboard/books/Addbook.tsx";
@@ -27,14 +27,14 @@ import AddBookCopy from "./pages/admindashboard/books/AddBookCopy.tsx";
 import BookDetail from "./pages/admindashboard/books/BookDetail.tsx";
 import Issuedbook from "./pages/admindashboard/books/Issuedbook.tsx";
 import ShelfBooks from "./pages/admindashboard/shelf/ShelfBooks.tsx";
-// User pages
 import EmployeeDashboard from "./pages/employeedashboard/EmployeeDashboard.tsx";
 import ReturnBook from "./pages/employeedashboard/returnbook/ReturnBook.tsx";
 import BorrowedBookRecords from "./pages/employeedashboard/borrowedBookRecord.tsx";
 import OverdueBooks from "./components/OverdueBooksModal.tsx";
 import AuthorDetails from "./pages/explore/Author.tsx";
-// ProtectedRoute wrapper
 import ProtectedRoute from "./ProtectedRoute";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -59,7 +59,7 @@ const router = createBrowserRouter([
           { path: "returnbook/:bookId", element: <ReturnBook /> },
           { path: "details/:bookId", element: <BookDetails /> },
           { path: "borrowHistory/:bookId", element: <BorrowedBookRecords /> },
-          { path: "overdue", element: <OverdueBooks /> },
+          { path: "overdue", element: <OverdueBooks/> },
         ],
       },
   {
@@ -108,6 +108,7 @@ const router = createBrowserRouter([
 function App() {
   return (
     <Provider store={store}>
+      <ToastContainer position="top-right" autoClose={3000} />
       <RouterProvider router={router} />
     </Provider>
   );
