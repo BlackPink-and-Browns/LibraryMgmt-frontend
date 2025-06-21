@@ -6,7 +6,15 @@ const requestApi = baseApi.injectEndpoints({
             query: () => '/requests/books',
             providesTags: ['REQUEST'],
         }),
-        
+
+        createRequest : builder.mutation({
+            query : (bookId : number) => ({
+                url : `'requests/books/${bookId}`,
+                method : 'POST'
+            }),
+            invalidatesTags : ['REQUEST']
+        }),
+
         removeRequest: builder.mutation({
             query: (waitlistIds: number[] | null) => ({
                 url: '/requests/books',
@@ -18,4 +26,7 @@ const requestApi = baseApi.injectEndpoints({
     }),
 })
 
-export const {useGetRequestsQuery,useRemoveRequestMutation}= requestApi;
+export const {useGetRequestsQuery,
+    useRemoveRequestMutation,
+    useCreateRequestMutation
+}= requestApi;

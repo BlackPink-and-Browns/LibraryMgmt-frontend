@@ -2,29 +2,48 @@ import { BookOpen } from "lucide-react";
 import type { Book } from "../types/dataTypes";
 import Button from "./Button";
 import type { BookStatusButtonProps } from "../types/propTypes";
-import { useGetBorrowStatusListQuery } from "../api-service/book/borrow.api";
+import { useGetAllBorrowsQuery, useGetAllOverdueListQuery } from "../api-service/book/borrow.api";
+import { useCreateRequestMutation } from "../api-service/book/request.api";
 
 export default function BookStatusButton ({bookId, status, setIsModalOpen, isModalOpen} : BookStatusButtonProps){
+    const [requestBook] = useCreateRequestMutation({})
+
     const userId = Number(localStorage.getItem('userId'))
     //console.log('UserId, BookID : ', userId, bookId)
 
-    const {data : borrowRecord, isLoading : borrowsLoading } = useGetBorrowStatusListQuery({})
-    borrowsLoading ? console.log('Loading..') : <></>
-    //console.log('Borrow Records :', borrowRecord)
+    const {data : borrowRecord, isLoading : borrowsLoading } = useGetAllBorrowsQuery({})
+    borrowsLoading ? console.log('Borrow Records Loading..') : <></>
+    console.log('Borrow Records :', borrowRecord)
     
-    const userCurrentlyHolding =borrowRecord?.records?.some((record : any) => {       
+    const isUserCurrentlyHolding =borrowRecord?.records?.some((record : any) => {       
         return record?.borrowedBy.id === userId &&
         record?.bookCopy.book.id === bookId
     }) 
-    // console.log('userCurrentlyHolding : ', userCurrentlyHolding)
+    console.log('userCurrentlyHolding : ', isUserCurrentlyHolding)
+
+    //if overdue
+    const {data : overdueRecords, isLoading : overduesLoading } = useGetAllOverdueListQuery({})
+    overduesLoading ? console.log('Overudes Loading..') : <></>
+    console.log('Overudue Records :', overdueRecords)
+    const ifOverdue =overdueRecords?.records?.some((record : any) => {       
+        return record?.borrowedBy.id === userId
+    }) 
+    console.log("If Overdue: ", ifOverdue)
+    
+
+    function handleBorrow (){
+        console.log('Modal Open: ',isModalOpen)
+        setIsModalOpen(true)
+    }
 
     async function handleRequest (){
 
     }
+
     return (
         <div className="">
             {
-                userCurrentlyHolding ? 
+                isUserCurrentlyHolding ? 
                 <Button 
                     variant={{color : 'ternary', size : 'medium'}}
                     type="button"
@@ -36,8 +55,8 @@ export default function BookStatusButton ({bookId, status, setIsModalOpen, isMod
                 <Button 
                     variant={{color : 'primary', size : 'medium'}}
                     type="button"
-                    onClick={()=>{setIsModalOpen(true) 
-                        console.log(isModalOpen)}}
+                    onClick={handleBorrow}
+                    disabled={ifOverdue}
                 >
                     <div className="flex flex-row justify-center pr-2">
                         <BookOpen className="mx-2"/>

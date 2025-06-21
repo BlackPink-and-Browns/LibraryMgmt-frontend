@@ -20,7 +20,7 @@ export interface HeaderProps {
 export interface SearchBarProps{
     searchValue : string
     setSearchValue : React.Dispatch<React.SetStateAction<string>>
-    setFilterValue : React.Dispatch<React.SetStateAction<string>>
+    setFilterValue : React.Dispatch<React.SetStateAction<number>>
     children ?: React.ReactNode
 }
 

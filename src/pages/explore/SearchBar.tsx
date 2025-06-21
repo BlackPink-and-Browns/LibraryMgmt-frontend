@@ -1,8 +1,12 @@
 import { Filter, Search } from "lucide-react"
-import { useState } from "react"
+import React, { useState } from "react"
 import type { SearchBarProps } from "../../types/propTypes"
+import { useGetAllGenreQuery } from "../../api-service/genre/genre.api"
+import type { Genre } from "../../types/dataTypes"
 
 export default function SearchBar ({searchValue, setSearchValue, setFilterValue} : SearchBarProps) {
+
+    const {data : allGenres, isLoading} = useGetAllGenreQuery({})
 
     return (
         <div className="bg-white py-5 px-5 mx-50 my-10 rounded-2xl">
@@ -22,11 +26,12 @@ export default function SearchBar ({searchValue, setSearchValue, setFilterValue}
                     <Filter className="absolute text-gray-900 h-4 w-4 top-3 left-1 mr-2" />
                     <select 
                         className="flex flex-grow h-10 w-full border border-gray-300 rounded-md px-5"
-                        onChange={(e)=> setFilterValue(e.target.value)}
+                        onChange={(e) => setFilterValue(Number(e.target.value))}
                     >
-                        <option defaultChecked value='All'> All Genres</option>
-                        <option value='Programming'>Programming</option>
-                        <option value='Horror'>Horror</option>
+                        <option defaultChecked value={0}> All Genres</option>
+                        {
+                          allGenres?.map((genre : Genre) => <option  key={genre.id} value={genre.id}>{genre.name}</option>)
+                        }
                     </select>
                 </div>
             </div>

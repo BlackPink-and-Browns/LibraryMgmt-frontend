@@ -4,7 +4,8 @@ function Button ({
     children, 
     variant, 
     type,
-    onClick
+    onClick,
+    disabled
 } : ButtonProps) {
    
     const buttonColor = variant.color === 'primary' ?
@@ -16,14 +17,25 @@ function Button ({
             'w-40 sm:w-1/3 md:w-1/2 lg:w-3/4' : 'w-32 sm:w-1/4 md:w-1/3 lg:w-1/2 xl:w-3/4'
 
     return (
-        <div className={`rounded-lg px-4 py-2 flex h-13 items-center justify-center font-bold ${buttonColor} ${buttonSize} cursor-pointer`}>
-            <button 
-                type={type}  
-                onClick={onClick}           
-            >
-                {children}
-            </button>
+        <div className='group relative inline-block'>
+            {disabled && (
+                <span className="absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-gray-800 px-2 py-1 text-xs text-white opacity-0 group-hover:opacity-100 transition">
+                You have to return the overdue books before you can borrow another.
+                </span>
+            )}
+
+        <div className={`rounded-lg px-4 py-2 flex h-13 items-center justify-center font-bold ${buttonColor} ${buttonSize}  `}>
+                <button 
+                    type={type}  
+                    disabled={disabled}
+                    onClick={onClick}  
+                    className='cursor-pointer disabled:cursor-not-allowed'         
+                >
+                    {children}
+                </button>
+            </div>
         </div>
+        
         
     )
 }
