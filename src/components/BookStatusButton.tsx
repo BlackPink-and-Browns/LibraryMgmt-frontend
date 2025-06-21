@@ -3,15 +3,24 @@ import type { Book } from "../types/dataTypes";
 import Button from "./Button";
 import type { BookStatusButtonProps } from "../types/propTypes";
 import { useGetAllBorrowsQuery, useGetAllOverdueListQuery } from "../api-service/book/borrow.api";
-import { useCreateRequestMutation } from "../api-service/book/request.api";
+import { useCreateRequestMutation, useGetRequestsQuery } from "../api-service/book/request.api";
+import { useState } from "react";
 
 export default function BookStatusButton ({bookId, status, setIsModalOpen, isModalOpen} : BookStatusButtonProps){
-    const [requestBook] = useCreateRequestMutation({})
-
     const userId = Number(localStorage.getItem('userId'))
     //console.log('UserId, BookID : ', userId, bookId)
 
-    const {data : borrowRecord, isLoading : borrowsLoading } = useGetAllBorrowsQuery({})
+    const [requestBook] = useCreateRequestMutation({})
+    const {data : requestedBooks, isLoading : requestsLoading, refetch : refetchRequests} = useGetRequestsQuery({})
+    console.log('Requests :', requestedBooks)
+    const hasUserRequested  = requestedBooks?.some((record : any) => {       
+        return record?.employeeId === userId &&
+        record?.book.id === bookId
+    })
+    console.log('has User Requested this book? : ', hasUserRequested)
+
+
+    const {data : borrowRecord, isLoading : borrowsLoading, refetch : refetchBorrows} = useGetAllBorrowsQuery({})
     borrowsLoading ? console.log('Borrow Records Loading..') : <></>
     console.log('Borrow Records :', borrowRecord)
     
@@ -34,10 +43,17 @@ export default function BookStatusButton ({bookId, status, setIsModalOpen, isMod
     function handleBorrow (){
         console.log('Modal Open: ',isModalOpen)
         setIsModalOpen(true)
+        refetchBorrows()
     }
 
     async function handleRequest (){
-
+        requestBook(bookId).unwrap()
+        .then((response) => {
+            console.log("Response : ", response)
+            refetchRequests()
+        }).catch((error) => {
+            console.log("Error in requesting :", error)
+        })
     }
 
     return (
@@ -45,7 +61,7 @@ export default function BookStatusButton ({bookId, status, setIsModalOpen, isMod
             {
                 isUserCurrentlyHolding ? 
                 <Button 
-                    variant={{color : 'ternary', size : 'medium'}}
+                    variant={{color : 'primary', size : 'medium'}}
                     type="button"
                     onClick={handleRequest}
                 >                         
@@ -64,6 +80,14 @@ export default function BookStatusButton ({bookId, status, setIsModalOpen, isMod
                     </div>                       
                 </Button> 
                 :
+                hasUserRequested ? 
+                 <Button 
+                    variant={{color : 'ternary', size : 'medium'}}
+                    type="button"
+                    onClick={handleRequest}
+                >                         
+                    <p>Cancel Request</p>                        
+                </Button> :
                 <Button 
                     variant={{color : 'secondary', size : 'medium'}}
                     type="button"
