@@ -5,6 +5,7 @@ import ReviewInput from "../../../components/ReviewInput";
 import { X } from "lucide-react";
 import { useGetShelfListQuery } from "../../../api-service/shelf/shelf.api";
 import { useReturnBookMutation } from "../../../api-service/book/return.api";
+import { useCreateReviewMutation } from "../../../api-service/reviews/review.api";
 
 // const offices = [
 //   { name: "Head Office", id: "head" },
@@ -31,6 +32,7 @@ export default function ReturnBook({ type }: { type?: string }) {
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState("");
   const [returnBook] = useReturnBookMutation();
+  const [createReview] = useCreateReviewMutation();
 
   const offices = Array.from(
     new Map(
@@ -52,14 +54,29 @@ export default function ReturnBook({ type }: { type?: string }) {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  try {
-    await returnBook({ id: book.borrowId, returned_shelf_no: Number(selectedShelfId)}).unwrap();
-    navigate("../");
-  } catch (error) {
-    console.error("Failed to return book:", error);
-  }
-};
+    e.preventDefault();
+
+    try {
+      // 1. Return the book
+      await returnBook({
+        id: book.borrowId,
+        returned_shelf_no: Number(selectedShelfId),
+      }).unwrap();
+
+      // 2. Optionally create review if rating and content provided
+      if (rating > 0 || review.trim() !== "") {
+        await createReview({
+          bookId: book.id,
+          rating: rating,
+          content: review.trim(),
+        });
+      }
+
+      navigate("../");
+    } catch (error) {
+      console.error("Failed to return book or submit review:", error);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center px-4">

@@ -25,7 +25,7 @@ export default function BookCard ({book,type}:  BookCardProps){
                             onClose={() => setIsModalOpen(false)}
                             copies = {book.copies ?? []}
                         />
-        <div className={`bg-white rounded-lg shadow-lg mr-8 hover:scale-105 duration-700 ${widthClass} max-width-64`}>           
+        <div className={`bg-white rounded-lg shadow-lg mr-8 hover:scale-105 duration-700 ${widthClass} min-h-96`}>           
             <div className="p-8 rounded-lg">
                 <img 
                     src={book.cover_image} alt={book.title} 

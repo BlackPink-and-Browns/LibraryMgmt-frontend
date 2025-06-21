@@ -2,6 +2,7 @@ import React from 'react'
 import { useParams } from 'react-router-dom'
 import UserProfileCard from '../../../components/UserProfilecard'
 import { useGetAllUserQuery, useGetUserBorrowHistoryByAdminQuery } from '../../../api-service/user/user.api'
+import LoadingSpinner from '../../../components/LoadingSpinner'
 
 const UserDetail = () => {
   const { userId } = useParams()
@@ -13,9 +14,9 @@ const UserDetail = () => {
 
   const user = userdata.find((obj) => obj.id === Number(userId))
 
+  
+  if (isLoading) return <LoadingSpinner message='Loadin User Details' />
   if (!user) return <div className="text-center mt-10 text-gray-500">User not found.</div>
-  if (isLoading) return <div className="text-center mt-10">Loading borrow history...</div>
-
   return (
     <div className='flex flex-col w-full items-center gap-5'>
       <div className='w-3/4'>

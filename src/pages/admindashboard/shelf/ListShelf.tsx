@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { FolderIcon } from "lucide-react";
 import { useGetShelfListQuery } from "../../../api-service/shelf/shelf.api";
+import LoadingSpinner from "../../../components/LoadingSpinner";
 
 const ListShelf = () => {
   const navigate = useNavigate();
@@ -8,16 +9,8 @@ const ListShelf = () => {
   const { data: shelfData = [], isLoading } = useGetShelfListQuery({});
   console.log("shelfdata", shelfData);
 
-  // Show loading text
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex justify-center items-center text-lg font-semibold text-gray-600">
-        Loading shelves...
-      </div>
-    );
-  }
+  if (isLoading) return <LoadingSpinner message="Fetching users..." />;
 
-  // Group shelves by office name
   const grouped = shelfData.reduce((acc, shelf) => {
     const officeName = shelf.office?.name ?? "Unknown Office";
     if (!acc[officeName]) acc[officeName] = [];

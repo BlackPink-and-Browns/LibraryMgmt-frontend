@@ -120,6 +120,7 @@ export interface StatCardProps {
   title: string;
   value: string | number;
   change?: string;
+  status?:boolean;
   icon: React.ElementType;
   onClick?: () => void;
   variant?: "default" | "danger";
