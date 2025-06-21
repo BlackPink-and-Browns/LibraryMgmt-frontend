@@ -3,14 +3,18 @@ import "./AdminSideBar.css";
 import Button from "../Button";
 import SidebarNavButton from "../SidebarNavButton";
 import { Book, Home, ShieldOff, User, Warehouse } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 const AdminSideBar = () => {
+
+  
   const navigate=useNavigate()
   const handleLogout = () => {
         localStorage.setItem("token","")
         localStorage.setItem("isLoggedIn","false")
         localStorage.setItem("role","")
         localStorage.setItem("userId","")
+        toast.info("Bye Bye")
         navigate("/",{replace:true})
 
   };

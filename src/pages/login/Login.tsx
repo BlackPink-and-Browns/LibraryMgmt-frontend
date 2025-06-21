@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Login.css"; // Make sure this file has the styles
 import { useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../../api-service/auth/login.api";
+import { toast } from "react-toastify";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,12 +22,12 @@ const Login = () => {
           const user = JSON.parse(atob(accessToken.split(".")[1])) ?? {};
           localStorage.setItem("role", user.role);
           localStorage.setItem("userId", user.id);
-
+          toast.success("Welcome")
           user.role === "ADMIN" ? navigate("/admin") : navigate("/dashboard");
         }
       })
       .catch((error) => {
-        alert("wrong");
+        toast.error(error.data.message)
         setLoginError(error.data.message);
         console.log(error);
       });

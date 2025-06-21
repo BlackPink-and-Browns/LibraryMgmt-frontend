@@ -7,7 +7,7 @@ function UserProfileCard(props: {
   id: number;
   email: string;
   role:string;
-  status: "Active" | "Inactive";
+  status: "ACTIVE" | "INACTIVE";
   profilePicUrl: string;
 }) {
     console.log("props",props)
@@ -29,10 +29,11 @@ function UserProfileCard(props: {
         <p className="text-sm text-gray-600">User ID: {id}</p>
         <p className="text-sm text-gray-600">Role: {role}</p>
         <p className="text-sm text-gray-600">Email: {email}</p>
+        <p></p>
         <span 
           className={clsx(
             "inline-block px-3 py-1 text-xs font-medium rounded-full ",
-            status === "Active"
+            status === "ACTIVE"
               ? "bg-green-100 text-green-700"
               : "bg-red-100 text-red-700"
           )}
