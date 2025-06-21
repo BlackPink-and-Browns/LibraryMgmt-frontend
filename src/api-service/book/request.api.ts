@@ -9,7 +9,7 @@ const requestApi = baseApi.injectEndpoints({
 
         createRequest : builder.mutation({
             query : (bookId : number) => ({
-                url : `'requests/books/${bookId}`,
+                url : `requests/books/${bookId}`,
                 method : 'POST'
             }),
             invalidatesTags : ['REQUEST']
