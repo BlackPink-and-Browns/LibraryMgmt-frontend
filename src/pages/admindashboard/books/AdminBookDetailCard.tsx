@@ -95,7 +95,6 @@ const AdminBookDetailCard = () => {
 
   const handleDelete = async () => {
     if (!id) return;
-
     const confirmed = window.confirm(
       "Are you sure you want to delete this book?"
     );
