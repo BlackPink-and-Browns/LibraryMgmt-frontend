@@ -158,6 +158,7 @@ export default function EmployeeDashboard() {
           ></OverdueBooks>
         )}
         {displayRequestedBooks && (
+
           <RequestedBooks
             closeButton={true}
             books={requestedBooksData}
@@ -175,6 +176,7 @@ export default function EmployeeDashboard() {
             />
             <Recommendations books={RecommendedBookDetails} />
           </div>
+
 
           {/* Row 2: Full-width card */}
           <BorrowHistory history={borrowHistoryDetails} />

@@ -6,6 +6,10 @@ import { LogOut, Search, User } from "lucide-react";
 export default function DashboardNavButtons() {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
+  const role=localStorage.getItem("role")
+
+
+  
   const onLogout=()=>{
         localStorage.setItem("token","")
         localStorage.setItem("isLoggedIn","false")
@@ -13,6 +17,7 @@ export default function DashboardNavButtons() {
         localStorage.setItem("userId","")
         navigate("/",{replace:true})
     }
+        console.log("🚀 ~ onLogout ~ role:", role)
 
 
   return (
@@ -27,7 +32,18 @@ export default function DashboardNavButtons() {
         <p >Explore Books</p>
         </div>
       </Button>
-      
+      {role==="ADMIN" && (
+        <Button
+        variant={{ color:"logout", size: "medium" }}
+        type="submit"
+        onClick={()=>navigate("/admin")}
+      >
+        <div className="flex flex-row items-center justify-center ">
+          <LogOut/>
+        <p >Back To Admin</p>
+        </div>
+      </Button>
+      )}
       <Button
         variant={{ color:"logout", size: "medium" }}
         type="submit"

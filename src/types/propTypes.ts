@@ -5,7 +5,8 @@ import type { Book, BookCopy } from "./dataTypes";
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     variant: { 
         color : "primary" | 'secondary' | 'ternary' | 'logout',
-        size : "small" | 'medium' | 'large'
+        size : "small" | 'medium' | 'large',
+        
     } 
     children : React.ReactNode
 }
