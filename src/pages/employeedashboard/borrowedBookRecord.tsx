@@ -10,33 +10,31 @@ import {
 } from "../../api-service/reviews/review.api";
 
 export default function BorrowedBookRecords() {
-  const { transactionId } = useParams();
   const navigate = useNavigate();
-  const { state: record } = useLocation(); // record should include bookId
+  const { state: record } = useLocation(); 
 
   const userId = localStorage.getItem("userId");
-  const bookId = record?.bookId;
+  const bookId = record?.id;
 
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState("");
-  const [reviewId, setReviewId] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
+  const [reviewId, setReviewId] = useState(null);
 
-  const { data: userReviews = [] } = useGetReviewsByUserIdQuery(userId, {
-    skip: !userId,
-  });
-
+  const { data: userReviews = [] } = useGetReviewsByUserIdQuery(userId);
+  const existingReview = userReviews.find((r) => r.book.id === bookId);
+  console.log("Existing Review:", existingReview);
   const [updateReview] = useUpdateReviewMutation();
   const [deleteReview] = useDeleteReviewMutation();
 
   useEffect(() => {
     if (record && userReviews.length) {
-      const existingReview = userReviews.find((r) => r.bookId === bookId);
+      
       if (existingReview) {
-        setReviewId(existingReview.id);
         setRating(existingReview.rating);
         setReview(existingReview.content);
+        setReviewId(existingReview.id);
       }
     }
   }, [userReviews, record]);
@@ -49,7 +47,7 @@ export default function BorrowedBookRecords() {
         await updateReview({
           id: reviewId,
           payload: {
-            rating,
+            rating: rating,
             content: review,
           },
         }).unwrap();

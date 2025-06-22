@@ -23,7 +23,7 @@ export const BorrowApi = baseApi.injectEndpoints({
 
         ifOverdue: builder.query<IfOverdueResponse, void>({
             query: () => ({
-                url: `books/overdue/check/`,
+                url: `borrows/overdue/check/`,
                 method: "GET",
             }),
         }), 
