@@ -23,7 +23,7 @@ import ListShelf from "./pages/admindashboard/shelf/ListShelf.tsx";
 import UserList from "./pages/admindashboard/userlist/UserList";
 import UserDetail from "./pages/admindashboard/userlist/UserDetail.tsx";
 import BookList from "./pages/admindashboard/books/BookList.tsx";
-import AddBookCopy from "./pages/admindashboard/books/AddBookCopy.tsx";
+// import AddBookCopy from "./pages/admindashboard/books/AddBookCopy.tsx";
 import BookDetail from "./pages/admindashboard/books/BookDetail.tsx";
 import Issuedbook from "./pages/admindashboard/books/Issuedbook.tsx";
 import ShelfBooks from "./pages/admindashboard/shelf/ShelfBooks.tsx";
@@ -77,7 +77,7 @@ const router = createBrowserRouter([
             children: [
               { path: "add-book", element: <Addbook /> },
               { path: "add-book/:id", element: <Addbook /> },
-              { path: "add-copy", element: <AddBookCopy /> },
+              // { path: "add-copy", element: <AddBookCopy /> },
               { path: "bulk-upload", element: <BulkUpload /> },
               { path: "scan-isbn", element: <ScanIsbn /> },
               { path: "book-list", element: <BookList /> },
