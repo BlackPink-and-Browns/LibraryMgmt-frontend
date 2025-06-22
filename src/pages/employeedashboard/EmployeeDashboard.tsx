@@ -21,55 +21,27 @@ import type { RequestedBooksProp } from "../../api-service/user/types";
 import { useGetRequestsQuery } from "../../api-service/book/request.api";
 import { useIfOverdueQuery } from "../../api-service/book/borrow.api";
 import { useGetRecommendedQuery } from "../../api-service/book/recommended.api";
+import { formatDate, getDaysLeft } from "../../utils/utils";
 
 export default function EmployeeDashboard() {
   const navigate = useNavigate();
 
   const userId = localStorage.getItem("userId");
   const UserId = userId ? Number(userId) : 0;
-  console.log("User ID:", userId);
 
   const [displayOverdueBooks, setDisplayOverdueBooks] = useState(false);
   const [displayRequestedBooks, setDisplayRequestedBooks] = useState(false);
 
   const { data: recommendedBooks = [] } = useGetRecommendedQuery({});
-  console.log("Recommended Books:", recommendedBooks);
   const { data: userProfile } = useGetUserBorrowHistoryQuery({});
-
   const { data: requestedBooksData = [] } = useGetRequestsQuery({});
-
-
-  const { data: overdueBooksData } = useIfOverdueQuery();
-
+  const { data: overdueBooksData } = useIfOverdueQuery({});
   const borrowedBooks = userProfile?.borrowed_books || [];
 
   const borrowHistory = userProfile?.book_history || [];
   const overdueBooks = overdueBooksData?.overdued_books || [];
 
-  function getDaysLeft(expiresAt: string | null): number | null {
-    if (!expiresAt) return null;
-
-    const expiresDate = new Date(expiresAt);
-    const today = new Date();
-
-    // Strip time (compare only dates)
-    const expiresUTC = new Date(expiresDate.toDateString());
-    const todayUTC = new Date(today.toDateString());
-
-    const diffTime = expiresUTC.getTime() - todayUTC.getTime();
-    const daysLeft = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-    return daysLeft;
-  }
-
-  function formatDate(timestamp: string): string {
-    const date = new Date(timestamp);
-    return date.toLocaleDateString("en-IN", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-  }
+  
   
   const RecommendedBookDetails = recommendedBooks.map((recommendation) => {
   return {
@@ -116,7 +88,6 @@ export default function EmployeeDashboard() {
       };
     });
 
-  console.log("Borrowed Book Details:", borrowedBookDetails);
 
   const stats: StatCardProps[] = [
     {
