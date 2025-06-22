@@ -30,8 +30,15 @@ export const BorrowApi = baseApi.injectEndpoints({
         getBorrowStatusList : builder.query({
             query : () => 'borrows/books?status=BORROWED',
             providesTags : ['BORROW']
+        }),
+
+        getAllOverdueList : builder.query({
+            query : () => 'borrows/books?status=OVERDUE',
+            providesTags : ['BORROW']
         })
     }),
 });
 
-export const { useCreateBorrowMutation, useGetBorrowStatusListQuery ,useGetAllBorrowsQuery,useIfOverdueQuery} = BorrowApi
+export const {useCreateBorrowMutation,
+    useGetAllBorrowsQuery, useGetAllOverdueListQuery, useGetBorrowStatusListQuery, useIfOverdueQuery
+} = BorrowApi

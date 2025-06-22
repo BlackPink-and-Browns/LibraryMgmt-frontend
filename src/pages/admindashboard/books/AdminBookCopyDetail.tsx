@@ -17,7 +17,7 @@ type BookCopy = {
   id: number;
   shelf?: Shelf | null;
   is_available: boolean;
-  // Add other fields if needed
+
 };
 
 const AdminBookCopyDetail = () => {
@@ -41,13 +41,11 @@ const AdminBookCopyDetail = () => {
 
   const handleRelocateClick = (copyId: number) => {
     setSelectedCopyId(copyId);
-
     setModalOpen(true);
   };
 
   const handleModalRelocate = (updatedShelf: any) => {
     if (selectedCopyId === null) return;
-
     setCopies((prev) =>
       prev.map((copy) =>
         copy.id === selectedCopyId ? { ...copy, shelf: updatedShelf } : copy
@@ -65,7 +63,7 @@ const AdminBookCopyDetail = () => {
       toast.success("Copy deleted successfully");
     } catch (error) {
       console.error("Failed to delete book copy:", error);
-      toast.error("Failed to delete book copy.");
+      toast.error(`Failed to delete book copy. ${error?.data?.message || ""}`);
     } finally {
       setCopyToDelete(null);
     }

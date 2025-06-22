@@ -60,6 +60,7 @@ function RelocateModal(props: any) {
           setSelectedOfficeId("");
           setSelectedShelfId("");
           setNumCopies(1);
+          toast.success("Copy Created")
         }
       } catch (err) {
         console.error("Failed to add book copy:", err);

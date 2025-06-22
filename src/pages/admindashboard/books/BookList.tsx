@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AdminItemTile from "../../../components/AdminItemTile";
 import { useGetBooksListQuery } from "../../../api-service/book/book.api";
@@ -12,10 +12,10 @@ const BookList = () => {
 
   if (isLoading) return <LoadingSpinner message="Fetching books..." />;
 
-  const filteredBooks = allBooks.filter((book) => {
+  const filteredBooks = allBooks.filter((book:any) => {
     const matchesSearch =
       book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      book.authors?.some((a) =>
+      book.authors?.some((a:any) =>
         a.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
 
@@ -54,7 +54,7 @@ const BookList = () => {
       </div>
 
       {filteredBooks.length > 0 ? (
-        filteredBooks.map((book) => (
+        filteredBooks.map((book:any) => (
           <AdminItemTile
             key={book.id}
             item={book}

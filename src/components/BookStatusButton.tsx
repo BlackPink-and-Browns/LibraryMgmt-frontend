@@ -2,31 +2,66 @@ import { BookOpen } from "lucide-react";
 import type { Book } from "../types/dataTypes";
 import Button from "./Button";
 import type { BookStatusButtonProps } from "../types/propTypes";
-import { useGetBorrowStatusListQuery } from "../api-service/book/borrow.api";
+import { useGetAllBorrowsQuery, useGetAllOverdueListQuery } from "../api-service/book/borrow.api";
+import { useCreateRequestMutation, useGetRequestsQuery } from "../api-service/book/request.api";
+import { useState } from "react";
 
 export default function BookStatusButton ({bookId, status, setIsModalOpen, isModalOpen} : BookStatusButtonProps){
     const userId = Number(localStorage.getItem('userId'))
     //console.log('UserId, BookID : ', userId, bookId)
 
-    const {data : borrowRecord, isLoading : borrowsLoading } = useGetBorrowStatusListQuery({})
-    borrowsLoading ? console.log('Loading..') : <></>
-    //console.log('Borrow Records :', borrowRecord)
+    const [requestBook] = useCreateRequestMutation({})
+    const {data : requestedBooks, isLoading : requestsLoading, refetch : refetchRequests} = useGetRequestsQuery({})
+    console.log('Requests :', requestedBooks)
+    const hasUserRequested  = requestedBooks?.some((record : any) => {       
+        return record?.employeeId === userId &&
+        record?.book.id === bookId
+    })
+    console.log('has User Requested this book? : ', hasUserRequested)
+
+
+    const {data : borrowRecord, isLoading : borrowsLoading, refetch : refetchBorrows} = useGetAllBorrowsQuery({})
+    borrowsLoading ? console.log('Borrow Records Loading..') : <></>
+    console.log('Borrow Records :', borrowRecord)
     
-    const userCurrentlyHolding =borrowRecord?.records?.some((record : any) => {       
+    const isUserCurrentlyHolding =borrowRecord?.records?.some((record : any) => {       
         return record?.borrowedBy.id === userId &&
         record?.bookCopy.book.id === bookId
     }) 
-    // console.log('userCurrentlyHolding : ', userCurrentlyHolding)
+    console.log('userCurrentlyHolding : ', isUserCurrentlyHolding)
+
+    //if overdue
+    const {data : overdueRecords, isLoading : overduesLoading } = useGetAllOverdueListQuery({})
+    overduesLoading ? console.log('Overudes Loading..') : <></>
+    console.log('Overudue Records :', overdueRecords)
+    const ifOverdue =overdueRecords?.records?.some((record : any) => {       
+        return record?.borrowedBy.id === userId
+    }) 
+    console.log("If Overdue: ", ifOverdue)
+    
+
+    function handleBorrow (){
+        console.log('Modal Open: ',isModalOpen)
+        setIsModalOpen(true)
+        refetchBorrows()
+    }
 
     async function handleRequest (){
-
+        requestBook(bookId).unwrap()
+        .then((response) => {
+            console.log("Response : ", response)
+            refetchRequests()
+        }).catch((error) => {
+            console.log("Error in requesting :", error)
+        })
     }
+
     return (
         <div className="">
             {
-                userCurrentlyHolding ? 
+                isUserCurrentlyHolding ? 
                 <Button 
-                    variant={{color : 'ternary', size : 'medium'}}
+                    variant={{color : 'primary', size : 'medium'}}
                     type="button"
                     onClick={handleRequest}
                 >                         
@@ -36,8 +71,8 @@ export default function BookStatusButton ({bookId, status, setIsModalOpen, isMod
                 <Button 
                     variant={{color : 'primary', size : 'medium'}}
                     type="button"
-                    onClick={()=>{setIsModalOpen(true) 
-                        console.log(isModalOpen)}}
+                    onClick={handleBorrow}
+                    disabled={ifOverdue}
                 >
                     <div className="flex flex-row justify-center pr-2">
                         <BookOpen className="mx-2"/>
@@ -45,6 +80,14 @@ export default function BookStatusButton ({bookId, status, setIsModalOpen, isMod
                     </div>                       
                 </Button> 
                 :
+                hasUserRequested ? 
+                 <Button 
+                    variant={{color : 'ternary', size : 'medium'}}
+                    type="button"
+                    onClick={handleRequest}
+                >                         
+                    <p>Cancel Request</p>                        
+                </Button> :
                 <Button 
                     variant={{color : 'secondary', size : 'medium'}}
                     type="button"
