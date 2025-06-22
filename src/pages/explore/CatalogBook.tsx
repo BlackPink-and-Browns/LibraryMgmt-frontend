@@ -10,7 +10,8 @@ import BorrowModal from "./BorrowModal";
 
 
 export default function BookCatalog (){
-    const navigate = useNavigate()
+  const navigate = useNavigate()
+
   const [searchValue, setSearchValue] = useState<string>("")
   const [filterValue, setFilterValue] = useState<number>(0)
   const [searchedBooks, setSearchedBooks] = useState<Book[]>([])
@@ -18,7 +19,7 @@ export default function BookCatalog (){
 
   const { data: allBooks } = useGetBooksListQuery({})
 
-  // Live search filter
+
   useEffect(() => {
     if (!allBooks) return
     const searched = allBooks.filter((book: Book) =>
@@ -33,11 +34,11 @@ export default function BookCatalog (){
     setSearchedBooks(searched)
   }, [searchValue, allBooks])
 
-  // Filter by genre on top of search
+
  useEffect(() => {
   let booksToShow = searchedBooks
 
-  if (filterValue !== 0) { // Only filter if a genre is selected
+  if (filterValue !== 0) {
     booksToShow = booksToShow.filter((book: Book) =>
       book.genres.some((genre) => genre.id === filterValue)
     )
@@ -75,10 +76,10 @@ export default function BookCatalog (){
               <p className="font-bold text-3xl ml-4">Trending Books</p>
             </div>
 
-            <div className="flex flex-row flex-wrap justify-between mx-4 md:mx-10 lg:mx-50 my-10 ">
+            <div className="flex flex-row flex-wrap justify-between mx-4 md:mx-10 lg:mx-50 mt-10 ">
               {allBooks?.map((book: Book) => (
                 <div
-                  className="w-full sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/3 2xl:w-1/4 my-5 px-2" 
+                  className="w-full min-h-72 sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/3 2xl:w-1/4 my-5 px-2" 
                   key={book.id}
                 >
                   <BookCard book={book} />
@@ -92,7 +93,7 @@ export default function BookCatalog (){
               <p className="font-bold text-3xl ml-4">Suggested for you</p>
             </div>
 
-            <div className="flex flex-row flex-wrap mx-4 md:mx-10 lg:mx-50 my-10">
+            <div className="flex flex-row flex-wrap mx-4 md:mx-10 lg:mx-50 mt-10">
               {filteredBooks.length > 0 ? (
                 filteredBooks.map((book: Book) => (
                   <div
