@@ -20,6 +20,7 @@ import { useCreateReviewMutation } from "../../../api-service/reviews/review.api
 // };
 
 export default function ReturnBook({ type }: { type?: string }) {
+  
   const admin = type === "admin";
   const navigate = useNavigate();
 
@@ -59,7 +60,7 @@ export default function ReturnBook({ type }: { type?: string }) {
     try {
       // 1. Return the book
       await returnBook({
-        id: book.borrowId,
+        id: book?.borrowId,
         returned_shelf_no: Number(selectedShelfId),
       }).unwrap();
 
@@ -92,11 +93,11 @@ export default function ReturnBook({ type }: { type?: string }) {
         <h2 className="text-xl font-semibold">
           {admin ? "Relocate Book" : "Return Book"}
           <span className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded ml-2">
-            {book.borrowId}
+            {book?.borrowId}
           </span>
         </h2>
-        <p className="mt-1 text-sm text-gray-700 font-medium">{book.title}</p>
-        <p className="text-sm text-gray-500 mb-6">by {book.author}</p>
+        <p className="mt-1 text-sm text-gray-700 font-medium">{book?.title}</p>
+        <p className="text-sm text-gray-500 mb-6">by {book?.author}</p>
 
         <form className="space-y-5" onSubmit={handleSubmit}>
           {/* Office */}

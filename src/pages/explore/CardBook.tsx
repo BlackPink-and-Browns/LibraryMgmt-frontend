@@ -12,33 +12,25 @@ export default function BookCard({ book, type }: BookCardProps) {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const authors = book.authors?.map((author: Author) => author.name).join(", ");
-  const totalRatings = book.reviews?.length;
-  const averageRating =
-    totalRatings > 0
-      ? book.reviews?.reduce(
-          (sum: number, review: Review) => sum + review.rating,
-          0
-        ) / totalRatings
+    const authors = book.authors?.map((author : Author) => author.name).join(', ')   
+    const totalRatings = book?.reviews?.length;
+    const averageRating = totalRatings > 0
+      ? book?.reviews?.reduce((sum : number, review : Review) => sum + review.rating, 0) / totalRatings
       : 0;
-  const widthClass = type === "chatbot" ? "w-1/2" : "w-full";
-  return (
-    <>
-      <BorrowModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        copies={book.copies ?? []}
-      />
-      <div
-        className={`bg-white rounded-lg shadow-lg mr-8 hover:scale-105 duration-700 ${widthClass} min-h-96`}
-      >
-        <div className="p-8 rounded-lg">
-          <img
-            src={book.cover_image}
-            alt={book.title}
-            className="rounded-lg w-full h-75 "
-          />
-        </div>
+    const widthClass = type === "chatbot" ? "w-1/2" : "w-full";
+    return (<>
+        <BorrowModal
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            copies = {book.copies ?? []}
+        />
+
+        <div className={`bg-white rounded-lg shadow-lg mr-8 hover:scale-105 duration-700 ${widthClass} h-150`}>           
+            <div className="p-8 rounded-lg">
+                <img 
+                    src={book.cover_image} alt={book.title} 
+                    className="rounded-lg w-full h-75 "/>
+            </div>
 
         <div className="flex flex-row justify-between mx-7">
           <Badge status={book.is_available} />

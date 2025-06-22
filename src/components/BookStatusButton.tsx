@@ -1,44 +1,51 @@
 import { BookOpen } from "lucide-react";
-import type { Book } from "../types/dataTypes";
 import Button from "./Button";
 import type { BookStatusButtonProps } from "../types/propTypes";
 import { useGetAllBorrowsQuery, useGetAllOverdueListQuery } from "../api-service/book/borrow.api";
-import { useCreateRequestMutation, useGetRequestsQuery } from "../api-service/book/request.api";
-import { useState } from "react";
+import { useCreateRequestMutation, useGetRequestsQuery, useRemoveRequestMutation } from "../api-service/book/request.api";
+import { useNavigate } from "react-router-dom";
 
 export default function BookStatusButton ({bookId, status, setIsModalOpen, isModalOpen} : BookStatusButtonProps){
     const userId = Number(localStorage.getItem('userId'))
+    const navigate = useNavigate()
     //console.log('UserId, BookID : ', userId, bookId)
 
     const [requestBook] = useCreateRequestMutation({})
     const {data : requestedBooks, isLoading : requestsLoading, refetch : refetchRequests} = useGetRequestsQuery({})
-    console.log('Requests :', requestedBooks)
-    const hasUserRequested  = requestedBooks?.some((record : any) => {       
+    //console.log('Requests :', requestedBooks)
+    const hasUserRequested  = requestedBooks?.find((record : any) => {       
         return record?.employeeId === userId &&
-        record?.book.id === bookId
+        record?.book.id === bookId &&  record?.status==='REQUESTED'
     })
-    console.log('has User Requested this book? : ', hasUserRequested)
+    //console.log('has User Requested this book? : ', hasUserRequested)
 
 
     const {data : borrowRecord, isLoading : borrowsLoading, refetch : refetchBorrows} = useGetAllBorrowsQuery({})
     borrowsLoading ? console.log('Borrow Records Loading..') : <></>
-    console.log('Borrow Records :', borrowRecord)
-    
+    //console.log('Borrow Records :', borrowRecord)  
     const isUserCurrentlyHolding =borrowRecord?.records?.some((record : any) => {       
         return record?.borrowedBy.id === userId &&
         record?.bookCopy.book.id === bookId
     }) 
-    console.log('userCurrentlyHolding : ', isUserCurrentlyHolding)
+    //console.log('userCurrentlyHolding : ', isUserCurrentlyHolding)
 
     //if overdue
     const {data : overdueRecords, isLoading : overduesLoading } = useGetAllOverdueListQuery({})
     overduesLoading ? console.log('Overudes Loading..') : <></>
-    console.log('Overudue Records :', overdueRecords)
+   // console.log('Overudue Records :', overdueRecords)
     const ifOverdue =overdueRecords?.records?.some((record : any) => {       
         return record?.borrowedBy.id === userId
     }) 
-    console.log("If Overdue: ", ifOverdue)
-    
+    //console.log("If Overdue: ", ifOverdue)
+
+    const [removeBookRequests] = useRemoveRequestMutation();
+    async function handleCancelRequest (){
+        try {
+        await removeBookRequests([hasUserRequested?.id]); // book.id is the waitlist ID
+      } catch (err) {
+        console.error("Error removing request", err);
+      }
+    }
 
     function handleBorrow (){
         console.log('Modal Open: ',isModalOpen)
@@ -56,6 +63,7 @@ export default function BookStatusButton ({bookId, status, setIsModalOpen, isMod
         })
     }
 
+
     return (
         <div className="">
             {
@@ -63,7 +71,7 @@ export default function BookStatusButton ({bookId, status, setIsModalOpen, isMod
                 <Button 
                     variant={{color : 'primary', size : 'medium'}}
                     type="button"
-                    onClick={handleRequest}
+                    onClick={() =>{ navigate(`/dashboard/returnbook/${bookId}`)}}
                 >                         
                     <p>Return Book</p>                        
                 </Button> : 
@@ -84,7 +92,7 @@ export default function BookStatusButton ({bookId, status, setIsModalOpen, isMod
                  <Button 
                     variant={{color : 'ternary', size : 'medium'}}
                     type="button"
-                    onClick={handleRequest}
+                    onClick={handleCancelRequest}
                 >                         
                     <p>Cancel Request</p>                        
                 </Button> :
