@@ -24,7 +24,7 @@ const ReviewApi = baseApi.injectEndpoints({
     updateReview: builder.mutation({
       query: ({ id, payload }) => ({
         url: `/reviews/${id}`,
-        method: 'PUT',
+        method: 'PATCH',
         body: payload,
       }),
       invalidatesTags: ['REVIEWS'],
