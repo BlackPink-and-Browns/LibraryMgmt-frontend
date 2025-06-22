@@ -7,7 +7,9 @@ import {
   useGetReviewsByUserIdQuery,
   useUpdateReviewMutation,
   useDeleteReviewMutation,
+  useCreateReviewMutation,
 } from "../../api-service/reviews/review.api";
+import { toast } from "react-toastify";
 
 export default function BorrowedBookRecords() {
   const navigate = useNavigate();
@@ -27,6 +29,7 @@ export default function BorrowedBookRecords() {
   console.log("Existing Review:", existingReview);
   const [updateReview] = useUpdateReviewMutation();
   const [deleteReview] = useDeleteReviewMutation();
+  const [createReview] = useCreateReviewMutation();
 
   useEffect(() => {
     if (record && userReviews.length) {
@@ -52,8 +55,17 @@ export default function BorrowedBookRecords() {
           },
         }).unwrap();
       }
+      else{
+        await createReview({
+          bookId: bookId,
+          rating: rating,
+          content: review,
+      }).unwrap();
+    }
+    toast.success(`Review ${reviewId ? "updated" : "added"} successfully`);
       setEditMode(false);
-    } catch (err) {
+    
+   } catch (err) {
       console.error("Failed to update review:", err);
     }
   };
@@ -67,6 +79,7 @@ export default function BorrowedBookRecords() {
         setReview("");
       }
       setShowDelete(false);
+      toast.success("Review deleted successfully");
     } catch (err) {
       console.error("Failed to delete review:", err);
     }
@@ -77,9 +90,9 @@ export default function BorrowedBookRecords() {
       <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-xl">
         <div className="flex gap-4 items-start mb-6">
           <img src={record.coverImage} alt="cover" className="w-16 h-24 rounded border" />
-          <div>
+          <div onClick={() => navigate(`../details/${bookId}`)}>
             <h2 className="text-xl font-bold">{record.title}</h2>
-            <p className="text-gray-600 text-sm">{record.author}</p>
+            <p className="text-gray-600 text-sm">{record.authors}</p>
           </div>
         </div>
 
