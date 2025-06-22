@@ -180,13 +180,12 @@ const stats: StatCardProps[] = [
             )}    
 
        <section className="space-y-6">
-  {/* Row 1: Two side-by-side cards */}
+
 <div className="grid gap-8 md:grid-cols-2">
     <BorrowedBooks books={borrowedBookDetails} title="Currently Borrowed" description="Books you currently have checked out"/>
     <Recommendations books={recommendedBooks} />
 </div>
 
-  {/* Row 2: Full-width card */}
   <BorrowHistory  history={borrowHistoryDetails} />
 </section>
 

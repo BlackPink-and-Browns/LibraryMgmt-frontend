@@ -42,7 +42,6 @@ const router = createBrowserRouter([
   },
   {
     path: "explore",
-    
         element: <ExploreLayout />,
         children: [
           { path: "", element: <BookCatalog /> },
