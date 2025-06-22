@@ -5,7 +5,8 @@ function Button ({
     variant, 
     type,
     onClick,
-    disabled
+    disabled,
+    
 } : ButtonProps) {
    
     const buttonColor = variant.color === 'primary' ?
@@ -24,12 +25,12 @@ function Button ({
                 </span>
             )}
 
-        <div className={`rounded-lg px-4 py-2 flex h-13 items-center justify-center font-bold ${buttonColor} ${buttonSize}  `}>
+        <div className={`rounded-lg px-4 py-4  flex h-13 items-center justify-center font-bold ${buttonColor} ${buttonSize}  `}>
                 <button 
                     type={type}  
                     disabled={disabled}
                     onClick={onClick}  
-                    className='cursor-pointer disabled:cursor-not-allowed'         
+                    className='cursor-pointer disabled:cursor-not-allowed '         
                 >
                     {children}
                 </button>
