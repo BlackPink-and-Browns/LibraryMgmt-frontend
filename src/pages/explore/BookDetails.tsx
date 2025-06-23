@@ -11,6 +11,7 @@ import BorrowModal from "./BorrowModal"
 import type { Author, Book, BookCopy, Genre, Review } from "../../types/dataTypes"
 import { useGetBookDetailsQuery } from "../../api-service/book/book.api"
 import BookStatusButton from "../../components/BookStatusButton"
+import LoadingSpinner from "../../components/LoadingSpinner"
 
 
 type Combo = {
@@ -51,7 +52,7 @@ export default function BookDetails(){
         </Header>
 
         {
-            isLoading ? <div>Book Details fetching</div> : 
+            isLoading ? <LoadingSpinner message="Loading Detail"/> : 
             book ? 
             <>
                 <BorrowModal
