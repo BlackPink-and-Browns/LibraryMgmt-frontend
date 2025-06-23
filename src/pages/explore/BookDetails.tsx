@@ -1,6 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom"
 import { Badge, Button, Header, RatingStar } from "../../components"
-import { dummyBookCards } from "../../types/dummyData"
 
 import TitleAuthor from "../../components/Title"
 import { Barcode, BookOpen, MessageSquare, NotepadText } from "lucide-react"
@@ -77,7 +76,7 @@ export default function BookDetails(){
                                         <RatingStar averageRating={averageRating} totalRatings={totalRatings} />
                                     </div>
 
-                                    <TitleAuthor title={book.title} author={authors} variant='lg' />
+                                    <TitleAuthor title={book.title} author={authors} authorId={book.authors[0].id} variant='lg' />
 
                                     <div className="flex flex-row flex-wrap text-gray-600 mx-7">
 
@@ -102,37 +101,16 @@ export default function BookDetails(){
                                             </div>
                                         </div>                                                                             
                                     </div>
-
-                                    {/* <div className="pb-15 mx-5 my-5 w-1/3">
-                                        {status ? 
-                                            <Button 
-                                                variant={{color : 'primary', size : 'medium'}}
-                                                type="button"
-                                                onClick={()=>{setIsModalOpen(true) 
-                                                    console.log(isModalOpen)}}
-                                            >
-                                                <div className="flex flex-row">
-                                                    <BookOpen className="mx-4"/>
-                                                    <p >Borrow</p>
-                                                </div>                       
-                                            </Button> 
-                                            :
-                                            <Button 
-                                                variant={{color : 'secondary', size : 'medium'}}
-                                                type="button"
-                                                onClick={()=>{}}
-                                            >                         
-                                                <p>Request Book </p>                        
-                                            </Button>              
-                                        }                                                                              
-                                    </div> */}
-
-                                    <BookStatusButton 
-                                        bookId={book.id}
-                                        status={book.is_available}
-                                        isModalOpen={isModalOpen}
-                                        setIsModalOpen={setIsModalOpen}
-                                    /> 
+                                    
+                                    <div className="mx-7">
+                                       <BookStatusButton 
+                                            bookId={book.id}
+                                            status={book.is_available}
+                                            isModalOpen={isModalOpen}
+                                            setIsModalOpen={setIsModalOpen}
+                                        /> 
+                                    </div>
+                                     
                                 </div>
                             </div>
                         </section>
@@ -146,25 +124,7 @@ export default function BookDetails(){
                             </div>                   
                         </section>
 
-                        <section className="m-5">
-                            <div className="lg:w-256 lg:ml-70 bg-white p-2 rounded-lg shadow-xl pb-5">
-                                <Title title="Borrow Status" variant="lg"/>
-                                    <div className="ml-7 mt-6">
-                                        <h3 className="text-lg font-semibold mb-2">Borrowed Items:</h3>
-                                        {borrowedCombos.length === 0 ? (
-                                        <p className="text-gray-500">Nothing borrowed yet.</p>
-                                        ) : (
-                                        <ul className="list-disc list-inside">
-                                            {borrowedCombos.map(({ id, office, shelf }) => (
-                                            <li key={id}>
-                                                {office} - {shelf}
-                                            </li>
-                                            ))}
-                                        </ul>
-                                        )}
-                                    </div>
-                            </div>                   
-                        </section> 
+                        
                     </div>
                     
                     <section className="mt-5">
@@ -173,7 +133,7 @@ export default function BookDetails(){
                                 <MessageSquare className="text-neutral-900 ml-8"/>
                                 <Title title="Review & Rating" variant="lg" />
                             </div>
-                            <ReviewAndRating bookId={1}/>
+                            <ReviewAndRating bookId={book?.id}/>
                         </div>
                     </section>
                 </div>                              

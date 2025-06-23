@@ -39,6 +39,7 @@ export interface RatingProps {
 export interface TitleProps {
     title : string
     author? : string
+    authorId ? : number
     variant : 'lg' | 'sm'
 }
 

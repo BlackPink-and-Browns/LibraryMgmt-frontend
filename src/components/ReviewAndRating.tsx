@@ -4,15 +4,21 @@ import type { Review } from "../types/dataTypes";
 import { useGetReviewsByBookIdQuery } from "../api-service/reviews/review.api";
 
 export default function ReviewAndRating ({bookId} : ReviewProp){
- const {data : mockReviews, isLoading : isReviewLoading, isError} = useGetReviewsByBookIdQuery(bookId)   
+ const {data : reviews, isLoading : isReviewLoading, isError} = useGetReviewsByBookIdQuery(bookId)   
     
     return (<>
       <div className="bg-blue-50 flex flex-col items-left p-3 m-2">
+
         <div className="my-2">{
           isReviewLoading ? <div className="mx-7"> Reviews are being loaded</div>  : 
+
           isError ? <div className="mx-7">Error in review fetching</div> :
+
+          reviews?.length === 0 ? 
+          <div>No reviews for this book </div> :
+          
           <div className="space-y-2">
-                {mockReviews?.map((review : Review) => (
+                {reviews.map((review : Review) => (
                     <div key={review.id} className="border-b border-gray-200 pb-2 last:border-b-0">
                       <div className="flex items-start gap-3">
                         <img 

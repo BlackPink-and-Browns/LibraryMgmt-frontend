@@ -76,7 +76,7 @@ const AdminItemTile = ({
               {(item as Book).title}
             </h3>
             <p className="text-sm text-gray-600">
-              by {(item as Book).authors.map((a) => a.name).join(", ")}
+              by {(item as Book).authors?.map((a) => a.name).join(", ")}
             </p>
 
             {!isIssuedBook ? (
@@ -100,7 +100,7 @@ const AdminItemTile = ({
 
                   {(item as Book).avg_rating}
                   <span className="text-gray-500">
-                    ({(item as Book).reviews.length} reviews)
+                    ({(item as Book).reviews?.length} reviews)
                   </span>
                 </div>
               </div>

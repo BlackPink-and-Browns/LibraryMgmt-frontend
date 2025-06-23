@@ -12,11 +12,8 @@ export default function AuthorDetails (){
         const {authorId} = useParams();
         const navigate = useNavigate();
 
-        const author: AuthorWithBooks | undefined = authorDetails.find(
-            (author) => author.id === Number(authorId)
-        );
-
-        const {data : author2} = useGetAuthorDetailsQuery(Number(authorId))
+        const {data : author} = useGetAuthorDetailsQuery(Number(authorId))
+        console.log("Author :", author)
 
         return (<>
         {
@@ -33,18 +30,18 @@ export default function AuthorDetails (){
                 </Header> 
 
                 <section className="my-5 mx-30">
-                    <div className="lg:w-256 lg:ml-70 bg-white p-2 rounded-lg shadow-xl">
+                    <div className="lg:w-256 lg:ml-60 bg-white p-2 rounded-lg shadow-xl">
                         <Title title={author.name} variant="lg"/>
                     </div>                   
                 </section>
 
                 <section className="my-5 mx-30">
-                    <div className="lg:w-256 lg:ml-70 bg-white p-2 rounded-lg shadow-xl">
+                    <div className="lg:w-256 lg:ml-60 bg-white p-2 rounded-lg shadow-xl">
                         <Title title='Books by the Author' variant="sm"/> 
                         <section className="my-5 mx-10">
                             <div className="lg:w-220 lg:mx-2 bg-white p-4 rounded-lg shadow-xl">
                                 {
-                                    author.books?.map((book: Book) => (
+                                    author?.books?.map((book: Book) => (
                                         <AdminItemTile
                                             key={book.id}
                                             item={book}
