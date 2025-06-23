@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
-import { Badge, Button, Header, RatingStar } from "../../components";
-import { BookOpen, Eye } from "lucide-react";
+import { Badge, Button, RatingStar } from "../../components";
+import {  Eye } from "lucide-react";
 import Title from "../../components/Title";
 import type { BookCardProps } from "../../types/propTypes";
-import type { Author, BookCopy, Review } from "../../types/dataTypes";
+import type { Author, Review } from "../../types/dataTypes";
 import BookStatusButton from "../../components/BookStatusButton";
 import { useState } from "react";
 import BorrowModal from "./BorrowModal";
@@ -40,7 +40,7 @@ export default function BookCard({ book, type }: BookCardProps) {
           />
         </div>
 
-        <Title title={book.title} author={authors} variant="sm" />
+        <Title title={book.title} author={authors} authorId={book.authors[0].id} variant="sm" />
 
         <div className="flex flex-row items-center justify-center ml-7 pb-3">
           <div className="mr-3">
