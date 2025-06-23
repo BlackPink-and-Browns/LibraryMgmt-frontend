@@ -7,6 +7,7 @@ import BookCard from "./CardBook";
 import { useGetBooksListQuery } from "../../api-service/book/book.api";
 import type { Book } from "../../types/dataTypes";
 import BorrowModal from "./BorrowModal";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 
 export default function BookCatalog (){
@@ -17,7 +18,7 @@ export default function BookCatalog (){
   const [searchedBooks, setSearchedBooks] = useState<Book[]>([])
   const [filteredBooks, setFilteredBooks] = useState<Book[]>([])
 
-  const { data: allBooks } = useGetBooksListQuery({})
+  const { data: allBooks ,isLoading } = useGetBooksListQuery({})
 
 
   useEffect(() => {
@@ -76,7 +77,7 @@ export default function BookCatalog (){
               <p className="font-bold text-3xl ml-4">Trending Books</p>
             </div>
 
-            <div className="flex flex-row flex-wrap justify-between mx-4 md:mx-10 lg:mx-50 mt-10 ">
+            {isLoading ? <LoadingSpinner message="Loading Books"/> :<div className="flex flex-row flex-wrap justify-between mx-4 md:mx-10 lg:mx-50 mt-10 ">
               {allBooks?.map((book: Book) => (
                 <div
                   className="w-full min-h-72 sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/3 2xl:w-1/4 my-5 px-2" 
@@ -85,7 +86,7 @@ export default function BookCatalog (){
                   <BookCard book={book} />
                 </div>
               ))}
-            </div>
+            </div>}
           </div>
         ) : (
           <div>
