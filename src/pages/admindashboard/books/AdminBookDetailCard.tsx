@@ -76,6 +76,7 @@ const AdminBookDetailCard = () => {
       toast.info("Book deleted successfully");
       navigate("/admin/books/book-list");
     } catch (err) {
+      console.log("🚀 ~ handleDelete ~ err:", err)
       toast.error("Error deleting book. Please try again.");
     }
   };

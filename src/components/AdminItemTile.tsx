@@ -19,7 +19,7 @@ type Book = {
 type User = {
   username: string;
   id: number;
-  status: "Active" | "Inactive";
+  status: "ACTIVE" | "INACTIVE";
   profilePicUrl: string;
 };
 
@@ -141,7 +141,7 @@ const AdminItemTile = ({
             </p>
             <span
               className={`inline-block mt-2 text-xs px-3 py-1 rounded-full font-medium ${
-                (item as User).status === "Active"
+                (item as User).status === "ACTIVE"
                   ? "bg-green-100 text-green-700"
                   : "bg-red-100 text-red-600"
               }`}

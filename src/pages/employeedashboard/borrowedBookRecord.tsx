@@ -25,7 +25,7 @@ export default function BorrowedBookRecords() {
   const [reviewId, setReviewId] = useState(null);
 
   const { data: userReviews = [] } = useGetReviewsByUserIdQuery(userId);
-  const existingReview = userReviews.find((r) => r.book.id === bookId);
+  const existingReview = userReviews.find((r:any) => r.book.id === bookId);
   console.log("Existing Review:", existingReview);
   const [updateReview] = useUpdateReviewMutation();
   const [deleteReview] = useDeleteReviewMutation();
