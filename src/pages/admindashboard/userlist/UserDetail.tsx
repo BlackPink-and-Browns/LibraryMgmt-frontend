@@ -23,7 +23,7 @@ const UserDetail = () => {
         <UserProfileCard {...user} />
       </div>
 
-      <div className='w-1/2 mt-4'>
+      <div className='w-1/2 mt-4 '>
         <h2 className="text-xl font-semibold mb-4">Borrow History</h2>
         {userBorrow?.book_history?.length === 0 ? (
           <p className="text-gray-500">No borrow history found.</p>
