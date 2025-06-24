@@ -6,6 +6,7 @@ import { useGetShelfListQuery } from "../../../api-service/shelf/shelf.api";
 import { useDeleteBookCopyMutation } from "../../../api-service/bookcopy/bookcopy.api";
 import { toast } from "react-toastify";
 import ConfirmModal from "../../../components/ConfirmModal";
+import LoadingSpinner from "../../../components/LoadingSpinner";
 
 type Shelf = {
   id: number;
@@ -23,10 +24,7 @@ type BookCopy = {
 const AdminBookCopyDetail = () => {
   const { id } = useParams<{ id: string }>();
   const { data, error, isLoading, refetch } = useGetBookDetailsQuery(id);
-  console.log("expected", data);
-  const { data: shelfdata } = useGetShelfListQuery({});
   const [deleteCopy] = useDeleteBookCopyMutation();
-  console.log("shelfshelf", shelfdata);
   const [copyToDelete, setCopyToDelete] = useState<number | null>(null);
   console.log("copiescopies", data);
   const [copies, setCopies] = useState<BookCopy[]>([]);
@@ -58,18 +56,20 @@ const AdminBookCopyDetail = () => {
   const handleDelete = async () => {
     if (copyToDelete == null) return;
     try {
+      console.log("🚀 ~ handleDelete ~ copyToDelete:", copyToDelete)
       await deleteCopy(copyToDelete).unwrap();
       setCopies((prev) => prev.filter((copy) => copy.id !== copyToDelete));
       toast.success("Copy deleted successfully");
     } catch (error) {
-      console.error("Failed to delete book copy:", error);
-      toast.error(`Failed to delete book copy. ${error?.data?.message || ""}`);
+      console.log("🚀 ~ handleDelete ~ error:", error)
+      toast.error(`Failed to delete book copy. ${(error as any)?.data?.message || "Unknown error"}`);
     } finally {
       setCopyToDelete(null);
     }
+      
   };
 
-  if (isLoading) return;
+  if (isLoading) return <LoadingSpinner message="Loading"/>;
   if (error) return <div className="text-center mt-10 text-red-500"></div>;
   if (!data) return <div className="text-center mt-10 text-gray-500"></div>;
 

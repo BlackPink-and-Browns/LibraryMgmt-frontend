@@ -2,13 +2,10 @@ import baseApi from "../api";
 
 export const BookApi =  baseApi.injectEndpoints({
     endpoints : (builder) => ({
-
-        //because it is querying and keeping the responses as cached, we do not need to specify the response type
         getBooksList: builder.query({
-            query: () => '/books', //default method is get, thus not specified
+            query: () => '/books', 
             providesTags : ['BOOKS']
         }),
-
         getBookDetails : builder.query({
             
             query: (id) => ({
@@ -17,7 +14,6 @@ export const BookApi =  baseApi.injectEndpoints({
             }),
             providesTags : ['BOOKS']        
         }),
-
         createBook : builder.mutation({
             query : (payload) => ({
                 url : '/books',
@@ -26,10 +22,8 @@ export const BookApi =  baseApi.injectEndpoints({
             }),
             invalidatesTags:['BOOKS']
         }),
-
         editBook : builder.mutation({
             query : ({id, payload}) => ({
-                //in backend, the route is /employees with POST
                 url : `/books/${id}`,
                 method : 'PATCH',
                 body : payload
