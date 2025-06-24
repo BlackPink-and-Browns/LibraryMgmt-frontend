@@ -22,6 +22,7 @@ import { useGetRequestsQuery } from "../../api-service/book/request.api";
 import { useIfOverdueQuery } from "../../api-service/book/borrow.api";
 import { useGetRecommendedQuery } from "../../api-service/book/recommended.api";
 import { formatDate, getDaysLeft } from "../../utils/utils";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 export default function EmployeeDashboard() {
   const navigate = useNavigate();
@@ -32,8 +33,8 @@ export default function EmployeeDashboard() {
   const [displayOverdueBooks, setDisplayOverdueBooks] = useState(false);
   const [displayRequestedBooks, setDisplayRequestedBooks] = useState(false);
 
-  const { data: recommendedBooks = [] } = useGetRecommendedQuery({});
-  const { data: userProfile } = useGetUserBorrowHistoryQuery({});
+  const { data: recommendedBooks = [], isLoading:isLoadingRecommendation } = useGetRecommendedQuery({});
+  const { data: userProfile, isLoading: isLoadingBorrow } = useGetUserBorrowHistoryQuery({});
   const { data: requestedBooksData = [] } = useGetRequestsQuery({});
   const { data: overdueBooksData } = useIfOverdueQuery({});
   const borrowedBooks = userProfile?.borrowed_books || [];
@@ -41,18 +42,16 @@ export default function EmployeeDashboard() {
   const borrowHistory = userProfile?.book_history || [];
   const overdueBooks = overdueBooksData?.overdued_books || [];
 
-  
-  
   const RecommendedBookDetails = recommendedBooks.map((recommendation) => {
-  return {
-    id: recommendation.id,
-    title: recommendation?.title,
-    author: recommendation?.authors?.map((author) => author.name).join(", "),
-    coverImage: recommendation?.cover_image,
-    rating: recommendation?.avg_rating,
-    available: recommendation.is_available 
-  };
-});
+    return {
+      id: recommendation.id,
+      title: recommendation?.title,
+      author: recommendation?.authors?.map((author) => author.name).join(", "),
+      coverImage: recommendation?.cover_image,
+      rating: recommendation?.avg_rating,
+      available: recommendation.is_available,
+    };
+  });
 
   const borrowedBookDetails = borrowedBooks.map((borrow) => {
     const book = borrow.bookCopy?.book;
@@ -87,7 +86,6 @@ export default function EmployeeDashboard() {
         returned: formatDate(borrow.returned_at),
       };
     });
-
 
   const stats: StatCardProps[] = [
     {
@@ -158,7 +156,6 @@ export default function EmployeeDashboard() {
           ></OverdueBooks>
         )}
         {displayRequestedBooks && (
-
           <RequestedBooks
             closeButton={true}
             books={requestedBooksData}
@@ -167,19 +164,28 @@ export default function EmployeeDashboard() {
         )}
 
         <section className="space-y-6">
-          {/* Row 1: Two side-by-side cards */}
           <div className="grid gap-8 md:grid-cols-2">
-            <BorrowedBooks
-              books={borrowedBookDetails}
-              title="Currently Borrowed"
-              description="Books you currently have checked out"
-            />
-            <Recommendations books={RecommendedBookDetails} />
+            {isLoadingBorrow ? (
+              <LoadingSpinner message="Loading BorrowedBooks" />
+            ) : (
+              <BorrowedBooks
+                books={borrowedBookDetails}
+                title="Currently Borrowed"
+                description="Books you currently have checked out"
+              />
+            )}
+            {isLoadingRecommendation ? (
+              <LoadingSpinner message="Loading Recommendations" />
+            ) : (
+              <Recommendations books={RecommendedBookDetails} />
+            )}
           </div>
 
-
-          {/* Row 2: Full-width card */}
-          <BorrowHistory history={borrowHistoryDetails} />
+          {isLoadingBorrow ? (
+            <LoadingSpinner message="Loading BorrowHistory" />
+          ) : (
+            <BorrowHistory history={borrowHistoryDetails} />
+          )}
         </section>
       </main>
     </>
