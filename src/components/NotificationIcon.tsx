@@ -1,12 +1,22 @@
 import { Bell, X, BookCheck, AlertCircle } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import io from 'socket.io-client';
 import {
   useGetNotificationsQuery,
   useMarkNotificationReadMutation,
 } from '../api-service/notifications/notification.api';
 
+interface Notification {
+  id: number;
+  message: string;
+  type: string;
+  createdAt: string;
+}
+
 const NotificationButton: React.FC = () => {
   const [showDropdown, setShowDropdown] = useState(false);
+  const [socket, setSocket] = useState<any>(null);
+  const [realtimeNotifications, setRealtimeNotifications] = useState<Notification[]>([]);
   const { data: notifications = [], isLoading, refetch } = useGetNotificationsQuery({ read: 'false' });
   const [markAsRead] = useMarkNotificationReadMutation();
 
@@ -14,8 +24,9 @@ const NotificationButton: React.FC = () => {
 
   const handleDismiss = async (id: number) => {
     try {
-      await markAsRead(id);       // mark notification as read on server
-      refetch();                  // refresh list to exclude it from view
+      await markAsRead(id);
+      setRealtimeNotifications(prev => prev.filter(n => n.id !== id));
+      refetch();
     } catch (err) {
       console.error('Failed to mark as read:', err);
     }
@@ -27,12 +38,61 @@ const NotificationButton: React.FC = () => {
         return <BookCheck size={16} className="text-green-600 mr-2" />;
       case 'BOOK_OVERDUE':
         return <AlertCircle size={16} className="text-red-600 mr-2" />;
+      case 'BOOK_REQUEST':
+        return <BookCheck size={16} className="text-blue-600 mr-2" />;
       default:
         return null;
     }
   };
 
-  const unreadCount = notifications.length;
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.error('No auth token found');
+      return;
+    }
+    const newSocket = io('https://librarymanagement-backend-f008.onrender.com', {
+      auth: {
+        token: token
+      }
+    });
+    setSocket(newSocket);
+
+    newSocket.on('connect', () => {
+      console.log('Connected to Socket server');
+    });
+    newSocket.on('connect_error', (error) => {
+      console.error('Socket connection error:', error.message);
+    });
+
+    newSocket.on('room-joined', (data) => {
+      console.log(`Joined room: ${data.room} for user: ${data.userId}`);
+    });
+
+    newSocket.on('new-notification', (notification: Notification) => {
+      console.log('New notification received:', notification);
+      
+      setRealtimeNotifications(prev => {
+        const exists = prev.some(n => n.id === notification.id);
+        if (!exists) {
+          return [notification, ...prev];
+        }
+        return prev;
+      });
+    });
+
+    return () => {
+      newSocket.disconnect();
+    };
+  }, []);
+
+  const allNotifications = [...notifications, ...realtimeNotifications]
+    .filter((notification, index, self) => 
+      index === self.findIndex(n => n.id === notification.id)
+    )
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+
+  const unreadCount = allNotifications.length;
 
   return (
     <div style={{ position: 'fixed', top: '30px', right: '32px', zIndex: 999 }}>
@@ -98,7 +158,7 @@ const NotificationButton: React.FC = () => {
           ) : unreadCount === 0 ? (
             <p style={{ fontSize: '13px', color: '#6b7280' }}>No new notifications</p>
           ) : (
-            notifications.map((n) => (
+            allNotifications.map((n) => (
               <div
                 key={n.id}
                 style={{
